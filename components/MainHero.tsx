@@ -64,35 +64,7 @@ export function MainHero() {
     }
   };
   
-  // Sample activity data for the details modal
-  const activityData = {
-    title: 'Ourika / Agafay Desert Discovery',
-    type: 'EXCURSION',
-    image: 'https://images.unsplash.com/photo-1682687220566-5599dbbebf11?q=80&w=3270&auto=format&fit=crop',
-    price: '85.00',
-    date: 'Select a date',
-    duration: '8 hours',
-    location: 'Agafay Desert & Atlas Foothills',
-    description: 'Begin your day with a 4x4 drive from Marrakech, exploring the stunning Agafay Desert, Berber villages, and the shimmering Lake Takerkoust. Enjoy camel rides, local tea, and a panoramic break at the Kik Plateau before visiting the sacred village of Moulay Brahim. End with a scenic descent through orchards and the Atlas foothills — a perfect blend of desert, lakes, and mountains in one epic day.',
-    highlights: [
-      'Explore the stunning limestone plateaus of the Agafay Desert',
-      'Visit traditional Berber villages and experience local culture',
-      'Enjoy panoramic views of Lake Lalla Takerkoust',
-      'Experience a camel ride with stunning desert views',
-      'Travel in comfort with air-conditioned 4x4 transportation'
-    ],
-    included: [
-      'Hotel pickup and drop-off',
-      'Transportation in air-conditioned 4x4 vehicle',
-      'Professional English-speaking guide',
-      'Traditional Moroccan tea and snacks',
-      'Camel riding session (30 minutes)'
-    ],
-    rating: 4.9,
-    reviewCount: 156,
-    maxParticipants: 12
-  };
-  
+ 
   return (
     <div className="relative w-full py-2 sm:py-4 px-2 sm:px-4 lg:px-6 max-w-[1440px] mx-auto transition-all duration-700 transform bg-gray-50 min-h-screen"
         style={{ opacity: isLoaded ? 1 : 0, transform: isLoaded ? 'translateY(0)' : 'translateY(20px)' }}>
@@ -123,7 +95,7 @@ export function MainHero() {
                 transitionDelay: '300ms' 
               }}
             >
-              Discover <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Ourika / Agafay Desert</span>
+              Discover <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Ourika / 3 Valleys Excursion</span>
             </h1>
 
             {/* Video section */}
@@ -145,7 +117,8 @@ export function MainHero() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/5 to-transparent pointer-events-none"></div>
                 <div className="absolute bottom-7 left-6 flex flex-col items-start">
                   <h3 className="text-white text-2xl font-display font-medium mb-2 drop-shadow-md bg-black/30 px-3 py-1 rounded-lg">
-                    Ourika / Agafay Tour
+                    Ourika / 3 Valleys
+ 
                   </h3>
                   <div className="py-1.5 px-3 bg-white/50 backdrop-blur-sm rounded-xl shadow-md border border-white/30">
                     <span className="text-sm font-medium text-gray-900">From 30€</span>
@@ -165,7 +138,7 @@ export function MainHero() {
               {/* Agafay section */}
               <div className="bg-gradient-to-r from-amber-50/50 to-orange-50/50 rounded-2xl p-4 border border-amber-100/50">
                 <div className="flex flex-col gap-3">
-                  <h3 className="text-xl font-display font-semibold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Agafay Desert</h3>
+                  <h3 className="text-xl font-display font-semibold text-gray-900">Agafay Desert</h3>
                   <p className="text-gray-700 text-sm">
                     Begin your day with a 4x4 drive from Marrakech, exploring the stunning Agafay Desert, Berber villages, and the shimmering Lake Takerkoust.
                   </p>
@@ -181,7 +154,7 @@ export function MainHero() {
               {/* Ourika section */}
               <div className="bg-gradient-to-r from-orange-50/50 to-amber-50/50 rounded-2xl p-4 border border-orange-100/50">
                 <div className="flex flex-col gap-3">
-                  <h3 className="text-xl font-display font-semibold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">Ourika Valley</h3>
+                  <h3 className="text-xl font-display font-semibold text-gray-900">Ourika Valley</h3>
                   <p className="text-gray-700 text-sm">
                     Escape the city and dive into the lush beauty of Ourika Valley, where waterfalls, Berber villages, and stunning landscapes await.
                   </p>
@@ -236,7 +209,7 @@ export function MainHero() {
                     transitionDelay: '300ms' 
                   }}
                 >
-                  Discover <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Ourika / Agafay Desert</span>
+                  Discover <span className="text-gray-900">Ourika / 3 Valleys excursion</span>
                 </h1>
                 
                 {/* Split valleys content */}
@@ -250,7 +223,7 @@ export function MainHero() {
                   {/* Agafay section */}
                   <div className="bg-gradient-to-r from-amber-50/50 to-orange-50/50 rounded-2xl p-4 border border-amber-100/50">
                     <div className="flex justify-between items-start mb-3">
-                      <h3 className="text-2xl font-display font-semibold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Agafay Desert</h3>
+                      <h3 className="text-2xl font-display font-semibold text-gray-900">3 Valleys</h3>
                       <button
                         onClick={() => openBookingModal('agafay')}
                         className="px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-medium rounded-xl shadow-md shadow-orange-300/20 hover:shadow-lg hover:shadow-orange-300/30 transition-all duration-300 transform hover:-translate-y-0.5"
@@ -266,7 +239,7 @@ export function MainHero() {
                   {/* Ourika section */}
                   <div className="bg-gradient-to-r from-orange-50/50 to-amber-50/50 rounded-2xl p-4 border border-orange-100/50">
                     <div className="flex justify-between items-start mb-3">
-                      <h3 className="text-2xl font-display font-semibold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">Ourika Valley</h3>
+                      <h3 className="text-2xl font-display font-semibold text-gray-900">Ourika Valley</h3>
                       <button
                         onClick={() => openBookingModal('ourika')}
                         className="px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-medium rounded-xl shadow-md shadow-orange-300/20 hover:shadow-lg hover:shadow-orange-300/30 transition-all duration-300 transform hover:-translate-y-0.5"
@@ -349,7 +322,8 @@ export function MainHero() {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/5 to-transparent pointer-events-none"></div>
                   <div className="absolute bottom-7 left-6 flex flex-col items-start">
                     <h3 className="text-white text-2xl font-display font-medium mb-2 drop-shadow-md bg-black/30 px-3 py-1 rounded-lg">
-                      Ourika / Agafay Tour
+                      Ourika / 3 Valleys
+
                     </h3>
                     <div className="py-1.5 px-3 bg-white/50 backdrop-blur-sm rounded-xl shadow-md border border-white/30">
                       <span className="text-sm font-medium text-gray-900">From 30€</span>

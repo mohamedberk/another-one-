@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import { Activity } from '../utils/activities';
 import { ImprovedActivityModal } from './ImprovedActivityModal';
 import { EnhancedBookingModal } from './EnhancedBookingModal';
-import { ImageKitGallery } from './ImageKitImage';
-import { StarIcon, ClockIcon, CalendarDaysIcon, MapPinIcon, ChevronRightIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
+import { StarIcon, ClockIcon, CalendarDaysIcon, ChevronRightIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 import { StarIcon as StarIconSolid } from '@heroicons/react/24/solid';
 
 export interface PremiumTripCardProps {
@@ -20,27 +19,7 @@ export function PremiumTripCard({
 }: PremiumTripCardProps) {
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-  const [galleryImages, setGalleryImages] = useState<string[]>([]);
   const [isHovered, setIsHovered] = useState(false);
-  
-  // Preload gallery images
-  useEffect(() => {
-    const activityImages = ImageKitGallery.activities[activity.title as keyof typeof ImageKitGallery.activities] || [];
-    
-    // Preload images for better performance
-    const preloadImages = () => {
-      const mainImage = new window.Image();
-      mainImage.src = activity.image.toString();
-      
-      activityImages.forEach(img => {
-        const imgElement = new window.Image();
-        imgElement.src = img;
-      });
-    };
-    
-    preloadImages();
-    setGalleryImages(activityImages);
-  }, [activity.title, activity.image]);
 
   // Modal controls
   const openActivityModal = () => {
@@ -222,22 +201,7 @@ export function PremiumTripCard({
       <ImprovedActivityModal 
         isOpen={isActivityModalOpen} 
         closeModal={closeActivityModal} 
-        activity={{
-          title: activity.title,
-          type: activity.type,
-          image: activity.image.toString(),
-          gallery: activity.gallery,
-          price: `Group: €${activity.groupPrice} | Private: €${activity.privatePrice}`,
-          date: date,
-          duration: activity.duration,
-          location: activity.location,
-          description: activity.longDescription,
-          highlights: activity.highlights,
-          included: activity.included,
-          rating: activity.rating,
-          reviewCount: activity.reviewCount,
-          maxParticipants: activity.maxParticipants
-        }}
+        activity={activity}
       />
       
       <EnhancedBookingModal 

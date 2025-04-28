@@ -1,5 +1,6 @@
 import { StaticImageData } from 'next/image';
 import { ImageKitGallery } from '@/components/ImageKitImage';
+
 export interface Activity {
   id: string;
   title: string;
@@ -74,7 +75,6 @@ export const threeValleysActivity: Activity = {
     'Hotel pickup and drop-off',
     'Transportation in 4x4 vehicle',
     'Professional English-speaking guide'
-
   ],
   rating: 4.9,
   reviewCount: 156,

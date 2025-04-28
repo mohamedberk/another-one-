@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useMemo, useRef } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon, CalendarDaysIcon, ClockIcon, MapPinIcon, UserGroupIcon, CheckCircleIcon, ChevronLeftIcon, ChevronRightIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
@@ -6,27 +6,12 @@ import { Button } from './Button';
 import Image from 'next/image';
 import { EnhancedBookingModal } from './EnhancedBookingModal';
 import { BookingConfirmationModal } from './BookingConfirmationModal';
-import { ImageKitGallery } from './ImageKitImage';
+import { Activity } from '../utils/activities';
 
 interface ActivityModalProps {
   isOpen: boolean;
   closeModal: () => void;
-  activity?: {
-    title: string;
-    type: string;
-    image: string;
-    gallery: string[];
-    price: string;
-    date: string;
-    duration: string;
-    location: string;
-    description: string;
-    highlights: string[];
-    included: string[];
-    rating: number;
-    reviewCount: number;
-    maxParticipants: number;
-  };
+  activity: Activity;
 }
 
 export function ImprovedActivityModal({ isOpen, closeModal, activity }: ActivityModalProps) {
@@ -39,24 +24,9 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
     date: '',
   });
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [images, setImages] = useState<string[]>([]);
   const autoplayRef = useRef<NodeJS.Timeout | null>(null);
   
-  // Extract group and private prices with memoization for performance
-  const { groupPrice, privatePrice } = useMemo(() => {
-    if (!activity || !activity.price) return { groupPrice: '', privatePrice: '' };
-    
-    const groupMatch = activity.price.match(/Group: (€\d+)/);
-    const privateMatch = activity.price.match(/Private: (€\d+)/);
-    
-    return { 
-      groupPrice: groupMatch ? groupMatch[1] : '',
-      privatePrice: privateMatch ? privateMatch[1] : ''
-    };
-  }, [activity?.price]);
-  
   const openBookingModal = () => setIsBookingModalOpen(true);
-  
   const closeBookingModal = () => setIsBookingModalOpen(false);
   
   const openConfirmationModal = (details: any) => {
@@ -77,10 +47,9 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
   
   const closeConfirmationModal = () => {
     setIsConfirmationModalOpen(false);
-    closeModal(); // Close the activity modal too when confirmation is closed
+    closeModal();
   };
   
-  // Make sure to lock body scroll when modal is open
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add('modal-open');
@@ -90,29 +59,13 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
       document.body.classList.remove('modal-open');
     };
   }, [isOpen]);
-  
-  useEffect(() => {
-    if (activity) {
-      let galleryImages: string[] = [];
-      if (activity.title === 'Ourika Valley') {
-        galleryImages = ImageKitGallery.activities['Ourika Valley'] || [];
-      } else if (activity.title === '3 Valleys Atlas Adventure') {
-        galleryImages = ImageKitGallery.threeValleysGallery || [];
-      }
-      if (galleryImages.length === 0 && activity.image) {
-        galleryImages = [activity.image];
-      }
-      setImages(galleryImages);
-      setCurrentImageIndex(0);
-    }
-  }, [activity]);
 
   // Autoplay effect
   useEffect(() => {
-    if (images.length > 1 && isOpen) {
+    if (activity.gallery.length > 1 && isOpen) {
       if (autoplayRef.current) clearInterval(autoplayRef.current);
       autoplayRef.current = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % images.length);
+        setCurrentImageIndex((prev) => (prev + 1) % activity.gallery.length);
       }, 4000);
       return () => {
         if (autoplayRef.current) clearInterval(autoplayRef.current);
@@ -121,28 +74,26 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
     return () => {
       if (autoplayRef.current) clearInterval(autoplayRef.current);
     };
-  }, [images, isOpen]);
+  }, [activity.gallery, isOpen]);
 
   // Manual navigation resets autoplay timer
   const resetAutoplay = () => {
     if (autoplayRef.current) {
       clearInterval(autoplayRef.current);
       autoplayRef.current = setInterval(() => {
-        setCurrentImageIndex((prev) => (prev + 1) % images.length);
+        setCurrentImageIndex((prev) => (prev + 1) % activity.gallery.length);
       }, 4000);
     }
   };
 
   const prevImage = () => {
-    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    setCurrentImageIndex((prev) => (prev === 0 ? activity.gallery.length - 1 : prev - 1));
     resetAutoplay();
   };
   const nextImage = () => {
-    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    setCurrentImageIndex((prev) => (prev + 1) % activity.gallery.length);
     resetAutoplay();
   };
-  
-  if (!activity) return null;
 
   return (
     <>
@@ -186,10 +137,10 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
                       {/* Left side - Gallery or Single Image */}
                       <div className="relative w-full md:w-5/12 h-56 md:h-full flex-shrink-0">
                         <div className="relative w-full h-full overflow-hidden">
-                          {images.length > 1 ? (
+                          {activity.gallery.length > 1 ? (
                             <>
                               <Image
-                                src={images[currentImageIndex]}
+                                src={activity.gallery[currentImageIndex]}
                                 alt={activity.title}
                                 fill
                                 quality={95}
@@ -203,7 +154,6 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
                                 onClick={prevImage}
                                 className="absolute left-4 top-1/2 transform -translate-y-1/2 w-9 h-9 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:bg-white/30 transition-all duration-300 z-10 group"
                                 aria-label="Previous image"
-                                style={{display: images.length > 1 ? 'flex' : 'none'}}
                               >
                                 <ChevronLeftIcon className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
                               </button>
@@ -211,13 +161,12 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
                                 onClick={nextImage}
                                 className="absolute right-4 top-1/2 transform -translate-y-1/2 w-9 h-9 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:bg-white/30 transition-all duration-300 z-10 group"
                                 aria-label="Next image"
-                                style={{display: images.length > 1 ? 'flex' : 'none'}}
                               >
                                 <ChevronRightIcon className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
                               </button>
                               {/* Indicator dots */}
                               <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-1.5 z-10">
-                                {images.map((_, idx) => (
+                                {activity.gallery.map((_, idx) => (
                                   <button
                                     key={idx}
                                     onClick={() => { setCurrentImageIndex(idx); resetAutoplay(); }}
@@ -228,7 +177,7 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
                               </div>
                               {/* Image counter badge */}
                               <div className="absolute top-4 right-4 bg-black/20 backdrop-blur-md rounded-full px-3 py-1 text-xs font-medium text-white border border-white/10 md:block hidden">
-                                {currentImageIndex + 1} / {images.length}
+                                {currentImageIndex + 1} / {activity.gallery.length}
                               </div>
                             </>
                           ) : (
@@ -292,13 +241,13 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
                               <div className="price-card bg-white rounded-2xl p-4 flex flex-col items-center justify-center transition-all border border-neutral-200 google-card-hover shadow-premium relative overflow-hidden">
                                 <div className="absolute -top-10 -right-10 w-20 h-20 bg-neutral-100 rounded-full"></div>
                                 <span className="text-sm font-medium text-neutral-500 mb-1">Group</span>
-                                <span className="text-3xl font-bold text-neutral-900 price-pop">{groupPrice || '€30'}</span>
+                                <span className="text-3xl font-bold text-neutral-900 price-pop">€{activity.groupPrice}</span>
                                 <span className="text-xs text-neutral-500 mt-1">per person</span>
                               </div>
                               <div className="price-card-featured bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-2xl p-4 flex flex-col items-center justify-center transition-all border border-neutral-800 google-card-hover shadow-premium relative overflow-hidden">
                                 <div className="absolute -top-10 -right-10 w-20 h-20 bg-neutral-700 rounded-full"></div>
                                 <span className="text-sm font-medium text-neutral-300 mb-1">Private</span>
-                                <span className="text-3xl font-bold text-white price-pop-accent">{privatePrice || '€50'}</span>
+                                <span className="text-3xl font-bold text-white price-pop-accent">€{activity.privatePrice}</span>
                                 <span className="text-xs text-neutral-400 mt-1">per tour</span>
                               </div>
                             </div>
@@ -347,7 +296,7 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
                             <div className="mb-6">
                               <h3 className="text-xl font-bold text-neutral-800 mb-2">About This Excursion</h3>
                               <p className="text-neutral-600 leading-relaxed">
-                                {activity.description}
+                                {activity.longDescription}
                               </p>
                             </div>
                             
@@ -406,24 +355,7 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
         excursionTitle={activity.title}
         excursionType={activity.type}
         onBookingSuccess={openConfirmationModal}
-        activity={{
-          id: activity.title.toLowerCase().replace(/\s+/g, '-'),
-          title: activity.title,
-          type: activity.type,
-          image: activity.image,
-          gallery: activity.gallery,
-          description: activity.description,
-          longDescription: activity.description,
-          duration: activity.duration,
-          location: activity.location,
-          groupPrice: parseInt(activity.price.match(/Group: €(\d+)/)?.[1] || "100"),
-          privatePrice: parseInt(activity.price.match(/Private: €(\d+)/)?.[1] || "150"),
-          rating: activity.rating,
-          reviewCount: activity.reviewCount,
-          maxParticipants: activity.maxParticipants,
-          highlights: activity.highlights,
-          included: activity.included
-        }}
+        activity={activity}
       />
       
       {/* Confirmation modal */}

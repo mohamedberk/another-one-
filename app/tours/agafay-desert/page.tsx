@@ -17,6 +17,13 @@ export default function AgafayDesertTourPage() {
     title: "Marrakech - Agafay Desert - Lake Lalla Takerkoust Day Tour",
     type: "EXCURSION",
     image: "https://images.unsplash.com/photo-1511185307590-3c29c11275ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+    gallery: [
+      "https://images.unsplash.com/photo-1511185307590-3c29c11275ca?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",
+      "https://images.unsplash.com/photo-1490782300182-697b80ad4293?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80",
+      "https://images.unsplash.com/photo-1517309250587-7c3e9693561c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1035&q=80",
+      "https://images.unsplash.com/photo-1596970101747-450d3f4b36d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80",
+      "https://images.unsplash.com/photo-1595232791733-ff380dc83cf4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80"
+    ],
     description: "An early departure in 4x4 for your private day tour from Marrakech to discover the Agafay desert.",
     longDescription: "An early departure in 4x4 for your private day tour, you start from Marrakech at 9:00 a.m. and set off to discover the Agafay desert, just 30 mins from Marrakech city.",
     duration: "9 hours",

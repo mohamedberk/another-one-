@@ -45,6 +45,12 @@ export default function Home() {
     title: '3 Valleys Atlas Adventure',
     type: 'EXCURSION',
     image: 'https://images.unsplash.com/photo-1682687220566-5599dbbebf11?q=80&w=3270&auto=format&fit=crop',
+    gallery: [
+      'https://images.unsplash.com/photo-1682687220566-5599dbbebf11?q=80&w=3270&auto=format&fit=crop',
+      'https://images.unsplash.com/photo-1517309250587-7c3e9693561c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1035&q=80',
+      'https://images.unsplash.com/photo-1596970101747-450d3f4b36d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1469&q=80',
+      'https://images.unsplash.com/photo-1595232791733-ff380dc83cf4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=987&q=80'
+    ],
     price: '85.00',
     date: 'Select a date',
     duration: '8 hours',

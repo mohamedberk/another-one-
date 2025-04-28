@@ -521,6 +521,7 @@ export function ActivityModal({ isOpen, closeModal, activity }: ActivityModalPro
           title: activity.title,
           type: activity.type,
           image: activity.image,
+          gallery: images,
           description: activity.description,
           longDescription: activity.description,
           duration: activity.duration,

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EnhancedBookingModal } from './EnhancedBookingModal';
+import { Activity, threeValleysActivity } from '../utils/activities';
 
 // Globe icon for the logo - white on black
 const GlobeIcon = () => (
@@ -45,6 +46,7 @@ export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [activeSection, setActiveSection] = useState("home");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
   const headerRef = useRef<HTMLElement>(null);
   
   // Track scroll position for determining the active section
@@ -146,8 +148,15 @@ export function Header() {
     };
   }, []);
   
-  const openBookingModal = () => setIsBookingModalOpen(true);
-  const closeBookingModal = () => setIsBookingModalOpen(false);
+  const openBookingModal = () => {
+    setSelectedActivity(threeValleysActivity);
+    setIsBookingModalOpen(true);
+  };
+  
+  const closeBookingModal = () => {
+    setIsBookingModalOpen(false);
+    setSelectedActivity(null);
+  };
 
   // Handle smooth scrolling for anchor links
   const handleAnchorClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
@@ -286,12 +295,15 @@ export function Header() {
       <div id="home" className="h-20"></div>
 
       {/* Booking Modal */}
-      <EnhancedBookingModal 
-        isOpen={isBookingModalOpen}
-        closeModal={closeBookingModal}
-        excursionTitle="Choose Your Experience"
-        excursionType="EXCURSION"
-      />
+      {isBookingModalOpen && selectedActivity && (
+        <EnhancedBookingModal 
+          isOpen={isBookingModalOpen}
+          closeModal={closeBookingModal}
+          excursionTitle={selectedActivity.title}
+          excursionType={selectedActivity.type}
+          activity={selectedActivity}
+        />
+      )}
     </>
   );
 } 
