@@ -37,7 +37,7 @@ const navItems = [
   { label: "Excursions", href: "/#excursions", sectionId: "excursions" },
   { label: "Gallery", href: "/#gallery", sectionId: "gallery" },
   { label: "Guest Experiences", href: "/#guest-experiences", sectionId: "guest-experiences" },
-  { label: "About Us", href: "/#contact", sectionId: "contact" }
+  { label: "Why Us", href: "/#contact", sectionId: "contact" }
 ];
 
 export function Header() {
@@ -247,7 +247,7 @@ export function Header() {
             {/* Book Now Button (always visible) */}
             <button 
               onClick={openBookingModal}
-              className="px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-medium rounded-xl shadow-md shadow-orange-300/20 hover:shadow-lg hover:shadow-orange-300/30 transition-all duration-300 transform hover:-translate-y-0.5"
+              className="hidden md:inline-flex px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-medium rounded-xl shadow-md shadow-orange-300/20 hover:shadow-lg hover:shadow-orange-300/30 transition-all duration-300 transform hover:-translate-y-0.5"
             >
               Book Now
             </button>

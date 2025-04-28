@@ -121,8 +121,8 @@ export default function Home() {
         </div>
         
         {/* Footer with brand mention */}
-        <footer id="contact" className="py-10 text-center max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-center mb-4">
+        <footer id="contact" className="py-4 text-center max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-center">
             <div className="w-8 h-8 bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg shadow-lg shadow-amber-200/50 flex items-center justify-center mr-2">
               <svg 
                 xmlns="http://www.w3.org/2000/svg" 
@@ -142,7 +142,6 @@ export default function Home() {
             </div>
             <span className="font-display font-bold text-gray-800">Atlas<span className="text-gray-600">Tours</span></span>
           </div>
-          <p className="text-sm text-gray-500">© {new Date().getFullYear()} <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent font-medium">Atlas</span><span className="font-medium text-gray-800">Tours</span>. All rights reserved.</p>
         </footer>
       </div>
 
@@ -150,7 +149,7 @@ export default function Home() {
       <EnhancedBookingModal 
         isOpen={isBookingModalOpen} 
         closeModal={closeBookingModal} 
-        excursionTitle={'Ourika & Agafay Desert Discovery'}
+        excursionTitle={'Ourika / Agafay Desert Discovery'}
         excursionType={'EXCURSION'}
       />
       

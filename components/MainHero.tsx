@@ -2,8 +2,9 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './Button';
-import { ActivityModal } from './ActivityModal';
+import { EnhancedBookingModal } from './EnhancedBookingModal';
 import Image from 'next/image';
+import { Activity, ourikaActivity, threeValleysActivity } from '../utils/activities';
 
 // VideoRef component for playing hero video
 const VideoPlayer = React.forwardRef<HTMLVideoElement, {src: string; className: string}>(
@@ -24,7 +25,8 @@ VideoPlayer.displayName = "VideoPlayer";
 export function MainHero() {
   // Animation state
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  const [selectedActivity, setSelectedActivity] = useState<Activity | null>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
   
   useEffect(() => {
@@ -40,8 +42,19 @@ export function MainHero() {
     // Remove the parallax scroll effect to keep video fixed
   }, []);
   
-  const openActivityModal = () => setIsActivityModalOpen(true);
-  const closeActivityModal = () => setIsActivityModalOpen(false);
+  const openBookingModal = (activityType: string) => {
+    if (activityType === 'agafay') {
+      setSelectedActivity(threeValleysActivity);
+    } else if (activityType === 'ourika') {
+      setSelectedActivity(ourikaActivity);
+    }
+    setIsBookingModalOpen(true);
+  };
+
+  const closeBookingModal = () => {
+    setIsBookingModalOpen(false);
+    setSelectedActivity(null);
+  };
   
   // Function to scroll to excursions section
   const scrollToExcursions = () => {
@@ -81,14 +94,14 @@ export function MainHero() {
   };
   
   return (
-    <div className="relative w-full overflow-hidden py-6 sm:py-10 px-4 sm:px-6 lg:px-8 max-w-[1440px] mx-auto transition-all duration-700 transform bg-gray-50"
+    <div className="relative w-full py-2 sm:py-4 px-2 sm:px-4 lg:px-6 max-w-[1440px] mx-auto transition-all duration-700 transform bg-gray-50 min-h-screen"
         style={{ opacity: isLoaded ? 1 : 0, transform: isLoaded ? 'translateY(0)' : 'translateY(20px)' }}>
       
-      <div className="bg-white rounded-3xl border border-gray-100 shadow-lg overflow-hidden relative">
+      <div className="bg-white rounded-3xl border border-gray-100 shadow-lg relative h-full">
         {/* Content container */}
-        <div className="relative p-6 sm:p-8 md:p-12 lg:p-16 overflow-hidden">
+        <div className="relative p-3 sm:p-4 md:p-6 lg:p-8 h-full">
           {/* Mobile Layout */}
-          <div className="md:hidden space-y-8">
+          <div className="md:hidden space-y-8 h-full">
             {/* Premium label */}
             <div className="transition-all duration-500" 
               style={{ 
@@ -102,17 +115,19 @@ export function MainHero() {
               </div>
             </div>
             
-            <div className="space-y-4 transition-all duration-500"
+            {/* Title */}
+            <h1 className="text-3xl font-display font-bold text-gray-900 leading-tight transition-all duration-500"
               style={{ 
                 opacity: isLoaded ? 1 : 0, 
                 transform: isLoaded ? 'translateY(0)' : 'translateY(10px)', 
                 transitionDelay: '300ms' 
               }}
             >
-           
-            </div>
-            
-            <div className="relative rounded-2xl overflow-hidden shadow-lg transition-all duration-500" 
+              Discover <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Ourika / Agafay Desert</span>
+            </h1>
+
+            {/* Video section */}
+            <div className="relative rounded-2xl overflow-hidden shadow-lg transition-all duration-500 h-[300px] sm:h-[400px]" 
               style={{ 
                 opacity: isLoaded ? 1 : 0, 
                 transform: isLoaded ? 'scale(1)' : 'scale(0.98)', 
@@ -120,45 +135,65 @@ export function MainHero() {
                 transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                 boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
               }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.02)';
-                e.currentTarget.style.boxShadow = '0 20px 40px rgba(0, 0, 0, 0.15)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
-              }}
             >
-              <div className="relative w-full" style={{ paddingBottom: "75%" }}>
-                <video 
+              <div className="relative w-full h-full">
+                <VideoPlayer
+                  ref={videoRef}
                   src="https://ik.imagekit.io/momh2323/Untitled%20video%20-%20Made%20with%20Clipchamp.mp4?updatedAt=1745790242397"
                   className="absolute inset-0 w-full h-full object-cover"
-                  autoPlay
-                  loop
-                  muted
-                  playsInline
-                  style={{ objectPosition: "center" }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
-                
-                {/* Video overlay content */}
-                <div className="absolute bottom-3 left-3 right-3 flex justify-between items-center">
-                  <div className="py-1.5 px-3 bg-white/70 backdrop-blur-md rounded-xl shadow-md border border-white/50">
-                    <span className="text-sm font-medium text-gray-900">€100 <span className="text-xs text-gray-600">per person</span></span>
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/5 to-transparent pointer-events-none"></div>
+                <div className="absolute bottom-7 left-6 flex flex-col items-start">
+                  <h3 className="text-white text-2xl font-display font-medium mb-2 drop-shadow-md bg-black/30 px-3 py-1 rounded-lg">
+                    Ourika / Agafay Tour
+                  </h3>
+                  <div className="py-1.5 px-3 bg-white/50 backdrop-blur-sm rounded-xl shadow-md border border-white/30">
+                    <span className="text-sm font-medium text-gray-900">From 30€</span>
                   </div>
                 </div>
               </div>
             </div>
             
-            <p className="text-gray-600 transition-all duration-500"
+            {/* Split valleys content */}
+            <div className="space-y-4 transition-all duration-500"
               style={{ 
                 opacity: isLoaded ? 1 : 0, 
                 transform: isLoaded ? 'translateY(0)' : 'translateY(10px)', 
                 transitionDelay: '500ms' 
               }}
             >
-              Begin your day with a 4x4 drive from Marrakech, exploring the stunning Agafay Desert, Berber villages, and the shimmering Lake Takerkoust. Enjoy camel rides, local tea, and a panoramic break at the Kik Plateau before visiting the sacred village of Moulay Brahim.
-            </p>
+              {/* Agafay section */}
+              <div className="bg-gradient-to-r from-amber-50/50 to-orange-50/50 rounded-2xl p-4 border border-amber-100/50">
+                <div className="flex flex-col gap-3">
+                  <h3 className="text-xl font-display font-semibold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Agafay Desert</h3>
+                  <p className="text-gray-700 text-sm">
+                    Begin your day with a 4x4 drive from Marrakech, exploring the stunning Agafay Desert, Berber villages, and the shimmering Lake Takerkoust.
+                  </p>
+                  <button
+                    onClick={() => openBookingModal('agafay')}
+                    className="w-full py-3 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-medium rounded-xl shadow-md shadow-orange-300/20 hover:shadow-lg hover:shadow-orange-300/30 transition-all duration-300 transform hover:-translate-y-0.5"
+                  >
+                    Book Now
+                  </button>
+                </div>
+              </div>
+              
+              {/* Ourika section */}
+              <div className="bg-gradient-to-r from-orange-50/50 to-amber-50/50 rounded-2xl p-4 border border-orange-100/50">
+                <div className="flex flex-col gap-3">
+                  <h3 className="text-xl font-display font-semibold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">Ourika Valley</h3>
+                  <p className="text-gray-700 text-sm">
+                    Escape the city and dive into the lush beauty of Ourika Valley, where waterfalls, Berber villages, and stunning landscapes await.
+                  </p>
+                  <button
+                    onClick={() => openBookingModal('ourika')}
+                    className="w-full py-3 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-medium rounded-xl shadow-md shadow-orange-300/20 hover:shadow-lg hover:shadow-orange-300/30 transition-all duration-300 transform hover:-translate-y-0.5"
+                  >
+                    Book Now
+                  </button>
+                </div>
+              </div>
+            </div>
             
             <div className="flex flex-col gap-3 transition-all duration-500"
               style={{ 
@@ -178,10 +213,10 @@ export function MainHero() {
           </div>
           
           {/* Desktop Layout */}
-          <div className="hidden md:grid md:grid-cols-2 gap-8 lg:gap-12">
-            <div className="pr-4 flex flex-col justify-center">
+          <div className="hidden md:grid md:grid-cols-2 gap-8 lg:gap-12 items-stretch h-full min-h-[500px]">
+            <div className="pr-4 flex flex-col justify-center h-full">
               {/* Premium label */}
-              <div className="transition-all duration-500 mb-6"
+              <div className="transition-all duration-500 mb-3"
                 style={{ 
                   opacity: isLoaded ? 1 : 0, 
                   transform: isLoaded ? 'translateY(0)' : 'translateY(10px)', 
@@ -193,8 +228,8 @@ export function MainHero() {
                 </div>
               </div>
               
-              <div className="space-y-6">
-                <h1 className="text-5xl lg:text-6xl font-display font-bold text-gray-900 leading-tight transition-all duration-500"
+              <div className="space-y-4">
+                <h1 className="text-4xl lg:text-5xl font-display font-bold text-gray-900 leading-tight transition-all duration-500"
                   style={{ 
                     opacity: isLoaded ? 1 : 0, 
                     transform: isLoaded ? 'translateY(0)' : 'translateY(10px)', 
@@ -204,30 +239,8 @@ export function MainHero() {
                   Discover <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Ourika / Agafay Desert</span>
                 </h1>
                 
-                {/* Features */}
-                <div className="grid grid-cols-2 gap-4 transition-all duration-500"
-                  style={{ 
-                    opacity: isLoaded ? 1 : 0, 
-                    transform: isLoaded ? 'translateY(0)' : 'translateY(10px)', 
-                    transitionDelay: '400ms' 
-                  }}
-                >
-                  <div className="flex items-center justify-center gap-2 px-4 py-3.5 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-100 shadow-sm hover:shadow-md transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
-                    </svg>
-                    <span className="text-gray-800 font-medium">8-hour tour</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-2 px-4 py-3.5 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-100 shadow-sm hover:shadow-md transition-all duration-300">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
-                    </svg>
-                    <span className="text-gray-800 font-medium">Small groups</span>
-                  </div>
-                </div>
-                
                 {/* Split valleys content */}
-                <div className="space-y-6 transition-all duration-500"
+                <div className="space-y-4 transition-all duration-500"
                   style={{ 
                     opacity: isLoaded ? 1 : 0, 
                     transform: isLoaded ? 'translateY(0)' : 'translateY(10px)', 
@@ -235,23 +248,39 @@ export function MainHero() {
                   }}
                 >
                   {/* Agafay section */}
-                  <div className="bg-gradient-to-r from-amber-50/50 to-orange-50/50 rounded-2xl p-6 border border-amber-100/50">
-                    <h3 className="text-2xl font-display font-semibold mb-3 bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Agafay Desert</h3>
+                  <div className="bg-gradient-to-r from-amber-50/50 to-orange-50/50 rounded-2xl p-4 border border-amber-100/50">
+                    <div className="flex justify-between items-start mb-3">
+                      <h3 className="text-2xl font-display font-semibold bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Agafay Desert</h3>
+                      <button
+                        onClick={() => openBookingModal('agafay')}
+                        className="px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-medium rounded-xl shadow-md shadow-orange-300/20 hover:shadow-lg hover:shadow-orange-300/30 transition-all duration-300 transform hover:-translate-y-0.5"
+                      >
+                        Book Now
+                      </button>
+                    </div>
                     <p className="text-gray-700">
                       Begin your day with a 4x4 drive from Marrakech, exploring the stunning Agafay Desert, Berber villages, and the shimmering Lake Takerkoust. Enjoy camel rides, local tea, and a panoramic break at the Kik Plateau before visiting the sacred village of Moulay Brahim. End with a scenic descent through orchards and the Atlas foothills — a perfect blend of desert, lakes, and mountains in one epic day.
                     </p>
                   </div>
                   
                   {/* Ourika section */}
-                  <div className="bg-gradient-to-r from-orange-50/50 to-amber-50/50 rounded-2xl p-6 border border-orange-100/50">
-                    <h3 className="text-2xl font-display font-semibold mb-3 bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">Ourika Valley</h3>
+                  <div className="bg-gradient-to-r from-orange-50/50 to-amber-50/50 rounded-2xl p-4 border border-orange-100/50">
+                    <div className="flex justify-between items-start mb-3">
+                      <h3 className="text-2xl font-display font-semibold bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">Ourika Valley</h3>
+                      <button
+                        onClick={() => openBookingModal('ourika')}
+                        className="px-6 py-3 bg-gradient-to-r from-orange-600 to-amber-500 hover:from-orange-500 hover:to-amber-400 text-white font-medium rounded-xl shadow-md shadow-orange-300/20 hover:shadow-lg hover:shadow-orange-300/30 transition-all duration-300 transform hover:-translate-y-0.5"
+                      >
+                        Book Now
+                      </button>
+                    </div>
                     <p className="text-gray-700">
                       Escape the city and dive into the lush beauty of Ourika Valley, where waterfalls, Berber villages, and stunning landscapes await. Breathe fresh mountain air and experience authentic Moroccan culture in one unforgettable day. Join us for a journey that feels a world away — just moments from Marrakech.
                     </p>
                   </div>
                 </div>
                 
-                <div className="flex gap-4 transition-all duration-500 mt-8 mb-10"
+                <div className="flex gap-2 transition-all duration-500 mt-4 mb-10"
                   style={{ 
                     opacity: isLoaded ? 1 : 0, 
                     transform: isLoaded ? 'translateY(0)' : 'translateY(10px)', 
@@ -269,7 +298,7 @@ export function MainHero() {
               </div>
             </div>
             
-            <div className="relative transition-all duration-600 mt-10"
+            <div className="relative transition-all duration-600 h-full md:sticky md:top-0"
               style={{ 
                 opacity: isLoaded ? 1 : 0, 
                 transform: isLoaded ? 'scale(1)' : 'scale(0.98)', 
@@ -297,7 +326,7 @@ export function MainHero() {
                 </div>
               </div>
               
-              <div className="rounded-2xl overflow-hidden shadow-xl" 
+              <div className="rounded-2xl overflow-hidden shadow-xl h-[580px]" 
                 style={{ 
                   transition: 'transform 0.3s ease, box-shadow 0.3s ease',
                   boxShadow: '0 10px 25px rgba(0, 0, 0, 0.1)',
@@ -311,22 +340,19 @@ export function MainHero() {
                   e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
                 }}
               >
-                <div className="relative w-full" style={{ paddingBottom: "130%" }}>
+                <div className="relative w-full h-full">
                   <VideoPlayer
                     ref={videoRef}
                     src="https://ik.imagekit.io/momh2323/Untitled%20video%20-%20Made%20with%20Clipchamp.mp4?updatedAt=1745790242397"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
-                  
-                  <div className="absolute bottom-10 left-4 right-4">
-                    <h3 className="text-white text-2xl font-display font-medium mb-3 drop-shadow-md">
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-black/5 to-transparent pointer-events-none"></div>
+                  <div className="absolute bottom-7 left-6 flex flex-col items-start">
+                    <h3 className="text-white text-2xl font-display font-medium mb-2 drop-shadow-md bg-black/30 px-3 py-1 rounded-lg">
                       Ourika / Agafay Tour
                     </h3>
-                    <div className="flex justify-between items-center">
-                      <div className="py-1.5 px-3 bg-white/70 backdrop-blur-md rounded-xl shadow-md border border-white/50">
-                        <span className="text-sm font-medium text-gray-900">€100 <span className="text-xs text-gray-600">per person</span></span>
-                      </div>
+                    <div className="py-1.5 px-3 bg-white/50 backdrop-blur-sm rounded-xl shadow-md border border-white/30">
+                      <span className="text-sm font-medium text-gray-900">From 30€</span>
                     </div>
                   </div>
                 </div>
@@ -336,12 +362,14 @@ export function MainHero() {
         </div>
       </div>
 
-      {/* Activity Details Modal */}
-      {isActivityModalOpen && (
-        <ActivityModal 
-          isOpen={isActivityModalOpen} 
-          closeModal={closeActivityModal} 
-          activity={activityData}
+      {/* Booking Modal */}
+      {isBookingModalOpen && selectedActivity && (
+        <EnhancedBookingModal 
+          isOpen={isBookingModalOpen}
+          closeModal={closeBookingModal}
+          excursionTitle={selectedActivity.title}
+          excursionType={selectedActivity.type}
+          activity={selectedActivity}
         />
       )}
     </div>

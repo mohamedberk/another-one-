@@ -72,7 +72,7 @@ export default function BentoGallery() {
       {/* Bento grid gallery with explicit CSS grid */}
       <div className="max-w-[1600px] mx-auto">
         <div 
-          className="grid gap-4"
+          className="hidden md:grid gap-4"
           style={{
             gridTemplateColumns: 'repeat(4, 1fr)',
             gridTemplateRows: 'repeat(4, 1fr)', 
@@ -118,10 +118,36 @@ export default function BentoGallery() {
 
         {/* Mobile-friendly version for small screens */}
         <div className="md:hidden mt-4 space-y-4 px-4">
-          {galleryItems.map((item, index) => (
+          {[
+            {
+              id: 1,
+              src: "https://ik.imagekit.io/momh2323/ourika/ourika%202.jpg?updatedAt=1745677832060",
+              alt: "Ourika Valley waterfall"
+            },
+            {
+              id: 6,
+              src: "https://ik.imagekit.io/momh2323/aggafay.jpg?updatedAt=1745514931795",
+              alt: "Desert camp at sunset"
+            },
+            {
+              id: 4,
+              src: "https://ik.imagekit.io/momh2323/ourika/ourika%201.jpg?updatedAt=1745677832233",
+              alt: "Terraced gardens in Atlas Mountains"
+            },
+            {
+              id: 2,
+              src: "https://ik.imagekit.io/momh2323/Asni.jpg?updatedAt=1745258287547",
+              alt: "Asni Valley"
+            },
+            {
+              id: 7,
+              src: "https://ik.imagekit.io/momh2323/Oukaimeden.jpg?updatedAt=1745258287453",
+              alt: "Oukaimeden Valley"
+            }
+          ].map((item, index) => (
             <motion.div
               key={`mobile-${item.id}`}
-              className="relative rounded-2xl overflow-hidden h-[200px] shadow-sm group"
+              className="relative rounded-2xl overflow-hidden h-[250px] shadow-sm group"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: index * 0.1 }}

@@ -73,33 +73,55 @@ const reviews = [
 export default function PremiumReviewsScroller() {
   const scrollerRef = useRef<HTMLDivElement>(null);
   const contentRef = useRef<HTMLDivElement>(null);
+  const animationRef = useRef<Animation | null>(null);
+  const [isPaused, setIsPaused] = React.useState(false);
+  const [isMobile, setIsMobile] = React.useState(false);
   
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   // Clone reviews for smooth continuous scrolling effect
   const allReviews = [...reviews, ...reviews];
   
   useEffect(() => {
     if (!scrollerRef.current || !contentRef.current) return;
-    
-    // Set animation duration based on content width for consistent scroll speed
     const scrollWidth = contentRef.current.scrollWidth;
-    const duration = scrollWidth * 0.02; // Adjust multiplier for speed
-    
+    const duration = scrollWidth * 0.02;
     const animation = scrollerRef.current.animate(
       [
         { transform: 'translateX(0)' },
         { transform: `translateX(-${scrollWidth / 2}px)` }
       ],
       {
-        duration: duration * 1000, // Convert to milliseconds
+        duration: duration * 1000,
         iterations: Infinity,
-        easing: 'linear'
+        easing: 'linear',
       }
     );
-    
+    animationRef.current = animation;
+    if (isPaused) animation.pause();
     return () => {
       animation.cancel();
     };
-  }, []);
+  }, [isPaused]);
+
+  // Pause/resume handler
+  const handleReviewClick = () => {
+    setIsPaused((prev) => {
+      const next = !prev;
+      if (animationRef.current) {
+        if (next) animationRef.current.pause();
+        else animationRef.current.play();
+      }
+      return next;
+    });
+  };
 
   const renderRatingStars = (rating: number) => {
     return (
@@ -132,15 +154,16 @@ export default function PremiumReviewsScroller() {
       </div>
       
       {/* Continuous scroll container */}
-      <div className="w-full overflow-hidden">
-        <div ref={scrollerRef} className="w-fit flex">
+      <div className="w-full overflow-x-auto md:overflow-hidden">
+        <div ref={scrollerRef} className={`w-fit flex ${isMobile ? 'px-4' : ''}`}>
           <div ref={contentRef} className="flex gap-5 pl-4">
             {allReviews.map((review, index) => (
               <div 
                 key={`${review.id}-${index}`} 
-                className="w-[320px] md:w-[350px] flex-shrink-0"
+                className="w-[280px] md:w-[350px] flex-shrink-0 cursor-pointer"
+                onClick={handleReviewClick}
               >
-                <div className="bg-white border border-gray-100 h-full rounded-3xl overflow-hidden transition-all duration-500 transform hover:scale-[1.02] shadow-sm hover:shadow-lg p-6">
+                <div className={`bg-white border border-gray-100 h-full rounded-3xl overflow-hidden transition-all duration-500 transform hover:scale-[1.02] shadow-sm hover:shadow-lg p-6 ${isPaused ? 'ring-2 ring-amber-500' : ''}`}>
                   {/* Header with name and rating */}
                   <div className="flex items-center justify-between mb-4">
                     <div>
