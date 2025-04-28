@@ -27,12 +27,12 @@ const cabinetGrotesk = localFont({
 })
 
 export const metadata: Metadata = {
-  title: 'Hassan - Transportation Transfer Management Platform',
-  description: 'Streamline your transportation agency operations with EasyBookNow. Manage transfers, driver assignments, and partner coordination with our specialized platform.',
-  keywords: ['transportation management', 'transfer booking', 'driver assignment', 'hotel coordination', 'riad transfers', 'transportation agency software'],
-  authors: [{ name: 'EasyBookNow Team' }],
-  creator: 'EasyBookNow',
-  publisher: 'EasyBookNow',
+  title: 'BADDOU TRAVEL - AGENCY IN MARRAKECH',
+  description: 'BADDOU TRAVEL is a travel agency in Marrakech, Morocco. We offer a wide range of travel services, including transfers, excursions, and hotel bookings.',
+  keywords: ['travel agency', 'transfer booking', 'excursion booking', 'hotel booking', 'marrakech travel', 'morocco travel'],
+  authors: [{ name: 'BADDOU TRAVEL' }],
+  creator: 'BADDOU TRAVEL',
+  publisher: 'BADDOU TRAVEL',
   viewport: 'width=device-width, initial-scale=1, maximum-scale=5',
   themeColor: '#FFFFFF',
   icons: {
@@ -46,18 +46,18 @@ export const metadata: Metadata = {
     ]
   },
   openGraph: {
-    title: 'EasyBookNow - Transportation Transfer Management Platform',
-    description: 'Streamline your transportation agency operations with EasyBookNow. Manage transfers, driver assignments, and partner coordination with our specialized platform.',
-    url: 'https://easybooknow.com',
-    siteName: 'EasyBookNow',
+    title: 'BADDOU TRAVEL - AGENCY IN MARRAKECH',
+    description: 'BADDOU TRAVEL is a travel agency in Marrakech, Morocco. We offer a wide range of travel services, including transfers, excursions, and hotel bookings.',
+    url: 'https://baddou-travel.com',
+    siteName: 'BADDOU TRAVEL',
     locale: 'en_US',
     type: 'website',
     images: [{ url: '/logo.png' }]
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'EasyBookNow - Transportation Transfer Management Platform',
-    description: 'Streamline your transportation agency operations with EasyBookNow. Manage transfers, driver assignments, and partner coordination with our specialized platform.',
+    title: 'BADDOU TRAVEL - AGENCY IN MARRAKECH',
+    description: 'BADDOU TRAVEL is a travel agency in Marrakech, Morocco. We offer a wide range of travel services, including transfers, excursions, and hotel bookings.',
     images: [{ url: '/logo.png' }]
   },
   robots: {
@@ -65,9 +65,9 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: 'https://easybooknow.com',
+    canonical: 'https://baddou-travel.com',
   },
-  metadataBase: new URL('https://easybooknow.com'),
+  metadataBase: new URL('https://baddou-travel.com'),
 }
 
 export default function RootLayout({
