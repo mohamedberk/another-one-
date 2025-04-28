@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
-import { NewBookingModal } from './NewBookingModal';
+import { EnhancedBookingModal } from './EnhancedBookingModal';
 import { 
   ChevronRightIcon,
   MapPinIcon, 
@@ -14,6 +14,7 @@ import {
   CurrencyDollarIcon
 } from '@heroicons/react/24/outline';
 import { StarIcon, SparklesIcon } from '@heroicons/react/24/solid';
+import { threeValleysActivity } from '../utils/activities';
 
 interface PremiumHeroProps {
   backgroundImage?: string;
@@ -364,12 +365,12 @@ export function PremiumHero({
       </div>
       
       {/* Booking modal */}
-      <NewBookingModal 
+      <EnhancedBookingModal 
         isOpen={isBookingModalOpen} 
         closeModal={closeBookingModal} 
         excursionTitle="Morocco Experience"
         excursionType="EXCURSION"
-        onBookingSuccess={() => {}}
+        activity={threeValleysActivity}
       />
     </section>
   );

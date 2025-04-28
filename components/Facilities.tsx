@@ -1,6 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from './Button';
 import { SparklesIcon } from '@heroicons/react/24/solid';
+import { EnhancedBookingModal } from './EnhancedBookingModal';
+import { threeValleysActivity } from '../utils/activities';
 
 interface FacilityItemProps {
   icon: React.ReactNode;
@@ -46,6 +48,11 @@ function FacilityItem({ icon, label, active = false }: FacilityItemProps) {
 }
 
 export function Facilities() {
+  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
+  
+  const openBookingModal = () => setIsBookingModalOpen(true);
+  const closeBookingModal = () => setIsBookingModalOpen(false);
+  
   return (
     <div className="relative w-full p-8 overflow-hidden bg-white/90 backdrop-blur-lg rounded-3xl shadow-xl border border-white/40">
       {/* Decorative elements */}
@@ -110,7 +117,11 @@ export function Facilities() {
       </div>
       
       <div className="flex justify-center pt-2">
-        <Button variant="primary" className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:shadow-blue-500/20">
+        <Button 
+          variant="primary" 
+          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-r from-blue-600 to-blue-500 hover:shadow-blue-500/20"
+          onClick={openBookingModal}
+        >
           <span>
             <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" clipRule="evenodd" d="M12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21ZM10.7 7.29289C10.3095 6.90237 9.67618 6.90237 9.28566 7.29289C8.89513 7.68342 8.89513 8.31658 9.28566 8.70711L12.5854 12.0069L9.3695 15.2229C8.97897 15.6134 8.97897 16.2466 9.3695 16.6371C9.76002 17.0276 10.3932 17.0276 10.7837 16.6371L14.7121 12.7087C14.8 12.6208 14.8695 12.5149 14.9174 12.3997C15.0259 12.1575 15.0227 11.8687 14.9005 11.6286C14.8489 11.5138 14.7757 11.4093 14.6837 11.3229L10.7 7.29289Z" fill="currentColor" />
@@ -119,6 +130,15 @@ export function Facilities() {
           Book Now
         </Button>
       </div>
+      
+      {/* Enhanced Booking Modal */}
+      <EnhancedBookingModal 
+        isOpen={isBookingModalOpen}
+        closeModal={closeBookingModal}
+        excursionTitle="Premium Marrakech Experience"
+        excursionType="EXCURSION"
+        activity={threeValleysActivity}
+      />
     </div>
   );
 } 

@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './Button';
-import { EnhancedBookingModal } from './EnhancedBookingModal';
 import { ActivityModal } from './ActivityModal';
 import Image from 'next/image';
 
@@ -25,7 +24,6 @@ VideoPlayer.displayName = "VideoPlayer";
 export function MainHero() {
   // Animation state
   const [isLoaded, setIsLoaded] = useState(false);
-  const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [isActivityModalOpen, setIsActivityModalOpen] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   
@@ -39,20 +37,8 @@ export function MainHero() {
       });
     }
     
-    // Add parallax scroll effect
-    const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      if (videoRef.current) {
-        videoRef.current.style.transform = `translateY(${scrollPosition * 0.15}px)`;
-      }
-    };
-    
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    // Remove the parallax scroll effect to keep video fixed
   }, []);
-  
-  const openBookingModal = () => setIsBookingModalOpen(true);
-  const closeBookingModal = () => setIsBookingModalOpen(false);
   
   const openActivityModal = () => setIsActivityModalOpen(true);
   const closeActivityModal = () => setIsActivityModalOpen(false);
@@ -67,7 +53,7 @@ export function MainHero() {
   
   // Sample activity data for the details modal
   const activityData = {
-    title: 'Ourika & Agafay Desert Discovery',
+    title: 'Ourika / Agafay Desert Discovery',
     type: 'EXCURSION',
     image: 'https://images.unsplash.com/photo-1682687220566-5599dbbebf11?q=80&w=3270&auto=format&fit=crop',
     price: '85.00',
@@ -145,12 +131,13 @@ export function MainHero() {
             >
               <div className="relative w-full" style={{ paddingBottom: "75%" }}>
                 <video 
-                  src="https://ik.imagekit.io/momh2323/Untitled%20video%20-%20Made%20with%20Clipchamp.mp4?updatedAt=1745673792987"
+                  src="https://ik.imagekit.io/momh2323/Untitled%20video%20-%20Made%20with%20Clipchamp.mp4?updatedAt=1745790242397"
                   className="absolute inset-0 w-full h-full object-cover"
                   autoPlay
                   loop
                   muted
                   playsInline
+                  style={{ objectPosition: "center" }}
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
                 
@@ -180,13 +167,6 @@ export function MainHero() {
                 transitionDelay: '600ms' 
               }}
             >
-              <Button 
-                variant="primary" 
-                className="w-full py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl text-white font-medium shadow-lg shadow-amber-200/40"
-                onClick={openBookingModal}
-              >
-                Book This Experience
-              </Button>
               <Button 
                 variant="outline" 
                 className="w-full py-3.5 border-[1.5px] border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-300 rounded-xl font-medium transform transition-all duration-300 hover:-translate-y-0.5"
@@ -221,17 +201,8 @@ export function MainHero() {
                     transitionDelay: '300ms' 
                   }}
                 >
-                  Discover <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Ourika & Agafay Desert</span>
+                  Discover <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Ourika / Agafay Desert</span>
                 </h1>
-                <p className="text-xl text-gray-600 transition-all duration-500"
-                  style={{ 
-                    opacity: isLoaded ? 1 : 0, 
-                    transform: isLoaded ? 'translateY(0)' : 'translateY(10px)', 
-                    transitionDelay: '350ms' 
-                  }}
-                >
-            
-                </p>
                 
                 {/* Features */}
                 <div className="grid grid-cols-2 gap-4 transition-all duration-500"
@@ -241,38 +212,52 @@ export function MainHero() {
                     transitionDelay: '400ms' 
                   }}
                 >
-                  <div className="flex items-center px-4 py-3 bg-white/30 backdrop-blur-md rounded-xl border border-white/50 shadow-sm hover:shadow-md transition-all duration-300">
-                    <span className="text-gray-700 font-medium">8-hour tour</span>
+                  <div className="flex items-center justify-center gap-2 px-4 py-3.5 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-100 shadow-sm hover:shadow-md transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                    </svg>
+                    <span className="text-gray-800 font-medium">8-hour tour</span>
                   </div>
-                  <div className="flex items-center px-4 py-3 bg-white/30 backdrop-blur-md rounded-xl border border-white/50 shadow-sm hover:shadow-md transition-all duration-300">
-                    <span className="text-gray-700 font-medium">Small groups</span>
+                  <div className="flex items-center justify-center gap-2 px-4 py-3.5 bg-gradient-to-r from-amber-50 to-orange-50 rounded-xl border border-amber-100 shadow-sm hover:shadow-md transition-all duration-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                      <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
+                    </svg>
+                    <span className="text-gray-800 font-medium">Small groups</span>
                   </div>
                 </div>
                 
-                <p className="text-gray-600 lg:text-lg transition-all duration-500"
+                {/* Split valleys content */}
+                <div className="space-y-6 transition-all duration-500"
                   style={{ 
                     opacity: isLoaded ? 1 : 0, 
                     transform: isLoaded ? 'translateY(0)' : 'translateY(10px)', 
                     transitionDelay: '450ms' 
                   }}
                 >
-                  Begin your day with a 4x4 drive from Marrakech, exploring the stunning Agafay Desert, Berber villages, and the shimmering Lake Takerkoust. Enjoy camel rides, local tea, and a panoramic break at the Kik Plateau before visiting the sacred village of Moulay Brahim. End with a scenic descent through orchards and the Atlas foothills — a perfect blend of desert, lakes, and mountains in one epic day.
-                </p>
+                  {/* Agafay section */}
+                  <div className="bg-gradient-to-r from-amber-50/50 to-orange-50/50 rounded-2xl p-6 border border-amber-100/50">
+                    <h3 className="text-2xl font-display font-semibold mb-3 bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Agafay Desert</h3>
+                    <p className="text-gray-700">
+                      Begin your day with a 4x4 drive from Marrakech, exploring the stunning Agafay Desert, Berber villages, and the shimmering Lake Takerkoust. Enjoy camel rides, local tea, and a panoramic break at the Kik Plateau before visiting the sacred village of Moulay Brahim. End with a scenic descent through orchards and the Atlas foothills — a perfect blend of desert, lakes, and mountains in one epic day.
+                    </p>
+                  </div>
+                  
+                  {/* Ourika section */}
+                  <div className="bg-gradient-to-r from-orange-50/50 to-amber-50/50 rounded-2xl p-6 border border-orange-100/50">
+                    <h3 className="text-2xl font-display font-semibold mb-3 bg-gradient-to-r from-orange-500 to-amber-500 bg-clip-text text-transparent">Ourika Valley</h3>
+                    <p className="text-gray-700">
+                      Escape the city and dive into the lush beauty of Ourika Valley, where waterfalls, Berber villages, and stunning landscapes await. Breathe fresh mountain air and experience authentic Moroccan culture in one unforgettable day. Join us for a journey that feels a world away — just moments from Marrakech.
+                    </p>
+                  </div>
+                </div>
                 
-                <div className="flex gap-4 transition-all duration-500 mt-8"
+                <div className="flex gap-4 transition-all duration-500 mt-8 mb-10"
                   style={{ 
                     opacity: isLoaded ? 1 : 0, 
                     transform: isLoaded ? 'translateY(0)' : 'translateY(10px)', 
                     transitionDelay: '500ms' 
                   }}
                 >
-                  <Button 
-                    variant="primary" 
-                    className="py-3.5 px-8 bg-gradient-to-r from-amber-500 to-orange-500 rounded-xl text-white font-medium shadow-lg shadow-amber-200/40"
-                    onClick={openBookingModal}
-                  >
-                    Book This Experience
-                  </Button>
                   <Button 
                     variant="outline" 
                     className="py-3.5 px-8 border-[1.5px] border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:border-gray-300 rounded-xl font-medium transform transition-all duration-300 hover:-translate-y-0.5"
@@ -284,7 +269,7 @@ export function MainHero() {
               </div>
             </div>
             
-            <div className="relative transition-all duration-600 mt-8"
+            <div className="relative transition-all duration-600 mt-10"
               style={{ 
                 opacity: isLoaded ? 1 : 0, 
                 transform: isLoaded ? 'scale(1)' : 'scale(0.98)', 
@@ -300,9 +285,14 @@ export function MainHero() {
                 }}
               >
                 <div className="flex items-center gap-3">
+                  <div className="text-amber-500">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
                   <div>
-                    <p className="text-gray-900 font-medium text-sm">Satisfaction Guaranteed</p>
-                    <p className="text-gray-500 text-xs">100% money-back guarantee</p>
+                    <p className="text-gray-900 font-medium text-sm">24/7 Customer Support</p>
+                    <p className="text-gray-500 text-xs">Always here when you need us</p>
                   </div>
                 </div>
               </div>
@@ -321,17 +311,17 @@ export function MainHero() {
                   e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.1)';
                 }}
               >
-                <div className="relative w-full" style={{ paddingBottom: "95%" }}>
+                <div className="relative w-full" style={{ paddingBottom: "130%" }}>
                   <VideoPlayer
                     ref={videoRef}
-                    src="https://ik.imagekit.io/momh2323/Untitled%20video%20-%20Made%20with%20Clipchamp.mp4?updatedAt=1745673792987"
+                    src="https://ik.imagekit.io/momh2323/Untitled%20video%20-%20Made%20with%20Clipchamp.mp4?updatedAt=1745790242397"
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent"></div>
                   
-                  <div className="absolute bottom-4 left-4 right-4">
+                  <div className="absolute bottom-10 left-4 right-4">
                     <h3 className="text-white text-2xl font-display font-medium mb-3 drop-shadow-md">
-                      Ourika & Agafay Tour
+                      Ourika / Agafay Tour
                     </h3>
                     <div className="flex justify-between items-center">
                       <div className="py-1.5 px-3 bg-white/70 backdrop-blur-md rounded-xl shadow-md border border-white/50">
@@ -346,16 +336,6 @@ export function MainHero() {
         </div>
       </div>
 
-      {/* Booking Modal */}
-      {isBookingModalOpen && (
-        <EnhancedBookingModal 
-          isOpen={isBookingModalOpen} 
-          closeModal={closeBookingModal} 
-          excursionTitle={'3 Valleys Atlas Adventure'}
-          excursionType={'EXCURSION'}
-        />
-      )}
-      
       {/* Activity Details Modal */}
       {isActivityModalOpen && (
         <ActivityModal 

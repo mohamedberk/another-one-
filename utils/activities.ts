@@ -51,8 +51,8 @@ export const ourikaActivity: Activity = {
 // Three Valleys Activity (Marrakech + Agafay + Lake Lalla Takerkoust)
 export const threeValleysActivity: Activity = {
   id: 'three-valleys',
-  title: 'Three Valleys Atlas Adventure',
-  type: 'THREE VALLEYS',
+  title: 'Agafay Valley',
+  type: 'EXCURSION',
   image: "https://ik.imagekit.io/momh2323/aggafay.jpg?updatedAt=1745514931795", // Updated image URL
   description: 'An adventurous day trip through Marrakech, Agafay Desert, Lake Lalla Takerkoust, Kik Plateau, Asni and back to Marrakech.',
   groupPrice: 100, // €100 for group tour (adults)

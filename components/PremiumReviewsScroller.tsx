@@ -3,77 +3,70 @@
 import React, { useRef, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-// Authentic Morocco tour reviews
+// Tour reviews
 const reviews = [
   {
     id: 1,
-    name: "Julia W.",
-    country: "Germany",
+    name: "Davide",
+ 
     rating: 5,
-    review: "Our guide Hassan was incredible - showing us hidden spots in Ourika Valley that felt untouched by tourism. The waterfall hike was challenging but so worth it. Authentic Moroccan tea with a Berber family was the highlight!"
+    review: "We had a beautiful day visiting Ourika valley. Our guide took care of us, very great place to visit and beautiful lunch on the river."
   },
   {
     id: 2,
-    name: "Mark S.",
-    country: "United Kingdom",
+    name: "Adrian",
     rating: 5,
-    review: "The Three Valleys tour blew us away! Omar knew all the best photo spots and explained the Berber culture so well. Lunch in a traditional home was incredible - best tagine of our entire trip."
+    review: "100% recommended! We did the complete route of the 7 waterfalls on our own. We agreed with the driver a specific time to be back at the parking lot. Everything was great."
   },
   {
     id: 3,
-    name: "Sophia L.",
-    country: "Netherlands",
+    name: "Paula",
+
     rating: 4,
-    review: "Oukaimeden in winter was magical! Though it was cold, our guide provided extra layers and kept us warm with plenty of mint tea. The views were breathtaking and unlike anything we'd seen before."
+    review: "It was an incredible experience, the town is beautiful! And the guide Mohammed was very friendly. We loved meeting him, and the tour was very well organized."
   },
   {
     id: 4,
-    name: "Thomas K.",
-    country: "USA",
+    name: "Sarah",
+
     rating: 5,
-    review: "My wife and I did the private Ourika tour and it was worth every dirham. Mohammed customized everything to our pace and interests. The genuine connections with locals made this so special."
+    review: "Our guide made us feel like we were exploring Morocco with a friend who happened to know all the best places. An absolutely unforgettable experience."
   },
-  {
-    id: 5,
-    name: "Yuki T.",
-    country: "Japan",
-    rating: 5,
-    review: "Atlas mountains are spectacular! Our guide Mustafa was patient with my broken French and taught us Arabic phrases. The traditional argan oil workshop visit was fascinating. Highly recommend!"
-  },
+ 
   {
     id: 6,
-    name: "Anna P.",
-    country: "Poland",
+    name: "Mohammed",
+
     rating: 4,
-    review: "The Asni Valley trek was challenging but Ibrahim made sure we were comfortable. He shared stories about growing up in the mountains and showed us his village. Truly special experience!"
+    review: "The Setti Fatma waterfalls were gorgeous. Appreciated that our guide was environmentally conscious and the whole valley was much cleaner than I expected."
   },
   {
     id: 7,
-    name: "Carlos M.",
-    country: "Spain",
+    name: "Carlos",
+
     rating: 5,
-    review: "The landscape transitions from Marrakech to the mountains were stunning. Ahmed was knowledgeable about the flora and geology. The home-cooked lunch with his family was exceptional - his mother's bread was incredible!"
+    review: "The landscape from Marrakech to the mountains was stunning. Ahmed knew everything about the flora. The home-cooked lunch with his family was exceptional!"
   },
   {
     id: 8,
-    name: "Emilie D.",
-    country: "France",
+    name: "Ibrahim",
+
     rating: 4,
-    review: "We booked last minute and they still arranged a perfect day trip. The Setti Fatma waterfalls were gorgeous. Appreciated that our guide Karim was environmentally conscious and picked up trash along the trails."
+    review: "As a local, I was impressed with how the guide explained our Berber culture to tourists. The Ourika Valley shows the real beauty of Morocco away from the city."
   },
   {
     id: 9,
-    name: "Ali R.",
-    country: "UAE",
+    name: "Karim",
+
     rating: 5,
-    review: "As Muslims we appreciated how Yousef accommodated our prayer times. The Ourika Valley was peaceful and the local markets had high quality crafts without tourist pricing. Will return with family."
+    review: "Our guide accommodated prayer times. Ourika Valley was peaceful and the local markets had high quality crafts without tourist pricing. Will recommend to family."
   },
   {
     id: 10,
-    name: "Nina S.",
-    country: "Sweden",
+    name: "Nina",
+
     rating: 5,
-    review: "Trekking with Hamid in the Three Valleys was the highlight of our Morocco trip. He knew everyone in the villages and got us invited into homes. The authentic experience we were hoping for!"
+    review: "The Agafay Desert overnight stay was magical! Sleeping under the stars after a traditional dinner and show. Completely different experience from the mountains."
   }
 ];
 
@@ -136,9 +129,6 @@ export default function PremiumReviewsScroller() {
           <span className="inline-block w-12 h-0.5 bg-gradient-to-r from-neutral-800 to-neutral-600 rounded-full mr-5"></span>
           Traveler Reviews
         </h2>
-        <p className="text-neutral-600 mt-2 ml-[68px]">
-          Real experiences from Atlas Excursions guests
-        </p>
       </div>
       
       {/* Continuous scroll container */}
@@ -155,17 +145,13 @@ export default function PremiumReviewsScroller() {
                   <div className="flex items-center justify-between mb-4">
                     <div>
                       <h3 className="font-bold text-neutral-800 text-lg">{review.name}</h3>
-                      <p className="text-neutral-500 text-xs">{review.country}</p>
                     </div>
                     {renderRatingStars(review.rating)}
                   </div>
                   
                   {/* Review text */}
                   <div className="relative">
-                    <svg className="absolute top-0 left-0 w-8 h-8 text-neutral-200 transform -translate-x-3 -translate-y-3 opacity-50" fill="currentColor" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-                      <path d="M9.352 4C4.456 7.456 1 13.12 1 19.36c0 5.088 3.072 8.064 6.624 8.064 3.36 0 5.856-2.688 5.856-5.856 0-3.168-2.208-5.472-5.088-5.472-.576 0-1.344.096-1.536.192.48-3.264 3.552-7.104 6.624-9.024L9.352 4zm16.512 0c-4.8 3.456-8.256 9.12-8.256 15.36 0 5.088 3.072 8.064 6.624 8.064 3.264 0 5.856-2.688 5.856-5.856 0-3.168-2.304-5.472-5.184-5.472-.576 0-1.248.096-1.44.192.48-3.264 3.456-7.104 6.528-9.024L25.864 4z" />
-                    </svg>
-                    <p className="text-neutral-600 text-sm pl-4 line-clamp-6">{review.review}</p>
+                    <p className="text-neutral-600 text-sm line-clamp-6">{review.review}</p>
                   </div>
                 </div>
               </div>

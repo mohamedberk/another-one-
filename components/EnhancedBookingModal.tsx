@@ -637,7 +637,7 @@ export function EnhancedBookingModal({
                           {currentView === 'details' && (
                             <button
                               onClick={goToNextStep}
-                              className="flex-1 px-5 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 relative overflow-hidden group text-lg"
+                              className="flex-1 px-5 py-5 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 relative overflow-hidden group text-lg"
                               style={{
                                 background: 'linear-gradient(135deg, #f59e0b, #f97316)',
                               }}
@@ -964,7 +964,7 @@ export function EnhancedBookingModal({
                           {currentView === 'guests' && (
                             <button
                               onClick={goToNextStep}
-                              className="flex-1 px-5 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 relative overflow-hidden group text-lg"
+                              className="flex-1 px-5 py-5 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 relative overflow-hidden group text-lg"
                               style={{
                                 background: 'linear-gradient(135deg, #f59e0b, #f97316)',
                               }}
@@ -1132,7 +1132,7 @@ export function EnhancedBookingModal({
                           <button
                             type="button"
                             onClick={handleClose}
-                            className="px-8 py-3.5 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-medium rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl"
+                            className="px-10 py-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-medium rounded-xl transition-all duration-200 shadow-lg hover:shadow-xl text-lg"
                           >
                             Close
                           </button>

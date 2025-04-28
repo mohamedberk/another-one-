@@ -53,12 +53,13 @@ export const ImageKitGallery = {
       "https://ik.imagekit.io/momh2323/ourika/ourika%201.jpg?updatedAt=1745677832233",
       "https://ik.imagekit.io/momh2323/ourika/ourika%203.jpg?updatedAt=1745677832247"
     ],
-    "Three Valleys Atlas Adventure": [
-      "https://ik.imagekit.io/momh2323/ourika/Three%20Valleys%20Atlas%20Adventure/kech.jpg?updatedAt=1745680024936",
-      "https://ik.imagekit.io/momh2323/ourika/Three%20Valleys%20Atlas%20Adventure/asnii.jpg?updatedAt=1745680024795",
-      "https://ik.imagekit.io/momh2323/ourika/Three%20Valleys%20Atlas%20Adventure/agaffay.jpg?updatedAt=1745680024761",
-      "https://ik.imagekit.io/momh2323/ourika/Three%20Valleys%20Atlas%20Adventure/6a5d442da7e1f460d7a7e0facb4b4afc.jpg?updatedAt=1745680024745",
-      "https://ik.imagekit.io/momh2323/f9e2293f05c26a3169e8fa4b2382a545.jpg?updatedAt=1745682599557"
+    "Agafay Valley": [
+      "https://ik.imagekit.io/momh2323/aggafay.jpg?updatedAt=1745514931795",
+      "https://ik.imagekit.io/momh2323/threevalley/3valleys1.jpg?updatedAt=1745677835262",
+      "https://ik.imagekit.io/momh2323/threevalley/3valleys3.jpg?updatedAt=1745677835265",
+      "https://ik.imagekit.io/momh2323/threevalley/3valleys2.jpg?updatedAt=1745677835273",
+      "https://ik.imagekit.io/momh2323/threevalley/3valleys5.jpg?updatedAt=1745677835280",
+      "https://ik.imagekit.io/momh2323/threevalley/3valleys4.jpg?updatedAt=1745677835315"
     ]
   },
   

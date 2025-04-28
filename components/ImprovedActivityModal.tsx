@@ -416,6 +416,23 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
         excursionTitle={activity.title}
         excursionType={activity.type}
         onBookingSuccess={openConfirmationModal}
+        activity={{
+          id: activity.title.toLowerCase().replace(/\s+/g, '-'),
+          title: activity.title,
+          type: activity.type,
+          image: activity.image,
+          description: activity.description,
+          longDescription: activity.description,
+          duration: activity.duration,
+          location: activity.location,
+          groupPrice: parseInt(activity.price.match(/Group: €(\d+)/)?.[1] || "100"),
+          privatePrice: parseInt(activity.price.match(/Private: €(\d+)/)?.[1] || "150"),
+          rating: activity.rating,
+          reviewCount: activity.reviewCount,
+          maxParticipants: activity.maxParticipants,
+          highlights: activity.highlights,
+          included: activity.included
+        }}
       />
       
       {/* Confirmation modal */}

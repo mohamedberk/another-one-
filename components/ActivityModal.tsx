@@ -319,16 +319,16 @@ export function ActivityModal({ isOpen, closeModal, activity }: ActivityModalPro
                             
                             {/* Premium pricing cards */}
                             <div className="flex space-x-3 ebn-animate-float">
-                              <div className="ebn-glass-gradient rounded-2xl shadow-teal-md border border-white/50 px-5 py-3">
+                              <div className="bg-white/70 backdrop-blur-md rounded-2xl shadow-teal-md border border-white/50 px-5 py-3">
                                 <div className="flex flex-col items-center space-y-0.5">
                                   <span className="text-neutral-500 text-xs font-medium">Group</span>
                                   <span className="text-brand-teal-600 font-bold text-lg">{getGroupPrice()}</span>
                                 </div>
                               </div>
-                              <div className="ebn-glass-gradient rounded-2xl shadow-teal-md border border-white/50 px-5 py-3">
+                              <div className="bg-gradient-to-br from-amber-500/60 to-orange-500/60 backdrop-blur-md rounded-2xl shadow-teal-md border border-white/50 px-5 py-3">
                                 <div className="flex flex-col items-center space-y-0.5">
-                                  <span className="text-neutral-500 text-xs font-medium">Private</span>
-                                  <span className="text-brand-teal-600 font-bold text-lg">{getPrivatePrice()}</span>
+                                  <span className="text-white text-xs font-medium">Private</span>
+                                  <span className="text-white font-bold text-lg">{getPrivatePrice()}</span>
                                 </div>
                               </div>
                             </div>
@@ -340,16 +340,16 @@ export function ActivityModal({ isOpen, closeModal, activity }: ActivityModalPro
                         
                         {/* Enhanced mobile price badge */}
                         <div className="md:hidden flex justify-center mt-4 mb-6 space-x-3 ebn-animate-float">
-                          <div className="ebn-glass-gradient rounded-xl shadow-teal-md border border-white/50 px-5 py-2">
+                          <div className="bg-white/70 backdrop-blur-md rounded-xl shadow-teal-md border border-white/50 px-5 py-2">
                             <div className="flex flex-col items-center space-y-0.5">
                               <span className="text-neutral-500 text-xs font-medium">Group</span>
                               <span className="text-brand-teal-600 font-bold text-lg">{getGroupPrice()}</span>
                             </div>
                           </div>
-                          <div className="ebn-glass-gradient rounded-xl shadow-teal-md border border-white/50 px-5 py-2">
+                          <div className="bg-gradient-to-br from-amber-500/60 to-orange-500/60 backdrop-blur-md rounded-xl shadow-teal-md border border-white/50 px-5 py-2">
                             <div className="flex flex-col items-center space-y-0.5">
-                              <span className="text-neutral-500 text-xs font-medium">Private</span>
-                              <span className="text-brand-teal-600 font-bold text-lg">{getPrivatePrice()}</span>
+                              <span className="text-white text-xs font-medium">Private</span>
+                              <span className="text-white font-bold text-lg">{getPrivatePrice()}</span>
                             </div>
                           </div>
                         </div>
@@ -516,6 +516,23 @@ export function ActivityModal({ isOpen, closeModal, activity }: ActivityModalPro
         excursionTitle={activity.title}
         excursionType={activity.type}
         onBookingSuccess={openConfirmationModal}
+        activity={{
+          id: activity.title.toLowerCase().replace(/\s+/g, '-'),
+          title: activity.title,
+          type: activity.type,
+          image: activity.image,
+          description: activity.description,
+          longDescription: activity.description,
+          duration: activity.duration,
+          location: activity.location,
+          groupPrice: parseInt(getGroupPrice().replace('€', '') || "100"),
+          privatePrice: parseInt(getPrivatePrice().replace('€', '') || "150"),
+          rating: activity.rating,
+          reviewCount: activity.reviewCount,
+          maxParticipants: activity.maxParticipants,
+          highlights: activity.highlights,
+          included: activity.included
+        }}
       />
       
       <BookingConfirmationModal 
