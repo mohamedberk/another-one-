@@ -95,7 +95,7 @@ export function MainHero() {
                 transitionDelay: '300ms' 
               }}
             >
-              Discover <span className="bg-gradient-to-r from-amber-500 to-orange-500 bg-clip-text text-transparent">Ourika / 3 Valleys Excursion</span>
+              Discover <span className="text-gray-900">Ourika / 3 Valleys Excursion</span>
             </h1>
 
             {/* Video section */}
@@ -138,7 +138,7 @@ export function MainHero() {
               {/* Agafay section */}
               <div className="bg-gradient-to-r from-amber-50/50 to-orange-50/50 rounded-2xl p-4 border border-amber-100/50">
                 <div className="flex flex-col gap-3">
-                  <h3 className="text-xl font-display font-semibold text-gray-900">Agafay Desert</h3>
+                  <h3 className="text-xl font-display font-semibold text-gray-900">3 Valleys</h3>
                   <p className="text-gray-700 text-sm">
                     Begin your day with a 4x4 drive from Marrakech, exploring the stunning Agafay Desert, Berber villages, and the shimmering Lake Takerkoust.
                   </p>
