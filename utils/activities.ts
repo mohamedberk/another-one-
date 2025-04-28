@@ -1,11 +1,11 @@
 import { StaticImageData } from 'next/image';
-import { projectImages } from './uploadthing-urls';
-
+import { ImageKitGallery } from '@/components/ImageKitImage';
 export interface Activity {
   id: string;
   title: string;
   type: string;
   image: string | StaticImageData;
+  gallery: string[];
   description: string;
   groupPrice: number; // Group tour price
   privatePrice: number; // Private tour price
@@ -24,7 +24,8 @@ export const ourikaActivity: Activity = {
   id: 'ourika-valley',
   title: 'Ourika Valley',
   type: 'OURIKA',
-  image: projectImages.ourikaValley,
+  image: ImageKitGallery.valleys.ourika,
+  gallery: ImageKitGallery.ourikaGallery,
   description: 'Explore waterfalls and authentic Berber villages nestled in the foothills of the Atlas Mountains.',
   groupPrice: 30, // €30 for group tour (adults)
   privatePrice: 50, // €50 for private tour (adults)
@@ -51,9 +52,10 @@ export const ourikaActivity: Activity = {
 // Three Valleys Activity (Marrakech + Agafay + Lake Lalla Takerkoust)
 export const threeValleysActivity: Activity = {
   id: 'three-valleys',
-  title: 'Agafay Valley',
+  title: '3 Valleys Atlas Adventure',
   type: 'EXCURSION',
-  image: "https://ik.imagekit.io/momh2323/aggafay.jpg?updatedAt=1745514931795", // Updated image URL
+  image: ImageKitGallery.threeValleysGallery[0], // Updated image URL
+  gallery: ImageKitGallery.threeValleysGallery,
   description: 'An adventurous day trip through Marrakech, Agafay Desert, Lake Lalla Takerkoust, Kik Plateau, Asni and back to Marrakech.',
   groupPrice: 100, // €100 for group tour (adults)
   privatePrice: 150, // €150 for private tour (adults)

@@ -136,16 +136,16 @@ export function PremiumTripCard({
             {/* Premium price badges */}
             <div className="absolute top-5 right-5 flex items-center space-x-2">
               <div className="flex flex-col items-end space-y-2">
-                <div className="bg-black/30 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/10">
+                <div className="bg-white/70 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/80 shadow-md">
                   <div className="flex items-center">
-                    <span className="text-white/80 text-xs mr-1.5">Group:</span>
-                    <span className="text-white font-semibold text-sm">€{activity.groupPrice}</span>
+                    <span className="text-neutral-700 text-xs mr-1.5 font-semibold">Group:</span>
+                    <span className="text-neutral-900 font-bold text-sm">€{activity.groupPrice}</span>
                   </div>
                 </div>
-                <div className="bg-black/30 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/10">
+                <div className="bg-white/70 backdrop-blur-md rounded-full px-3 py-1.5 border border-white/80 shadow-md">
                   <div className="flex items-center">
-                    <span className="text-white/80 text-xs mr-1.5">Private:</span>
-                    <span className="text-white font-semibold text-sm">€{activity.privatePrice}</span>
+                    <span className="text-neutral-700 text-xs mr-1.5 font-semibold">Private:</span>
+                    <span className="text-neutral-900 font-bold text-sm">€{activity.privatePrice}</span>
                   </div>
                 </div>
               </div>
@@ -226,6 +226,7 @@ export function PremiumTripCard({
           title: activity.title,
           type: activity.type,
           image: activity.image.toString(),
+          gallery: activity.gallery,
           price: `Group: €${activity.groupPrice} | Private: €${activity.privatePrice}`,
           date: date,
           duration: activity.duration,

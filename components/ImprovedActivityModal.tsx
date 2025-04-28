@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useEffect, useRef, useMemo } from 'react';
+import React, { Fragment, useState, useEffect, useMemo, useRef } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { XMarkIcon, CalendarDaysIcon, ClockIcon, MapPinIcon, UserGroupIcon, CheckCircleIcon, ChevronLeftIcon, ChevronRightIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
@@ -15,6 +15,7 @@ interface ActivityModalProps {
     title: string;
     type: string;
     image: string;
+    gallery: string[];
     price: string;
     date: string;
     duration: string;
@@ -31,15 +32,15 @@ interface ActivityModalProps {
 export function ImprovedActivityModal({ isOpen, closeModal, activity }: ActivityModalProps) {
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [isConfirmationModalOpen, setIsConfirmationModalOpen] = useState(false);
-  const [currentImageIndex, setCurrentImageIndex] = useState(0);
-  const [images, setImages] = useState<string[]>([]);
-  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const [bookingDetails, setBookingDetails] = useState({
     reference: '',
     name: '',
     email: '',
     date: '',
   });
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [images, setImages] = useState<string[]>([]);
+  const autoplayRef = useRef<NodeJS.Timeout | null>(null);
   
   // Extract group and private prices with memoization for performance
   const { groupPrice, privatePrice } = useMemo(() => {
@@ -53,79 +54,6 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
       privatePrice: privateMatch ? privateMatch[1] : ''
     };
   }, [activity?.price]);
-  
-  // Preload images when component mounts or activity changes
-  useEffect(() => {
-    if (activity) {
-      // Get activity-specific images from the centralized gallery
-      const activityImages = ImageKitGallery.activities[activity.title as keyof typeof ImageKitGallery.activities] || 
-                          ImageKitGallery.default;
-      
-      // Add the activity's main image at the start if it's not already in the array
-      const mainImage = activity.image;
-      const galleryImages = [...activityImages];
-      
-      if (mainImage && !galleryImages.includes(mainImage)) {
-        galleryImages.unshift(mainImage);
-      }
-      
-      // Preload images to prevent flashing during scrolling
-      const preloadImages = () => {
-        galleryImages.forEach(img => {
-          const imgElement = new window.Image() as HTMLImageElement;
-          imgElement.src = img;
-        });
-      };
-      
-      preloadImages();
-      setImages(galleryImages);
-      setCurrentImageIndex(0);
-    }
-  }, [activity]);
-  
-  // Start carousel effect when modal is open
-  useEffect(() => {
-    if (isOpen && images.length > 1) {
-      intervalRef.current = setInterval(() => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 5000); // Change image every 5 seconds
-    }
-    
-    return () => {
-      if (intervalRef.current) {
-        clearInterval(intervalRef.current);
-        intervalRef.current = null;
-      }
-    };
-  }, [isOpen, images.length]);
-  
-  // Navigate to previous image
-  const prevImage = () => {
-    setCurrentImageIndex((prevIndex) => 
-      prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-    
-    // Reset the timer to prevent immediate transition after manual navigation
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = setInterval(() => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 5000);
-    }
-  };
-  
-  // Navigate to next image
-  const nextImage = () => {
-    setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-    
-    // Reset the timer to prevent immediate transition after manual navigation
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current);
-      intervalRef.current = setInterval(() => {
-        setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
-      }, 5000);
-    }
-  };
   
   const openBookingModal = () => setIsBookingModalOpen(true);
   
@@ -156,18 +84,63 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
   useEffect(() => {
     if (isOpen) {
       document.body.classList.add('modal-open');
-      
-      // Prefetch possible image resources
-      if (activity) {
-        const img = new window.Image() as HTMLImageElement;
-        img.src = activity.image;
-      }
     }
     
     return () => {
       document.body.classList.remove('modal-open');
     };
-  }, [isOpen, activity]);
+  }, [isOpen]);
+  
+  useEffect(() => {
+    if (activity) {
+      let galleryImages: string[] = [];
+      if (activity.title === 'Ourika Valley') {
+        galleryImages = ImageKitGallery.activities['Ourika Valley'] || [];
+      } else if (activity.title === '3 Valleys Atlas Adventure') {
+        galleryImages = ImageKitGallery.threeValleysGallery || [];
+      }
+      if (galleryImages.length === 0 && activity.image) {
+        galleryImages = [activity.image];
+      }
+      setImages(galleryImages);
+      setCurrentImageIndex(0);
+    }
+  }, [activity]);
+
+  // Autoplay effect
+  useEffect(() => {
+    if (images.length > 1 && isOpen) {
+      if (autoplayRef.current) clearInterval(autoplayRef.current);
+      autoplayRef.current = setInterval(() => {
+        setCurrentImageIndex((prev) => (prev + 1) % images.length);
+      }, 4000);
+      return () => {
+        if (autoplayRef.current) clearInterval(autoplayRef.current);
+      };
+    }
+    return () => {
+      if (autoplayRef.current) clearInterval(autoplayRef.current);
+    };
+  }, [images, isOpen]);
+
+  // Manual navigation resets autoplay timer
+  const resetAutoplay = () => {
+    if (autoplayRef.current) {
+      clearInterval(autoplayRef.current);
+      autoplayRef.current = setInterval(() => {
+        setCurrentImageIndex((prev) => (prev + 1) % images.length);
+      }, 4000);
+    }
+  };
+
+  const prevImage = () => {
+    setCurrentImageIndex((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+    resetAutoplay();
+  };
+  const nextImage = () => {
+    setCurrentImageIndex((prev) => (prev + 1) % images.length);
+    resetAutoplay();
+  };
   
   if (!activity) return null;
 
@@ -210,49 +183,66 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
                   {/* Premium content container */}
                   <div className="rounded-3xl overflow-hidden shadow-premium h-[calc(90vh-2rem)] max-h-[850px] bg-white">
                     <div className="relative flex flex-col md:flex-row h-full">
-                      {/* Left side - Enhanced Image Gallery with shorter height */}
+                      {/* Left side - Gallery or Single Image */}
                       <div className="relative w-full md:w-5/12 h-56 md:h-full flex-shrink-0">
                         <div className="relative w-full h-full overflow-hidden">
-                          {/* Image Carousel with premium styling */}
-                          <div className="relative w-full h-full">
-                            {images.length > 0 && (
-                              <div className="relative w-full h-full">
-                                <Image 
-                                  src={images[currentImageIndex]} 
-                                  alt={activity.title}
-                                  fill
-                                  quality={95}
-                                  sizes="(max-width: 768px) 100vw, 40vw"
-                                  className="object-cover object-center transition-all duration-700 scale-[1.01] hover:scale-[1.03] image-premium pinterest-image"
-                                  priority
-                                />
-                                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
-                                
-                                {/* Premium image counter badge */}
-                                <div className="absolute top-6 right-6 bg-white/10 backdrop-blur-xl rounded-full px-3 py-1 text-xs font-medium text-white border border-white/20 md:block hidden">
-                                  {currentImageIndex + 1} / {images.length}
-                                </div>
-                              </div>
-                            )}
-                          </div>
-                          
-                          {/* Enhanced navigation arrows with subtle styling */}
-                          {images.length > 1 && (
+                          {images.length > 1 ? (
                             <>
-                              <button 
+                              <Image
+                                src={images[currentImageIndex]}
+                                alt={activity.title}
+                                fill
+                                quality={95}
+                                sizes="(max-width: 768px) 100vw, 40vw"
+                                className="object-cover object-center transition-all duration-700 scale-[1.01] hover:scale-[1.03] image-premium pinterest-image"
+                                priority
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+                              {/* Navigation arrows */}
+                              <button
                                 onClick={prevImage}
-                                className="absolute left-5 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 z-10 group"
+                                className="absolute left-4 top-1/2 transform -translate-y-1/2 w-9 h-9 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:bg-white/30 transition-all duration-300 z-10 group"
                                 aria-label="Previous image"
+                                style={{display: images.length > 1 ? 'flex' : 'none'}}
                               >
                                 <ChevronLeftIcon className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
                               </button>
-                              <button 
+                              <button
                                 onClick={nextImage}
-                                className="absolute right-5 top-1/2 transform -translate-y-1/2 w-10 h-10 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:bg-white/20 transition-all duration-300 z-10 group"
+                                className="absolute right-4 top-1/2 transform -translate-y-1/2 w-9 h-9 rounded-full bg-white/10 backdrop-blur-xl border border-white/20 flex items-center justify-center hover:bg-white/30 transition-all duration-300 z-10 group"
                                 aria-label="Next image"
+                                style={{display: images.length > 1 ? 'flex' : 'none'}}
                               >
                                 <ChevronRightIcon className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-200" />
                               </button>
+                              {/* Indicator dots */}
+                              <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-1.5 z-10">
+                                {images.map((_, idx) => (
+                                  <button
+                                    key={idx}
+                                    onClick={() => { setCurrentImageIndex(idx); resetAutoplay(); }}
+                                    className={`h-1.5 rounded-full transition-all duration-300 ${idx === currentImageIndex ? 'bg-brand-teal-400 w-6 shadow-teal-glow' : 'bg-white/40 w-1.5 hover:bg-white/70'}`}
+                                    aria-label={`Go to image ${idx + 1}`}
+                                  />
+                                ))}
+                              </div>
+                              {/* Image counter badge */}
+                              <div className="absolute top-4 right-4 bg-black/20 backdrop-blur-md rounded-full px-3 py-1 text-xs font-medium text-white border border-white/10 md:block hidden">
+                                {currentImageIndex + 1} / {images.length}
+                              </div>
+                            </>
+                          ) : (
+                            <>
+                              <Image
+                                src={activity.image}
+                                alt={activity.title}
+                                fill
+                                quality={95}
+                                sizes="(max-width: 768px) 100vw, 40vw"
+                                className="object-cover object-center transition-all duration-700 scale-[1.01] hover:scale-[1.03] image-premium pinterest-image"
+                                priority
+                              />
+                              <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
                             </>
                           )}
                         </div>
@@ -421,6 +411,7 @@ export function ImprovedActivityModal({ isOpen, closeModal, activity }: Activity
           title: activity.title,
           type: activity.type,
           image: activity.image,
+          gallery: activity.gallery,
           description: activity.description,
           longDescription: activity.description,
           duration: activity.duration,
