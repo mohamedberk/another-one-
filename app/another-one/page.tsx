@@ -1,8 +1,8 @@
 import React from 'react';
-import TravelNavbar from './components/TravelNavbar';
-import TravelHero from './components/TravelHero';
-import TravelDiscover from './components/TravelDiscover';
-import TravelFeatures from './components/TravelFeatures';
+import TravelNavbar from '../components/TravelNavbar';
+import TravelHero from '../components/TravelHero';
+import TravelDiscover from '../components/TravelDiscover';
+import TravelFeatures from '../components/TravelFeatures';
 
 export const metadata = {
   title: 'Explore World | Luxury Travel Experience',

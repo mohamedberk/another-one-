@@ -15,76 +15,261 @@ export interface Activity {
   longDescription: string;
   highlights: string[];
   included: string[];
+  excludes?: string[]; // Added for new activities
+  itinerary?: string[]; // Added for new activities
   rating: number;
   reviewCount: number;
   maxParticipants: number;
+  tag?: string; // Added for new activities
 }
 
-// Ourika Valley Activity
-export const ourikaActivity: Activity = {
-  id: 'ourika-valley',
-  title: 'Ourika Valley',
-  type: 'OURIKA',
-  image: ImageKitGallery.valleys.ourika,
-  gallery: ImageKitGallery.ourikaGallery,
-  description: 'Explore waterfalls and authentic Berber villages nestled in the foothills of the Atlas Mountains.',
-  groupPrice: 30, // €30 for group tour (adults)
-  privatePrice: 50, // €50 for private tour (adults)
-  duration: '8 hours',
-  location: 'Atlas Mountains',
-  longDescription: 'Experience the breathtaking beauty of the Ourika Valley with our guided tour. Explore scenic valleys with their waterfalls, traditional Berber villages, and mountain landscapes. This full-day excursion offers a perfect blend of nature, culture, and adventure.',
+
+
+
+// Agafay Desert Adventure
+export const agafayDesertActivity: Activity = {
+  id: 'agafay-desert-adventure',
+  title: 'Agafay Desert Adventure',
+  type: 'ADVENTURE',
+  image: '/destination.jpg', // This should be updated with the correct path from ImageKitGallery
+  gallery: ['/destination.jpg'], // This should be updated with the correct paths from ImageKitGallery
+  description: 'Experience the rocky Agafay desert with its stunning views of the Atlas Mountains, just a short drive from Marrakech. This quad biking adventure offers an adrenaline-filled ride through breathtaking landscapes.',
+  groupPrice: 39, 
+  privatePrice: 59,
+  duration: '4 hours',
+  location: 'Marrakech, Morocco',
+  longDescription: 'Experience the rocky Agafay desert with its stunning views of the Atlas Mountains, just a short drive from Marrakech. This quad biking adventure offers an adrenaline-filled ride through breathtaking landscapes, allowing you to explore the unique terrain of the Agafay desert. Enjoy panoramic views, traditional mint tea, and the thrill of off-road exploration.',
   highlights: [
-    'Visit traditional Berber villages and experience local culture',
-    'Enjoy spectacular mountain and valley views',
-    'Discover beautiful waterfalls in their natural setting',
-    'Savor authentic Moroccan cuisine for lunch',
-    'Travel in comfort with air-conditioned transportation'
+    'Enjoy the wide rocky Agafay desert with views of the Atlas Mountains',
+    'Experience an extreme quad biking adventure in wide open terrain',
+    'Taste traditional Moroccan mint tea in a Berber tent',
+    'Admire panoramic views of the lake and High Atlas Mountains'
   ],
   included: [
-    'Hotel pickup and drop-off',
-    'Transportation in air-conditioned vehicle',
-    'Professional English-speaking guide'
+    'Air-conditioned round trip transportation',
+    'Professional driver and guide',
+    'Quad bike for 1h45',
+    'Free mint tea',
+    'WiFi on board'
+  ],
+  excludes: [
+    'Meals',
+    'Personal expenses',
+    'Tips'
+  ],
+  itinerary: [
+    'Hotel pickup in air-conditioned vehicle',
+    'Scenic drive to Agafay desert camp with Atlas Mountain views',
+    'Quad bike orientation and safety instructions',
+    '1h45 guided quad bike adventure through the rocky desert',
+    'Stop for mint tea in traditional Berber tent',
+    'Return to Marrakech and hotel drop-off'
   ],
   rating: 4.8,
-  reviewCount: 124,
+  reviewCount: 132,
+  maxParticipants: 10,
+  tag: 'Best Seller'
+};
+
+// Ourika Valley & Waterfalls
+export const ourikaValleyWaterfallsActivity: Activity = {
+  id: 'ourika-valley-waterfalls',
+  title: 'Ourika Valley & Waterfalls',
+  type: 'NATURE',
+  image: '/destination.jpg', // This should be updated with the correct path from ImageKitGallery
+  gallery: ['/destination.jpg'], // This should be updated with the correct paths from ImageKitGallery
+  description: 'Escape the city heat and discover the beautiful Ourika Valley in the Atlas Mountains. Hike to spectacular waterfalls, visit traditional Berber villages, and enjoy the refreshing mountain atmosphere.',
+  groupPrice: 27,
+  privatePrice: 45,
+  duration: '1 day',
+  location: 'Atlas Mountains, Morocco',
+  longDescription: 'Escape the city heat and discover the beautiful Ourika Valley in the Atlas Mountains. Hike to spectacular waterfalls, visit traditional Berber villages, and enjoy the refreshing mountain atmosphere. This tour provides an authentic glimpse into rural Moroccan life while exploring stunning natural landscapes.',
+  highlights: [
+    'Scenic drive through beautiful landscapes to Ourika Valley',
+    'Visit to authentic Berber house to learn about local culture',
+    'Guided hike to the stunning Setti Fatma waterfalls',
+    'Visit argan oil cooperative to learn about traditional production',
+    'Experience the weekly Berber market (Mondays only)'
+  ],
+  included: [
+    'Air-conditioned round trip transportation',
+    'Professional driver',
+    'Local hiking guide',
+    'WiFi on board'
+  ],
+  excludes: [
+    'Meals and drinks',
+    'Personal expenses',
+    'Tips'
+  ],
+  itinerary: [
+    'Morning pickup from your accommodation in Marrakech',
+    'Scenic drive through Atlas Mountains with photo stops',
+    'Visit argan oil cooperative to learn about production process',
+    'Visit traditional Berber house',
+    'Guided hike to Setti Fatma waterfalls',
+    'Free time for lunch by the river (at own expense)',
+    'Return to Marrakech in late afternoon'
+  ],
+  rating: 4.7,
+  reviewCount: 98,
   maxParticipants: 12
 };
 
-// Three Valleys Activity (Marrakech + Agafay + Lake Lalla Takerkoust)
-export const threeValleysActivity: Activity = {
-  id: 'three-valleys',
-  title: '3 Valleys Atlas Adventure',
-  type: 'EXCURSION',
-  image: ImageKitGallery.threeValleysGallery[0], // Updated image URL
-  gallery: ImageKitGallery.threeValleysGallery,
-  description: 'An adventurous day trip through Marrakech, Agafay Desert, Lake Lalla Takerkoust, Kik Plateau, Asni and back to Marrakech.',
-  groupPrice: 100, // €100 for group tour (adults)
-  privatePrice: 150, // €150 for private tour (adults)
-  duration: '9 hours',
-  location: 'Atlas Mountains & Agafay Desert',
-  longDescription: 'An early departure in 4x4 for your private day tour, you start from Marrakech at 9:00 a.m. and set off to discover the Agafay desert, just 30 mins from Marrakech city. For those who haven\'t got sufficient time for a desert tour from Marrakech, all the way south to the Sahara dunes, then Agafay desert is the next best thing. Unlike the Sahara though this is not a sand desert - Its more of an undulating, baked limestone and clay plateau. Sandstone crags, traditional earth-built villages, dusty river beds are interspersed with spectacular lush pasture and flora in the spring. You travel off-road passing a small lake and Berber villages and have time to get out and walk for a while along the tracks if you wish. The road then heads towards the lake of Lalla Takerkoust, which is in fact a hydro-electricity reservoir. After lunch you continue your journey eastwards and head for the Kik Plateau where you will stop for refreshments from a high vantage point, before then taking the road to the village of Moulay Brahim, with its famous holy shrine. Finally the road descends into the market town of Asni at the foot of the Atlas Mountains.',
+// Essaouira Day Trip
+export const essaouiraDayTripActivity: Activity = {
+  id: 'essaouira-day-trip',
+  title: 'Essaouira Day Trip',
+  type: 'CULTURAL',
+  image: '/destination.jpg', // This should be updated with the correct path from ImageKitGallery
+  gallery: ['/destination.jpg'], // This should be updated with the correct paths from ImageKitGallery
+  description: 'Discover the charming coastal town of Essaouira with its blue and white medina, historic port, and sandy beaches. This UNESCO World Heritage site offers a perfect day trip from Marrakech.',
+  groupPrice: 30,
+  privatePrice: 50,
+  duration: '1 day',
+  location: 'Atlantic Coast, Morocco',
+  longDescription: 'Discover the charming coastal town of Essaouira with its blue and white medina, historic port, and sandy beaches. This UNESCO World Heritage site offers a perfect day trip from Marrakech. Enjoy the refreshing sea breeze, explore ancient fortifications, and immerse yourself in the relaxed atmosphere of this artistic coastal gem.',
   highlights: [
-    'Discover the unique landscape of Agafay desert - an undulating, baked limestone and clay plateau',
-    'Explore traditional earth-built Berber villages',
-    'Visit Lake Lalla Takerkoust with optional activities',
-    'Enjoy panoramic views from Kik Plateau',
-    'Visit the market town of Asni at the foot of the Atlas Mountains',
-    'Option to take a camel ride and have tea in a Berber village'
+    'Visit the UNESCO World Heritage medina of Essaouira',
+    'Explore the historic Portuguese fortifications and harbor',
+    'Enjoy free time on the beach or shopping in the souks',
+    'Experience the laid-back atmosphere of this artistic coastal town'
+  ],
+  included: [
+    'Round trip transportation in air-conditioned vehicle',
+    'Professional driver',
+    'Free time to explore Essaouira',
+    'WiFi on board'
+  ],
+  excludes: [
+    'Local guide (available for extra fee)',
+    'Meals and drinks',
+    'Entrance fees to monuments',
+    'Personal expenses'
+  ],
+  rating: 4.9,
+  reviewCount: 145,
+  maxParticipants: 15
+};
+
+// Ouzoud Waterfalls Tour
+export const ouzoudWaterfallsActivity: Activity = {
+  id: 'ouzoud-waterfalls-tour',
+  title: 'Ouzoud Waterfalls Tour',
+  type: 'NATURE',
+  image: '/destination.jpg', // This should be updated with the correct path from ImageKitGallery
+  gallery: ['/destination.jpg'], // This should be updated with the correct paths from ImageKitGallery
+  description: 'Visit the spectacular Ouzoud Waterfalls, the highest in North Africa at 110m. Enjoy the natural beauty, look for wild Barbary macaques, and take an optional boat ride close to the falls.',
+  groupPrice: 34,
+  privatePrice: 55,
+  duration: '1 day',
+  location: 'Middle Atlas, Morocco',
+  longDescription: 'Visit the spectacular Ouzoud Waterfalls, the highest in North Africa at 110m. Enjoy the natural beauty, look for wild Barbary macaques, and take an optional boat ride close to the falls. This full-day excursion showcases one of Morocco\'s most impressive natural wonders with plenty of time to explore and take photos.',
+  highlights: [
+    'Witness the magnificent 110m high Ouzoud Waterfalls',
+    'Opportunity to see wild Barbary macaques in their natural habitat',
+    'Optional boat trip close to the base of the falls',
+    'Scenic hiking trails with rainbow views when sunny'
+  ],
+  included: [
+    'Air-conditioned transportation from/to Marrakech',
+    'Professional driver',
+    'Local guide at the waterfalls',
+    'Free time to explore and take photos'
+  ],
+  excludes: [
+    'Boat ride (available for small fee)',
+    'Lunch',
+    'Personal expenses',
+    'Gratuities'
+  ],
+  rating: 4.8,
+  reviewCount: 170,
+  maxParticipants: 14,
+  tag: 'Most Popular'
+};
+
+// Ait Ben Haddou & Ouarzazate
+export const aitBenHaddouActivity: Activity = {
+  id: 'ait-ben-haddou-ouarzazate',
+  title: 'Ait Ben Haddou & Ouarzazate',
+  type: 'HISTORICAL',
+  image: '/destination.jpg', // This should be updated with the correct path from ImageKitGallery
+  gallery: ['/destination.jpg'], // This should be updated with the correct paths from ImageKitGallery
+  description: 'Cross the High Atlas Mountains via the spectacular Tizi n\'Tichka pass to visit the famous kasbah of Ait Ben Haddou, a UNESCO World Heritage site, and explore Ouarzazate, known as the \'Hollywood of Morocco\'.',
+  groupPrice: 45,
+  privatePrice: 70,
+  duration: '1 day',
+  location: 'Southern Morocco',
+  longDescription: 'Cross the High Atlas Mountains via the spectacular Tizi n\'Tichka pass to visit the famous kasbah of Ait Ben Haddou, a UNESCO World Heritage site, and explore Ouarzazate, known as the \'Hollywood of Morocco\'. This journey takes you through stunning landscapes and historic sites that have featured in numerous movies and TV shows.',
+  highlights: [
+    'Cross the High Atlas Mountains via the stunning Tizi n\'Tichka pass',
+    'Visit the UNESCO World Heritage site of Ait Ben Haddou',
+    'Explore Ouarzazate and its film studios',
+    'Discover authentic Moroccan architecture and landscapes'
+  ],
+  included: [
+    'Transportation in air-conditioned vehicle',
+    'Professional driver/guide',
+    'Hotel pickup and drop-off',
+    'Free time at each location'
+  ],
+  excludes: [
+    'Entrance fees to film studios (optional)',
+    'Lunch',
+    'Local guide inside Ait Ben Haddou (optional)',
+    'Gratuities'
+  ],
+  rating: 4.7,
+  reviewCount: 125,
+  maxParticipants: 12
+};
+
+// Camel Ride in Palmeraie
+export const camelRideActivity: Activity = {
+  id: 'camel-ride-palmeraie',
+  title: 'Camel Ride in Palmeraie',
+  type: 'ADVENTURE',
+  image: '/destination.jpg', // This should be updated with the correct path from ImageKitGallery
+  gallery: ['/destination.jpg'], // This should be updated with the correct paths from ImageKitGallery
+  description: 'Experience a traditional camel ride through the Palmeraie of Marrakech, a palm grove oasis with over 100,000 palm trees. Enjoy this authentic Moroccan activity with beautiful scenery and traditional Berber dress.',
+  groupPrice: 25,
+  privatePrice: 40,
+  duration: '2 hours',
+  location: 'Marrakech, Morocco',
+  longDescription: 'Experience a traditional camel ride through the Palmeraie of Marrakech, a palm grove oasis with over 100,000 palm trees. Enjoy this authentic Moroccan activity with beautiful scenery and traditional Berber dress. This family-friendly excursion offers a taste of desert life just outside the city.',
+  highlights: [
+    'Authentic camel ride experience in traditional Berber attire',
+    'Explore the beautiful palm grove oasis outside Marrakech',
+    'Perfect for families and travelers of all ages',
+    'Opportunity for unique photos and memories'
   ],
   included: [
     'Hotel pickup and drop-off',
-    'Transportation in 4x4 vehicle',
-    'Professional English-speaking guide'
+    'Professional guide and camel handler',
+    'Traditional blue Berber scarf (to keep)',
+    'Mint tea break',
+    'All necessary equipment'
   ],
-  rating: 4.9,
-  reviewCount: 156,
-  maxParticipants: 8
+  excludes: [
+    'Personal expenses',
+    'Gratuities',
+    'Professional photography (available for extra fee)'
+  ],
+  rating: 4.6,
+  reviewCount: 110,
+  maxParticipants: 16
 };
 
 // Available activities
 export const activities = [
-  ourikaActivity,
-  threeValleysActivity
+ 
+  agafayDesertActivity,
+  ourikaValleyWaterfallsActivity,
+  essaouiraDayTripActivity,
+  ouzoudWaterfallsActivity,
+  aitBenHaddouActivity,
+  camelRideActivity
 ];
 
 // Function to get activity by ID

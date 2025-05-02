@@ -1,0 +1,10 @@
+@keyframes shine {
+  100% {
+    right: -50%;
+    left: 100%;
+  }
+}
+
+.animate-shine {
+  animation: shine 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+} 

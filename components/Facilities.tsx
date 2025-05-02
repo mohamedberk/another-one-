@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { Button } from './Button';
 import { SparklesIcon } from '@heroicons/react/24/solid';
 import { EnhancedBookingModal } from './EnhancedBookingModal';
-import { threeValleysActivity } from '../utils/activities';
 
 interface FacilityItemProps {
   icon: React.ReactNode;
@@ -137,7 +136,6 @@ export function Facilities() {
         closeModal={closeBookingModal}
         excursionTitle="Premium Marrakech Experience"
         excursionType="EXCURSION"
-        activity={threeValleysActivity}
       />
     </div>
   );

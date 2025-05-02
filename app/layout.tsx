@@ -1,6 +1,7 @@
 import type { Metadata } from 'next'
 import localFont from 'next/font/local'
 import { Toaster } from 'sonner'
+import { Poppins } from 'next/font/google'
 import './globals.css'
 
 // Cache busting - add timestamp to force rerender in development
@@ -11,6 +12,14 @@ const dmSans = {
   variable: '--font-dm-sans',
   className: '',
 }
+
+// Load Poppins for the travel page
+const poppins = Poppins({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700', '800'],
+  variable: '--font-poppins',
+  display: 'swap',
+})
 
 // Load Cabinet Grotesk locally for better performance
 const cabinetGrotesk = localFont({
@@ -76,7 +85,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`scroll-smooth ${cabinetGrotesk.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`scroll-smooth ${cabinetGrotesk.variable} ${poppins.variable}`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="theme-color" content="#FFFFFF" />

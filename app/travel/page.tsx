@@ -1,6 +1,6 @@
 "use client"
 import React from 'react';
-import { PremiumHero } from '../../components/PremiumHero';
+import TravelDiscover from '@/app/components/TravelDiscover';
 
 export default function TravelPage() {
   return (
@@ -11,7 +11,9 @@ export default function TravelPage() {
       {/* <Hero /> */}
       
       {/* New Premium Hero Component */}
-      <PremiumHero />
+      
+      {/* Activities Section */}
+      <TravelDiscover />
       
       {/* Other page content would go here */}
       <div id="experiences" className="h-32"></div>

@@ -2,8 +2,48 @@
 @tailwind components;
 @tailwind utilities;
 
-@layer base {
   :root {
+  --foreground-rgb: 0, 0, 0;
+  --background-start-rgb: 214, 219, 220;
+  --background-end-rgb: 255, 255, 255;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 0, 0, 0;
+  }
+}
+
+body {
+  color: rgb(var(--foreground-rgb));
+  background: linear-gradient(
+      to bottom,
+      transparent,
+      rgb(var(--background-end-rgb))
+    )
+    rgb(var(--background-start-rgb));
+}
+
+/* Import Playfair Display font for premium look */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+
+.font-playfair {
+  font-family: 'Playfair Display', serif;
+}
+
+/* Add premium animation keyframes */
+@keyframes checkmark {
+  0% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+  100% {
     /* Premium travel-inspired palette */
     --primary-50: 230 255 250; /* Teal 50 */
     --primary-100: 178 245 234;
@@ -3539,4 +3579,128 @@ body.modal-open {
 
 .delay-500 {
   animation-delay: 500ms;
+}
+
+/* Add these styles to the existing CSS file */
+
+/* Luxurious Indigo Theme Utilities */
+.luxury-gradient-primary {
+  @apply bg-gradient-to-br from-purple-700 via-indigo-600 to-indigo-800;
+}
+
+.luxury-gradient-secondary {
+  @apply bg-gradient-to-r from-purple-700 to-indigo-700;
+}
+
+.luxury-gradient-light {
+  @apply bg-gradient-to-br from-indigo-50 to-indigo-100/30;
+}
+
+.luxury-gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-500;
+}
+
+.luxury-card {
+  @apply bg-white rounded-2xl border border-gray-200/80 shadow-xl overflow-hidden backdrop-blur-sm bg-white/90;
+}
+
+.luxury-card-hover {
+  @apply transition-all duration-500 hover:shadow-2xl hover:-translate-y-1;
+}
+
+.luxury-button {
+  @apply relative py-4 px-6 overflow-hidden bg-gradient-to-r from-purple-700 to-indigo-700 text-white rounded-xl font-semibold shadow-lg hover:shadow-2xl transition-all duration-500 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-2;
+}
+
+.luxury-button-light {
+  @apply relative py-3 px-5 overflow-hidden bg-white text-indigo-700 rounded-xl font-semibold shadow-md hover:shadow-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-indigo-300 focus:ring-offset-2 border border-indigo-100;
+}
+
+.luxury-badge {
+  @apply inline-flex items-center gap-1.5 px-5 py-2 bg-gradient-to-r from-indigo-600 to-indigo-700 text-white text-xs font-bold uppercase tracking-widest rounded-full shadow-lg;
+}
+
+.luxury-badge-light {
+  @apply inline-flex items-center gap-1.5 px-5 py-2 bg-white/15 backdrop-blur-xl text-white text-xs font-medium tracking-wide rounded-full shadow-lg border border-white/10;
+}
+
+.luxury-divider {
+  @apply w-1/3 h-[3px] bg-indigo-600 rounded-full absolute left-0 bottom-[-8px];
+}
+
+.luxury-section-indicator {
+  @apply absolute -left-6 top-0 w-2 h-16 bg-gradient-to-b from-indigo-600 to-indigo-400 rounded-full;
+}
+
+.luxury-icon-circle {
+  @apply p-3 bg-indigo-100 rounded-xl transform group-hover:scale-110 transition-transform duration-500 shadow-sm group-hover:shadow-md;
+}
+
+.luxury-feature-card {
+  @apply flex flex-col bg-gradient-to-br from-white to-indigo-50/30 hover:from-indigo-50/10 hover:to-indigo-100/50 transition-all duration-500;
+}
+
+/* Shimmer animation for buttons and cards */
+@keyframes luxury-shimmer {
+  0% {
+    transform: translateX(-100%) skewX(-15deg);
+  }
+  100% {
+    transform: translateX(100%) skewX(-15deg);
+  }
+}
+
+.luxury-shimmer {
+  position: relative;
+  overflow: hidden;
+}
+
+.luxury-shimmer::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  transform: translateX(-100%) skewX(-15deg);
+  animation: luxury-shimmer 8s infinite;
+}
+
+/* Blur effect for overlays */
+.luxury-blur-overlay {
+  @apply absolute inset-0 backdrop-blur-md bg-indigo-950/30;
+}
+
+/* Pattern overlay */
+.luxury-pattern-overlay {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  @apply absolute inset-0 opacity-10 bg-repeat mix-blend-soft-light;
+  background-size: 150px 150px;
+}
+
+/* Decorative elements */
+.luxury-blob {
+  @apply absolute rounded-full bg-white/10;
+}
+
+.luxury-blob-1 {
+  @apply -right-8 -top-8 w-32 h-32;
+}
+
+.luxury-blob-2 {
+  @apply right-12 top-10 w-16 h-16 bg-white/5;
+}
+
+.luxury-blob-3 {
+  @apply -left-8 -bottom-10 w-24 h-24;
+}
+
+.luxury-blob-4 {
+  @apply left-12 bottom-6 w-12 h-12 bg-white/5;
 }

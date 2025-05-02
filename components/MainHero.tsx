@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './Button';
 import { EnhancedBookingModal } from './EnhancedBookingModal';
 import Image from 'next/image';
-import { Activity, ourikaActivity, threeValleysActivity } from '../utils/activities';
+import { Activity } from '../utils/activities';
 
 // VideoRef component for playing hero video
 const VideoPlayer = React.forwardRef<HTMLVideoElement, {src: string; className: string}>(
@@ -43,11 +43,8 @@ export function MainHero() {
   }, []);
   
   const openBookingModal = (activityType: string) => {
-    if (activityType === 'agafay') {
-      setSelectedActivity(threeValleysActivity);
-    } else if (activityType === 'ourika') {
-      setSelectedActivity(ourikaActivity);
-    }
+    // No longer using activity objects
+    setSelectedActivity(null);
     setIsBookingModalOpen(true);
   };
 
