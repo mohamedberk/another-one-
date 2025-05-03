@@ -37,7 +37,7 @@ export const agafayDesertActivity: Activity = {
   groupPrice: 39, 
   privatePrice: 59,
   duration: '4 hours',
-  location: 'Marrakech, Morocco',
+  location: 'Palmeraie, Marrakech',
   longDescription: 'Experience the rocky Agafay desert with its stunning views of the Atlas Mountains, just a short drive from Marrakech. This quad biking adventure offers an adrenaline-filled ride through breathtaking landscapes, allowing you to explore the unique terrain of the Agafay desert. Enjoy panoramic views, traditional mint tea, and the thrill of off-road exploration.',
   highlights: [
     'Enjoy the wide rocky Agafay desert with views of the Atlas Mountains',
@@ -82,7 +82,7 @@ export const ourikaValleyWaterfallsActivity: Activity = {
   groupPrice: 27,
   privatePrice: 45,
   duration: '1 day',
-  location: 'Atlas Mountains, Morocco',
+  location: 'Palmeraie, Marrakech',
   longDescription: 'Escape the city heat and discover the beautiful Ourika Valley in the Atlas Mountains. Hike to spectacular waterfalls, visit traditional Berber villages, and enjoy the refreshing mountain atmosphere. This tour provides an authentic glimpse into rural Moroccan life while exploring stunning natural landscapes.',
   highlights: [
     'Scenic drive through beautiful landscapes to Ourika Valley',
@@ -127,7 +127,7 @@ export const essaouiraDayTripActivity: Activity = {
   groupPrice: 30,
   privatePrice: 50,
   duration: '1 day',
-  location: 'Atlantic Coast, Morocco',
+  location: 'Palmeraie, Marrakech',
   longDescription: 'Discover the charming coastal town of Essaouira with its blue and white medina, historic port, and sandy beaches. This UNESCO World Heritage site offers a perfect day trip from Marrakech. Enjoy the refreshing sea breeze, explore ancient fortifications, and immerse yourself in the relaxed atmosphere of this artistic coastal gem.',
   highlights: [
     'Visit the UNESCO World Heritage medina of Essaouira',
@@ -163,7 +163,7 @@ export const ouzoudWaterfallsActivity: Activity = {
   groupPrice: 34,
   privatePrice: 55,
   duration: '1 day',
-  location: 'Middle Atlas, Morocco',
+  location: 'Palmeraie, Marrakech',
   longDescription: 'Visit the spectacular Ouzoud Waterfalls, the highest in North Africa at 110m. Enjoy the natural beauty, look for wild Barbary macaques, and take an optional boat ride close to the falls. This full-day excursion showcases one of Morocco\'s most impressive natural wonders with plenty of time to explore and take photos.',
   highlights: [
     'Witness the magnificent 110m high Ouzoud Waterfalls',
@@ -200,7 +200,7 @@ export const aitBenHaddouActivity: Activity = {
   groupPrice: 45,
   privatePrice: 70,
   duration: '1 day',
-  location: 'Southern Morocco',
+  location: 'Palmeraie, Marrakech',
   longDescription: 'Cross the High Atlas Mountains via the spectacular Tizi n\'Tichka pass to visit the famous kasbah of Ait Ben Haddou, a UNESCO World Heritage site, and explore Ouarzazate, known as the \'Hollywood of Morocco\'. This journey takes you through stunning landscapes and historic sites that have featured in numerous movies and TV shows.',
   highlights: [
     'Cross the High Atlas Mountains via the stunning Tizi n\'Tichka pass',
@@ -236,7 +236,7 @@ export const camelRideActivity: Activity = {
   groupPrice: 25,
   privatePrice: 40,
   duration: '2 hours',
-  location: 'Marrakech, Morocco',
+  location: 'Palmeraie, Marrakech',
   longDescription: 'Experience a traditional camel ride through the Palmeraie of Marrakech, a palm grove oasis with over 100,000 palm trees. Enjoy this authentic Moroccan activity with beautiful scenery and traditional Berber dress. This family-friendly excursion offers a taste of desert life just outside the city.',
   highlights: [
     'Authentic camel ride experience in traditional Berber attire',

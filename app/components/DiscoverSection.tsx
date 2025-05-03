@@ -48,10 +48,13 @@ const destinations = [
 
 const DiscoverSection = () => {
   return (
-    <section className="mt-24 max-w-[1200px] mx-auto" id="discover">
-      <h2 className="text-3xl font-bold text-center mb-12">Discover the world</h2>
+    <section className="mt-16 max-w-[1200px] mx-auto px-4" id="discover">
+      <div className="flex items-center gap-2 mb-6">
+        <div className="h-8 w-1 bg-blue-600 rounded-full"></div>
+        <h2 className="text-2xl font-bold">Discover the world</h2>
+      </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {destinations.map((destination) => (
           <DestinationCard
             key={destination.id}

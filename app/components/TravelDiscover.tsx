@@ -3,10 +3,12 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { activities } from '@/utils/activities';
+import { Clock, MapPin, Star } from "lucide-react";
+import { activities6, Activity6 } from "@/utils/activities6";
+import { getActivityImage } from "@/utils/activityImages";
 
 // Enhanced Booking Modal Component
-const EnhancedBookingModal = ({ isOpen, onClose, destination }: { isOpen: boolean; onClose: () => void; destination: Destination | null }) => {
+const EnhancedBookingModal = ({ isOpen, onClose, destination }: { isOpen: boolean; onClose: () => void; destination: Activity6 | null }) => {
   // Prevent background scrolling when modal is open
   React.useEffect(() => {
     if (isOpen) {
@@ -244,7 +246,7 @@ const EnhancedBookingModal = ({ isOpen, onClose, destination }: { isOpen: boolea
                         </svg>
                       </div>
                       <input
-                        type="date"
+                  type="date" 
                         id="date"
                         required
                         className="block w-full pl-12 pr-4 py-3.5 bg-white/70 border border-gray-200 rounded-xl text-gray-900 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all duration-300 shadow-sm backdrop-blur-sm"
@@ -359,52 +361,40 @@ const EnhancedBookingModal = ({ isOpen, onClose, destination }: { isOpen: boolea
   );
 };
 
-interface Destination {
-  name: string;
-  location: string;
-  price: string;
-  image: string;
-  rating: number;
-  duration: string;
-  description: string;
-  highlights: string[];
-  includes: string[];
-  excludes: string[];
-  itinerary?: string[];
-  tag?: string;
-  id?: string;
-}
-
-// Convert activities to the Destination format
-const destinations: Destination[] = activities.map(activity => ({
-  id: activity.id,
-  name: activity.title,
-  location: activity.location,
-  price: `$${activity.groupPrice}`,
-  image: typeof activity.image === 'string' ? activity.image : '/destination.jpg',
-  rating: activity.rating,
-  duration: activity.duration,
-  description: activity.description,
-  highlights: activity.highlights,
-  includes: activity.included,
-  excludes: activity.excludes || [],
-  itinerary: activity.itinerary,
-  tag: activity.tag
-}));
+// Remove the empty customHoverKeyframes and add new keyframes for hover animations
+const customHoverKeyframes = `
+  @keyframes floatUp {
+    0% { transform: translateY(0) scale(1); }
+    100% { transform: translateY(-10px) scale(1.02); }
+  }
+  
+  @keyframes shine {
+    0% { background-position: -100% 0; }
+    100% { background-position: 100% 0; }
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+  }
+`;
 
 const TravelDiscover = () => {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  // Remove the hoveredIndex state
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
-  const [selectedDestination, setSelectedDestination] = useState<Destination | null>(null);
+  const [selectedDestination, setSelectedDestination] = useState<Activity6 | null>(null);
 
-  const openBookingModal = (destination: Destination) => {
+  const openBookingModal = (destination: Activity6) => {
     console.log("Opening booking modal for:", destination.name);
     setSelectedDestination(destination);
     setIsBookingModalOpen(true);
   };
 
   return (
-    <section className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-24 overflow-hidden">
+    <section id="discover" className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-12 overflow-hidden">
+      {/* Add custom keyframes - now empty */}
+      <style jsx global>{customHoverKeyframes}</style>
+      
       {/* Premium background elements */}
       <div className="absolute -top-20 -left-20 w-96 h-96 bg-blue-100/40 rounded-full blur-3xl"></div>
       <div className="absolute top-1/2 -right-32 w-96 h-96 bg-blue-50/30 rounded-full blur-3xl"></div>
@@ -419,126 +409,135 @@ const TravelDiscover = () => {
       ></div>
 
       <div className="relative">
-        {/* Section header with premium hierarchy */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-16 gap-8">
-          <div className="space-y-6">
-            <div className="flex items-center gap-3">
-              <div className="h-12 w-1.5 bg-blue-600 rounded-full shadow-sm"></div>
-              <span className="text-blue-700 uppercase tracking-widest text-xs font-semibold letter-spacing-wide">Authentic Experiences</span>
-            </div>
-            <h2 className="text-4xl md:text-6xl font-bold tracking-tight">
-              <span className="block text-gray-900 mb-2">Explore</span>
-              <span className="block text-blue-700">Marrakech</span>
-            </h2>
-            <p className="text-gray-500 max-w-xl text-sm md:text-base leading-relaxed">
-              Discover handpicked experiences crafted by local experts to showcase the true essence of Marrakech's culture, cuisine, and landscapes.
-            </p>
+        {/* Section header with streamlined hierarchy */}
+        <div className="flex flex-col mb-8 gap-4">
+          <div className="flex items-center gap-2">
+            <div className="h-8 w-1 bg-blue-600 rounded-full shadow-sm"></div>
+            <span className="text-blue-700 uppercase tracking-widest text-xs font-semibold letter-spacing-wide">Authentic Experiences</span>
           </div>
-          <button className="flex items-center gap-3 px-8 py-4 rounded-full bg-white shadow-xl hover:shadow-2xl transition-all duration-300 group mt-8 md:mt-0">
-            <span className="font-medium text-gray-800">View All Excursions</span>
-            <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white transform group-hover:translate-x-1 transition-transform duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </div>
-          </button>
+          <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+            <span className="block text-gray-900">Explore </span>
+            <span className="text-blue-700">Marrakech</span>
+          </h2>
+          <p className="text-gray-500 max-w-xl text-sm leading-relaxed">
+            Discover handpicked experiences crafted by local experts to showcase the true essence of Marrakech's culture, adventure, and landscapes.
+          </p>
+          <p className="text-blue-600 font-semibold text-sm">✨ Children under 16 years get 40% discount on all activities</p>
         </div>
         
-        {/* Destinations grid with premium card styling */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 xl:gap-10 staggered-fade-in">
-          {destinations.map((destination, index) => (
+        {/* Destinations grid with hover effects */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 xl:gap-8 staggered-fade-in">
+          {activities6.map((destination, index) => {
+            // Determine which image to use based on activity ID
+            let imageUrl = destination.image;
+            if (destination.id === 'quad') {
+              imageUrl = getActivityImage('quad', 0);
+            } else if (destination.id === 'camel') {
+              imageUrl = getActivityImage('camel', 0);
+            } else if (destination.id === 'buggy') {
+              imageUrl = getActivityImage('buggy', 0);
+            } else if (destination.id === 'balloon') {
+              imageUrl = getActivityImage('balloon', 0);
+            } else if (destination.id === 'quad-camel') {
+              imageUrl = getActivityImage('quadCamel', 0);
+            }
+            
+            return (
             <div 
-              key={index} 
-              className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-xl transition-all duration-500 hover:-translate-y-2 group relative flex flex-col border border-gray-100"
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
+              key={destination.id} 
+              className="bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-500 relative flex flex-col border border-gray-100 hover:shadow-2xl group hover:-translate-y-2"
+              style={{
+                transformStyle: 'preserve-3d',
+                perspective: '1000px',
+                transition: 'all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1)'
+              }}
             >
               <div className="h-72 relative overflow-hidden">
                 <Image
-                  src={destination.image}
+                  src={imageUrl}
                   alt={destination.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="object-cover transition-all duration-700 group-hover:scale-110"
                 />
+                {/* Overlay with gradient for text readability */}
                 <div 
-                  className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-transparent opacity-70 group-hover:opacity-80 transition-opacity duration-300"
+                  className="absolute inset-0 transition-all duration-300 group-hover:bg-black/30"
                   style={{ 
-                    backgroundImage: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.1) 80%, rgba(0,0,0,0) 100%)' 
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.2) 100%)'
                   }}
                 ></div>
                 
-                {/* Tag with refined styling */}
-                {destination.tag && (
-                  <div 
-                    key={`tag-${index}`} 
-                    className="absolute top-5 left-5 bg-white/90 backdrop-blur-sm px-4 py-1.5 rounded-full text-xs font-semibold flex items-center gap-2 shadow-md"
-                  >
-                    <span className="w-2 h-2 rounded-full bg-blue-500 animate-pulse-slow"></span>
-                    <span className="text-gray-800">{destination.tag}</span>
-                  </div>
-                )}
-                
-                {/* Rating with refined styling */}
-                <div className="absolute top-5 right-5 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-md">
+                {/* Rating with styling */}
+                <div className="absolute top-5 right-5 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-md z-10 transition-all duration-300 group-hover:bg-yellow-50">
                   <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-yellow-500" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
                   <span className="text-gray-800 font-medium">{destination.rating}</span>
                 </div>
+                
+                {/* Duration badge */}
+                <div className="absolute bottom-5 left-5 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 shadow-md z-10 transition-all duration-300 group-hover:bg-blue-50 group-hover:translate-y-1">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-blue-600" viewBox="0 0 20 20" fill="currentColor">
+                    <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
+                  </svg>
+                  <span className="text-gray-800">{destination.duration}</span>
+                </div>
               </div>
               
-              <div className="p-6 flex-1 flex flex-col">
+              <div className="p-6 flex-1 flex flex-col relative z-10 transition-all duration-300 group-hover:bg-gradient-to-b group-hover:from-white group-hover:to-blue-50/30">
+                {/* Subtle highlight line appearing on hover */}
+                <div className="absolute left-0 top-0 w-0 h-full bg-blue-500/10 transition-all duration-500 group-hover:w-1"></div>
+                
                 <div className="flex-1">
                   <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-xl font-bold text-gray-800 group-hover:text-blue-700 transition-colors duration-300 flex-1 pr-2">{destination.name}</h3>
+                    <h3 className="text-xl font-bold text-gray-800 flex-1 pr-2 transition-all duration-300 group-hover:text-blue-700 transform group-hover:translate-x-1">{destination.name}</h3>
                     
                     <Link 
                       href={`/activities/${destination.id}`}
-                      className="px-5 py-2.5 bg-blue-50 text-blue-600 border border-blue-100 rounded-lg hover:bg-blue-600 hover:text-white hover:border-blue-600 transition-all duration-300 text-sm font-medium flex items-center gap-2 shadow-sm"
+                      className="px-5 py-2.5 border border-blue-100 rounded-lg text-sm font-medium flex items-center gap-2 shadow-sm z-10 bg-blue-50 text-blue-600 transition-all duration-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 transform translate-y-0 group-hover:-translate-y-1"
                     >
                       <span>Details</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </Link>
                   </div>
                   
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">{destination.description.substring(0, 120)}...</p>
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2 transition-all duration-300 group-hover:text-gray-700">{destination.description}</p>
                 </div>
                 
-                <div className="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto">
-                  <div className="flex items-baseline">
-                    <span className="text-xl font-bold text-blue-700">{destination.price}</span>
-                    <span className="text-xs text-gray-500 ml-1">per person</span>
+                <div className="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto group-hover:border-blue-100 transition-all duration-300">
+                  <div className="flex flex-col">
+                    <span className="text-xl font-bold text-blue-700 transition-all duration-300 group-hover:scale-110 group-hover:translate-x-1 origin-left">{destination.price}</span>
+                    <span className="text-xs text-gray-500 transition-colors duration-300 group-hover:text-gray-600">per person</span>
+                    {destination.id && destination.id.includes("buggy") && (
+                      <span className="text-xs text-amber-600 font-medium transition-all duration-300 group-hover:text-amber-700">3 power options available</span>
+                    )}
                   </div>
                   
                   <Link 
                     href={`/activities/${destination.id}/booking?from=discover`}
-                    className="bg-amber-600 px-4 py-2 rounded-md text-white shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-0.5 focus:ring-2 focus:ring-amber-300 focus:outline-none hover:bg-amber-700 text-sm font-medium"
+                    className="px-4 py-2 rounded-md text-white shadow-sm focus:ring-2 focus:ring-amber-300 focus:outline-none text-sm font-medium z-10 bg-amber-600 transition-all duration-300 hover:bg-amber-700 hover:shadow-md relative overflow-hidden group-hover:scale-105"
                   >
-                    Book Now
+                    <span className="relative z-10">Book Now</span>
+                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      style={{
+                        background: 'linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)',
+                        backgroundSize: '200% 100%',
+                        animation: 'shine 1.5s infinite linear'
+                      }}
+                    ></div>
                   </Link>
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
         
-        {/* View more button for mobile with enhanced styling */}
-        <div className="mt-16 flex justify-center md:hidden">
-          <button className="flex items-center gap-3 px-8 py-4 rounded-full bg-white shadow-xl hover:shadow-2xl transition-all duration-300 group">
-            <span className="font-medium text-gray-800">View All Excursions</span>
-            <div className="w-10 h-10 rounded-full bg-blue-600 flex items-center justify-center text-white transform group-hover:translate-x-1 transition-transform duration-300">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-              </svg>
-            </div>
-          </button>
-        </div>
-        
-        {/* Decorative element at bottom */}
-        <div className="w-24 h-1 bg-blue-600/30 rounded-full mx-auto mt-24 mb-6"></div>
+        {/* Decorative element at bottom - make it smaller */}
+        <div className="w-16 h-0.5 bg-blue-600/30 rounded-full mx-auto mt-16 mb-4"></div>
       </div>
       
       {/* Booking Modal - Using enhanced styling */}

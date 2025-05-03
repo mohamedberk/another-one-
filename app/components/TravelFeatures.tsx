@@ -41,7 +41,7 @@ const TravelFeatures = () => {
   return (
     <section className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 py-20">
       <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold inline-flex flex-col items-center">
+        <h2 className="text-4xl font-extrabold tracking-tight inline-flex flex-col items-center">
           <span className="text-gray-900">Our Best Features</span>
           <span className="h-1.5 w-32 bg-blue-600 mt-4 rounded-full"></span>
         </h2>

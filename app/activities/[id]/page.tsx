@@ -22,19 +22,44 @@ import {
   StarIcon,
   HeartIcon as HeartIconSolid,
 } from "@heroicons/react/24/solid";
-import { getActivityById } from "@/utils/activities";
+import { getActivityByIdAdapter } from "@/utils/activities6Adapter";
 import { notFound } from "next/navigation";
+// Import the activityImages constants
+import { getActivityImage, ACTIVITY_IMAGES } from "@/utils/activityImages";
 
 // Main component for the activity detail page
 export default function ActivityDetailPage() {
   const params = useParams();
   const id = params.id as string;
-  const activity = getActivityById(id);
+  const activity = getActivityByIdAdapter(id);
   
   // Handle 404 if activity not found
   if (!activity) {
     notFound();
   }
+  
+  // Get activity images based on the activity type
+  const getActivityImages = () => {
+    // Determine which images to use based on activity ID
+    if (id.includes('quad') && !id.includes('camel')) {
+      return [getActivityImage('quad', 0), getActivityImage('quad', 1)];
+    } else if (id.includes('camel') && !id.includes('quad')) {
+      return [getActivityImage('camel', 0), getActivityImage('camel', 1)];
+    } else if (id.includes('buggy')) {
+      return [getActivityImage('buggy', 0), getActivityImage('buggy', 1)];
+    } else if (id.includes('balloon')) {
+      return [getActivityImage('balloon', 0), getActivityImage('balloon', 1)];
+    } else if (id.includes('quad-camel')) {
+      return [getActivityImage('quadCamel', 0), getActivityImage('quadCamel', 1)];
+    }
+    
+    // Fallback to existing image
+    const defaultImage = typeof activity.image === "string" ? activity.image : activity.image.src;
+    return [defaultImage, defaultImage];
+  };
+  
+  const [activityImages] = useState(getActivityImages());
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
   // Format price with Euro symbol
   const formatPrice = (price: number) => {
@@ -104,16 +129,63 @@ export default function ActivityDetailPage() {
           {/* Left column with Image and Activity Details */}
           <div className="lg:col-span-3 space-y-6">
             {/* Main Image */}
-            <div className="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-lg">
+            <div className="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-lg group transition-all duration-500">
               <Image
-                src={typeof activity.image === "string" ? activity.image : activity.image.src}
+                src={activityImages[currentImageIndex]}
                 alt={activity.title}
                 fill
                 priority
-                className="object-cover"
+                className="object-cover transition-transform duration-700 group-hover:scale-105"
                 sizes="(max-width: 1024px) 100vw, 60vw"
                 quality={90}
               />
+              
+              {/* Semi-transparent overlay - darker to ensure visibility on hover */}
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent group-hover:from-black/30 group-hover:via-black/10 transition-all duration-500"></div>
+              
+              {/* Image navigation controls */}
+              <div className="absolute bottom-4 right-4 flex space-x-2">
+                {activityImages.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentImageIndex(index)}
+                    className={`w-3 h-3 rounded-full ${
+                      currentImageIndex === index 
+                        ? "bg-white" 
+                        : "bg-white/50 hover:bg-white/70"
+                    } transition-all duration-200 shadow-md`}
+                    aria-label={`View image ${index + 1}`}
+                  />
+                ))}
+              </div>
+            </div>
+            
+            {/* Image thumbnails with enhanced hover effect */}
+            <div className="flex space-x-4 mt-4">
+              {activityImages.map((image, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentImageIndex(index)}
+                  className={`relative h-24 w-36 rounded-lg overflow-hidden transform transition-all duration-300 ${
+                    currentImageIndex === index 
+                      ? "ring-2 ring-cyan-500 shadow-md scale-105" 
+                      : "opacity-80 hover:opacity-100 hover:scale-105 hover:shadow-md"
+                  }`}
+                >
+                  <Image
+                    src={image}
+                    alt={`${activity.title} - Image ${index + 1}`}
+                    fill
+                    className="object-cover"
+                  />
+                  {/* Hover overlay with text indicator */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent opacity-100 transition-opacity duration-300">
+                    <div className="absolute bottom-2 left-2 text-white text-xs font-medium">
+                      {index === 0 ? "Main View" : "Secondary View"}
+                    </div>
+                  </div>
+                </button>
+              ))}
             </div>
             
             {/* Activity key details */}
@@ -174,30 +246,30 @@ export default function ActivityDetailPage() {
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-cyan-600" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                         </svg>
-                        Group Tour
+                        Standard Pricing
                       </p>
-                      <p className="text-xs text-gray-500 mt-0.5">Join other travelers</p>
+                      <p className="text-xs text-gray-500 mt-0.5">1 hour activity</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-xl font-bold text-cyan-700">{formatPrice(activity.groupPrice)}</p>
+                      <p className="text-xl font-bold text-cyan-700">{`${activity.groupPrice} MAD`}</p>
                       <p className="text-xs text-gray-500">per person</p>
                     </div>
                   </div>
                   
-                  {/* Private tour option */}
-                  <div className="flex justify-between items-center p-4 bg-white rounded-lg border border-gray-200 hover:border-cyan-200 transition-colors">
+                  {/* Children discount info */}
+                  <div className="flex justify-between items-center p-4 bg-white rounded-lg border border-green-200 hover:border-green-300 transition-colors">
                     <div>
                       <p className="font-medium text-gray-900 flex items-center text-sm">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-gray-600" viewBox="0 0 20 20" fill="currentColor">
-                          <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-1 text-green-600" viewBox="0 0 20 20" fill="currentColor">
+                          <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
                         </svg>
-                        Private Tour
+                        Children Discount
                       </p>
-                      <p className="text-xs text-gray-500 mt-0.5">Exclusive experience</p>
+                      <p className="text-xs text-gray-500 mt-0.5">Under 16 years old</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-xl font-bold text-gray-700">{formatPrice(activity.privatePrice)}</p>
-                      <p className="text-xs text-gray-500">per person</p>
+                      <p className="text-xl font-bold text-green-600">40% Off</p>
+                      <p className="text-xs text-gray-500">of adult price</p>
                     </div>
                   </div>
                 </div>
@@ -244,8 +316,64 @@ export default function ActivityDetailPage() {
               <div className="prose max-w-none">
                 <p className="text-gray-700">{activity.longDescription}</p>
                 
+                {activity.id.includes("quad") && (
+                  <div className="mt-4 space-y-4">
+                    <p className="text-gray-700">
+                      Experience the thrill of quad biking through the stunning Palmeraie of Marrakech, a magnificent oasis dotted with over 150,000 palm trees. Your adventure begins with a safety briefing and equipment fitting, ensuring you're comfortable and ready for the exciting journey ahead.
+                    </p>
+                    <p className="text-gray-700">
+                      Navigate through various terrains as expert guides lead you through challenging trails, dry riverbeds, and traditional Berber villages. Feel the adrenaline rush as you traverse this picturesque landscape, taking in breathtaking views of palm groves against the backdrop of the Atlas Mountains.
+                    </p>
+                    <p className="text-gray-700">
+                      During your 1-hour expedition, you'll have opportunities to stop and capture stunning photos. Midway through, enjoy a refreshing break with traditional Moroccan mint tea and homemade snacks at an authentic Berber house, allowing you to experience local hospitality and customs.
+                    </p>
+                  </div>
+                )}
+                
+                {activity.id.includes("camel") && (
+                  <div className="mt-4 space-y-4">
+                    <p className="text-gray-700">
+                      Embark on a timeless journey through the serene Palmeraie of Marrakech on the back of a gentle camel, the traditional "ship of the desert." This authentic experience connects you with centuries of Moroccan desert tradition and offers a unique perspective of the majestic palm groves.
+                    </p>
+                    <p className="text-gray-700">
+                      As you sway gently atop your camel, guided by experienced handlers, you'll traverse tranquil paths through lush palm groves and discover hidden Berber villages. Your guide will share insights into local culture and the significance of camels in Moroccan heritage.
+                    </p>
+                    <p className="text-gray-700">
+                      The peaceful rhythm of the camel's gait allows you to fully absorb the natural beauty surrounding you. During this 1-hour ride, you'll have the perfect opportunity to take memorable photos dressed in traditional Moroccan attire, creating lasting memories of your Marrakech adventure.
+                    </p>
+                  </div>
+                )}
+                
+                {activity.id.includes("buggy") && (
+                  <div className="mt-4 space-y-4">
+                    <p className="text-gray-700">
+                      Discover the thrill of driving a powerful buggy through the diverse landscapes of Palmeraie, Marrakech. After a comprehensive safety briefing and vehicle orientation, you'll take control of these robust vehicles designed for off-road adventures.
+                    </p>
+                    <p className="text-gray-700">
+                      Navigate through challenging terrain as you follow expert guides through palm groves, rocky paths, and open spaces. The buggies offer a unique combination of speed, stability, and maneuverability, making them perfect for exploring this diverse ecosystem.
+                    </p>
+                    <p className="text-gray-700">
+                      This 1-hour adventure provides an exhilarating experience as you drive through varied landscapes, with stops at scenic viewpoints. Halfway through, enjoy a traditional Moroccan tea break in an authentic setting, offering a perfect contrast to the high-energy driving experience.
+                    </p>
+                  </div>
+                )}
+                
+                {activity.id.includes("balloon") && (
+                  <div className="mt-4 space-y-4">
+                    <p className="text-gray-700">
+                      Float peacefully above the magnificent landscapes of Marrakech in a hot air balloon, offering unparalleled panoramic views of the Palmeraie, desert, and Atlas Mountains. Your adventure begins before dawn with pickup from your accommodation and transport to the launch site.
+                    </p>
+                    <p className="text-gray-700">
+                      Witness the spectacular process of balloon inflation while enjoying Moroccan tea and light refreshments. As you ascend with the sunrise, experience the magical golden light illuminating the landscape below. During your 40-60 minute flight, your pilot will point out significant landmarks and share interesting facts about the region.
+                    </p>
+                    <p className="text-gray-700">
+                      Upon landing, celebrate your flight with a traditional Berber breakfast in a comfortable tent. This magical experience combines tranquility, adventure, and cultural immersion, creating memories that will last a lifetime.
+                    </p>
+                  </div>
+                )}
+                
                 <blockquote className="mt-4 border-l-4 border-cyan-500 pl-4 italic text-gray-700">
-                  "Join us for an unforgettable adventure through Morocco's most breathtaking landscapes and immerse yourself in the rich cultural heritage of this stunning region."
+                  "Join us for an unforgettable adventure through Morocco's most breathtaking landscapes and immerse yourself in the rich cultural heritage of the Palmeraie region, just minutes from bustling Marrakech."
                 </blockquote>
               </div>
             </div>

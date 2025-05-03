@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useSearchParams, useRouter } from 'next/navigation';
 import { CheckCircleIcon, CalendarDaysIcon, UserGroupIcon, MapPinIcon, ClockIcon, CurrencyDollarIcon, 
-  ChevronLeftIcon, ShieldCheckIcon, InformationCircleIcon } from '@heroicons/react/24/outline';
+  ChevronLeftIcon, ShieldCheckIcon, InformationCircleIcon, UserIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 import { HeartIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
 import { getActivityById, Activity } from '@/utils/activities';
@@ -44,11 +44,24 @@ const confettiVariants = {
   }
 };
 
+interface BookingInfo {
+  name: string;
+  email: string;
+  date: string;
+  adults: number;
+  children: number;
+  youngChildren: number;
+  isPrivate: boolean;
+  activityId?: string;
+  activityTitle?: string;
+}
+
 const BookingConfirmationPage = () => {
   const params = useParams();
   const searchParams = useSearchParams();
   const router = useRouter();
   const [activity, setActivity] = useState<Activity | null>(null);
+  const [bookingInfo, setBookingInfo] = useState<BookingInfo | null>(null);
   
   // Get the reference number from URL parameters
   const referenceNumber = searchParams.get('ref') || 'N/A';
@@ -62,7 +75,58 @@ const BookingConfirmationPage = () => {
         router.push('/activities');
       }
     }
+    
+    // Retrieve booking information from localStorage
+    const savedBookingInfo = localStorage.getItem('bookingInfo');
+    if (savedBookingInfo) {
+      try {
+        const parsedInfo = JSON.parse(savedBookingInfo) as BookingInfo;
+        setBookingInfo(parsedInfo);
+      } catch (error) {
+        console.error('Error parsing booking info:', error);
+      }
+    }
   }, [params.id, router]);
+
+  // Format date for display
+  const formatDate = (dateString: string | undefined): string => {
+    if (!dateString) return 'Not specified';
+    try {
+      return new Date(dateString).toLocaleDateString('en-US', {
+        weekday: 'long',
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      });
+    } catch (error) {
+      return 'Invalid date';
+    }
+  };
+  
+  // Calculate total guests
+  const getTotalGuests = (): number => {
+    if (!bookingInfo) return 0;
+    return (bookingInfo.adults || 0) + (bookingInfo.children || 0) + (bookingInfo.youngChildren || 0);
+  };
+  
+  // Format price
+  const formatPrice = (price: number): string => {
+    return `€${price.toLocaleString()}`;
+  };
+  
+  // Calculate total price
+  const calculateTotal = (): string => {
+    if (!activity || !bookingInfo) return '€0';
+    
+    const basePrice = activity.groupPrice;
+    const privatePremium = bookingInfo.isPrivate ? 1.5 : 1;
+    
+    const adultsCost = basePrice * (bookingInfo.adults || 0) * privatePremium;
+    const childrenCost = basePrice * 0.7 * (bookingInfo.children || 0) * privatePremium;
+    // Young children are free
+    
+    return formatPrice(adultsCost + childrenCost);
+  };
 
   if (!activity) {
     return (
@@ -102,6 +166,47 @@ const BookingConfirmationPage = () => {
         
         .font-sans {
           font-family: 'Inter', sans-serif;
+        }
+        
+        @keyframes checkmark {
+          0% {
+            transform: scale(0);
+            opacity: 0;
+          }
+          50% {
+            transform: scale(1.2);
+            opacity: 1;
+          }
+          100% {
+            transform: scale(1);
+            opacity: 1;
+          }
+        }
+        
+        .animate-checkmark {
+          animation: checkmark 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+        }
+        
+        @keyframes pulse-subtle {
+          0%, 100% {
+            opacity: 0.8;
+          }
+          50% {
+            opacity: 0.5;
+          }
+        }
+        
+        .animate-pulse-subtle {
+          animation: pulse-subtle 3s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+          0%, 100% {
+            transform: translateY(0);
+          }
+          50% {
+            transform: translateY(-10px);
+          }
         }
       `}</style>
 
@@ -264,6 +369,77 @@ const BookingConfirmationPage = () => {
               >
                 <h2 className="text-xl font-bold text-gray-900 mb-8 border-b border-gray-100 pb-3 font-playfair">Booking Details</h2>
                 
+                {/* Client information section */}
+                <div className="bg-blue-50/50 rounded-xl p-6 mb-8 border border-blue-100/50">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-5 flex items-center">
+                    <UserIcon className="w-5 h-5 mr-2 text-blue-600" />
+                    Client Information
+                  </h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-1.5">
+                      <p className="text-sm text-gray-500">Full Name</p>
+                      <p className="text-base font-medium text-gray-800">
+                        {bookingInfo?.name || 'Not provided'}
+                      </p>
+                    </div>
+                    
+                    <div className="space-y-1.5">
+                      <p className="text-sm text-gray-500">Email Address</p>
+                      <p className="text-base font-medium text-gray-800">
+                        {bookingInfo?.email || 'Not provided'}
+                      </p>
+                    </div>
+                    
+                    <div className="space-y-1.5">
+                      <p className="text-sm text-gray-500">Travel Date</p>
+                      <p className="text-base font-medium text-gray-800">
+                        {formatDate(bookingInfo?.date)}
+                      </p>
+                    </div>
+                    
+                    <div className="space-y-1.5">
+                      <p className="text-sm text-gray-500">Tour Type</p>
+                      <p className="text-base font-medium text-gray-800">
+                        {bookingInfo?.isPrivate ? 'Private Tour' : 'Group Tour'}
+                      </p>
+                    </div>
+                    
+                    <div className="space-y-1.5">
+                      <p className="text-sm text-gray-500">Number of Guests</p>
+                      <div className="flex flex-col text-base font-medium text-gray-800">
+                        <span>{getTotalGuests()} Total</span>
+                        <div className="mt-1 flex flex-wrap gap-2">
+                          {bookingInfo?.adults ? (
+                            <span className="px-2 py-0.5 bg-blue-100 text-blue-800 rounded-md text-xs font-medium">
+                              {bookingInfo.adults} {bookingInfo.adults === 1 ? 'Adult' : 'Adults'}
+                            </span>
+                          ) : null}
+                          
+                          {bookingInfo?.children ? (
+                            <span className="px-2 py-0.5 bg-blue-100 text-blue-800 rounded-md text-xs font-medium">
+                              {bookingInfo.children} {bookingInfo.children === 1 ? 'Child' : 'Children'} (6-12)
+                            </span>
+                          ) : null}
+                          
+                          {bookingInfo?.youngChildren ? (
+                            <span className="px-2 py-0.5 bg-blue-100 text-blue-800 rounded-md text-xs font-medium">
+                              {bookingInfo.youngChildren} Under 6
+                            </span>
+                          ) : null}
+                        </div>
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-1.5">
+                      <p className="text-sm text-gray-500">Total Price</p>
+                      <p className="text-xl font-bold text-blue-700">
+                        {calculateTotal()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                
                 {/* Activity information - enhanced layout */}
                 <div className="flex flex-col md:flex-row gap-8 md:gap-12 mb-10">
                   <div className="flex-1 space-y-6">
@@ -283,169 +459,109 @@ const BookingConfirmationPage = () => {
                         </div>
                         <span className="text-gray-700">{activity.duration}</span>
                       </div>
-                      
-                      <div className="flex items-center gap-4">
-                        <div className="p-2.5 bg-blue-50 rounded-full text-blue-600 shadow-sm">
-                          <CalendarDaysIcon className="w-5 h-5" />
-                        </div>
-                        <span className="text-gray-700">Date: <span className="font-medium">To be confirmed via email</span></span>
-                      </div>
-                      
-                      <div className="flex items-center gap-4">
-                        <div className="p-2.5 bg-blue-50 rounded-full text-blue-600 shadow-sm">
-                          <UserGroupIcon className="w-5 h-5" />
-                        </div>
-                        <span className="text-gray-700">Group size: <span className="font-medium">To be confirmed</span></span>
-                      </div>
-                      
-                      <div className="flex items-center gap-4">
-                        <div className="p-2.5 bg-blue-50 rounded-full text-blue-600 shadow-sm">
-                          <CurrencyDollarIcon className="w-5 h-5" />
-                        </div>
-                        <span className="text-gray-700">Total: <span className="font-medium">Paid in full</span></span>
-                      </div>
-                    </div>
-                  </div>
-                  
-                  {/* Activity thumbnail with premium treatment */}
-                  <div className="md:w-1/3 aspect-video md:aspect-square rounded-2xl overflow-hidden relative shadow-lg border border-gray-100 self-start group">
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent z-10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                    <Image 
-                      src={activityImage} 
-                      alt={activity.title} 
-                      fill 
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    <div className="absolute top-3 right-3 z-20 p-2 bg-white/90 backdrop-blur-sm rounded-full shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <HeartIcon className="w-4 h-4 text-red-500" />
                     </div>
                   </div>
                 </div>
                 
-                {/* Next steps with premium styling */}
-                <motion.div 
-                  className="bg-gradient-to-r from-blue-50/80 to-indigo-50/80 rounded-2xl p-8 mb-10 border border-blue-100/70 shadow-sm relative overflow-hidden"
-                  variants={fadeIn}
-                >
-                  {/* Decorative shapes */}
-                  <div className="absolute -right-12 -top-12 w-32 h-32 bg-blue-100/50 rounded-full blur-2xl"></div>
-                  <div className="absolute -left-12 -bottom-12 w-32 h-32 bg-indigo-100/40 rounded-full blur-2xl"></div>
+                {/* What's next section */}
+                <div className="border-t border-gray-100 pt-8">
+                  <h3 className="text-lg font-semibold text-gray-800 mb-4">What's Next?</h3>
                   
-                  <h3 className="text-xl font-semibold text-gray-900 mb-6 flex items-center gap-2 relative font-playfair">
-                    <InformationCircleIcon className="h-5 w-5 text-blue-600" />
-                    What's Next?
-                  </h3>
-                  
-                  <ul className="space-y-5 text-gray-700 relative">
-                    <li className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center mt-0.5 shadow-sm">
-                        <span className="text-sm font-medium">1</span>
+                  <div className="bg-green-50 rounded-xl p-5 border border-green-100 mb-6">
+                    <div className="flex items-start gap-4">
+                      <div className="p-2 bg-green-100 rounded-full text-green-600 mt-1">
+                        <EnvelopeIcon className="w-5 h-5" />
                       </div>
                       <div>
-                        <p className="font-medium text-gray-800">Check your email</p>
-                        <p className="text-sm text-gray-600 mt-1 leading-relaxed">We've sent a confirmation email with all the details and any necessary preparation tips to your inbox.</p>
+                        <h4 className="font-medium text-gray-900 mb-1">Check Your Email</h4>
+                        <p className="text-sm text-gray-600">We've sent a confirmation email to {bookingInfo?.email || 'your email address'} with all the details of your booking.</p>
                       </div>
-                    </li>
-                    
-                    <li className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center mt-0.5 shadow-sm">
-                        <span className="text-sm font-medium">2</span>
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-800">Save your confirmation code</p>
-                        <p className="text-sm text-gray-600 mt-1 leading-relaxed">Keep your confirmation code ({referenceNumber}) handy for any inquiries or updates about your booking.</p>
-                      </div>
-                    </li>
-                    
-                    <li className="flex items-start gap-4">
-                      <div className="flex-shrink-0 w-7 h-7 rounded-full bg-blue-100 text-blue-700 flex items-center justify-center mt-0.5 shadow-sm">
-                        <span className="text-sm font-medium">3</span>
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-800">Prepare for your adventure</p>
-                        <p className="text-sm text-gray-600 mt-1 leading-relaxed">Review our suggested packing list and guidelines that will be sent to your email to ensure you're ready for this amazing experience.</p>
-                      </div>
-                    </li>
-                  </ul>
-                </motion.div>
-                
-                {/* Action buttons with premium styling */}
-                <motion.div 
-                  className="grid grid-cols-1 md:grid-cols-2 gap-5"
-                  variants={fadeIn}
-                >
-                  <Link 
-                    href={`/activities/${activity.id}`}
-                    className="group flex items-center justify-center gap-2 px-6 py-3.5 bg-white border border-gray-200 rounded-xl text-gray-700 hover:bg-gray-50 hover:shadow-md transition-all duration-300 text-center"
-                  >
-                    <span>View Activity Details</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                    </svg>
-                  </Link>
+                    </div>
+                  </div>
                   
-                  <Link 
-                    href="/activities"
-                    className="group flex items-center justify-center gap-2 px-6 py-3.5 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl text-white hover:shadow-lg transition-all duration-300 text-center relative overflow-hidden"
-                  >
-                    {/* Shine effect */}
-                    <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-20 translate-x-[-150%] group-hover:translate-x-[150%] transition-transform duration-1000 ease-out"></div>
+                  {/* Activity-specific preparation instructions */}
+                  <div className="bg-blue-50 rounded-xl p-5 border border-blue-100 mb-6">
+                    <div className="flex items-start gap-4">
+                      <div className="p-2 bg-blue-100 rounded-full text-blue-600 mt-1">
+                        <InformationCircleIcon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-1">Preparing for Your Adventure in Palmeraie, Marrakech</h4>
+                        
+                        {bookingInfo?.activityId?.includes('quad') && (
+                          <p className="text-sm text-gray-600">
+                            For your quad biking adventure, we recommend wearing comfortable clothes that you don't mind getting dusty, closed-toe shoes, and bringing sunglasses. We'll provide all safety equipment including helmets. Arrive 15 minutes early for your safety briefing and equipment fitting.
+                          </p>
+                        )}
+                        
+                        {bookingInfo?.activityId?.includes('camel') && (
+                          <p className="text-sm text-gray-600">
+                            For your camel ride experience, wear comfortable clothing and bring a hat, sunglasses, and sunscreen. Long pants are recommended for comfort during the ride. We'll provide traditional Moroccan attire for photos. Please arrive 15 minutes before your scheduled time.
+                          </p>
+                        )}
+                        
+                        {bookingInfo?.activityId?.includes('buggy') && (
+                          <p className="text-sm text-gray-600">
+                            For your buggy adventure, wear clothes that can get dusty, closed-toe shoes, and bring sunglasses. A light jacket may be useful in cooler weather. We'll provide driving instructions and all necessary safety equipment. Please arrive 15 minutes early for your briefing.
+                          </p>
+                        )}
+                        
+                        {bookingInfo?.activityId?.includes('balloon') && (
+                          <p className="text-sm text-gray-600">
+                            For your hot air balloon experience, dress in layers as mornings can be cool but warm up quickly. Wear comfortable closed-toe shoes. We'll pick you up very early (around 5am) to reach the launch site before sunrise. Bring your camera for spectacular photos!
+                          </p>
+                        )}
+                        
+                        {!bookingInfo?.activityId?.includes('quad') && 
+                         !bookingInfo?.activityId?.includes('camel') && 
+                         !bookingInfo?.activityId?.includes('buggy') && 
+                         !bookingInfo?.activityId?.includes('balloon') && (
+                          <p className="text-sm text-gray-600">
+                            For your adventure, wear comfortable clothes suitable for the weather, closed-toe shoes, and bring sun protection. We recommend arriving 15 minutes early to complete check-in and prepare for your experience.
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Meeting point information */}
+                  <div className="bg-amber-50 rounded-xl p-5 border border-amber-100 mb-6">
+                    <div className="flex items-start gap-4">
+                      <div className="p-2 bg-amber-100 rounded-full text-amber-600 mt-1">
+                        <MapPinIcon className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="font-medium text-gray-900 mb-1">Meeting Point</h4>
+                        <p className="text-sm text-gray-600">Your adventure will start at our meeting point in Palmeraie, Marrakech. Hotel pickup is included with your booking - our driver will collect you from your accommodation at the scheduled time on your selected date. Please be ready in your hotel lobby 10 minutes before the scheduled pickup time.</p>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div className="flex flex-col sm:flex-row gap-4 justify-between mt-8">
+                    <Link 
+                      href="/"
+                      className="flex items-center justify-center gap-2 px-6 py-3 border border-gray-300 rounded-xl text-gray-700 hover:bg-gray-50 transition-colors"
+                    >
+                      <ChevronLeftIcon className="h-5 w-5" />
+                      Back to Home
+                    </Link>
                     
-                    <span className="relative">Browse More Activities</span>
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 relative transform group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-                    </svg>
-                  </Link>
-                </motion.div>
+                    <button 
+                      onClick={() => window.print()}
+                      className="flex items-center justify-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
+                      </svg>
+                      Print Confirmation
+                    </button>
+                  </div>
+                </div>
               </motion.div>
             </motion.div>
           </motion.div>
         </div>
       </div>
-      
-      {/* Add animation styles */}
-      <style jsx global>{`
-        @keyframes pulse-subtle {
-          0%, 100% {
-            opacity: 0.7;
-          }
-          50% {
-            opacity: 1;
-          }
-        }
-        
-        .animate-pulse-subtle {
-          animation: pulse-subtle 3s ease-in-out infinite;
-        }
-        
-        @keyframes checkmark {
-          0% {
-            opacity: 0;
-            transform: scale(0.8);
-          }
-          50% {
-            opacity: 1;
-            transform: scale(1.2);
-          }
-          100% {
-            opacity: 1;
-            transform: scale(1);
-          }
-        }
-        
-        .animate-checkmark {
-          animation: checkmark 0.8s cubic-bezier(0.19, 1, 0.22, 1) forwards;
-        }
-        
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
-      `}</style>
     </div>
   );
 };
