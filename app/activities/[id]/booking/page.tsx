@@ -69,7 +69,8 @@ const ActivityBookingPage = () => {
   
   useEffect(() => {
     if (params.id) {
-      const activityData = getActivityByIdAdapter(params.id as string);
+      const activityId = searchParams.get('id') || params.id as string;
+      const activityData = getActivityByIdAdapter(activityId);
       if (activityData) {
         setActivity(activityData);
       } else {
@@ -77,7 +78,7 @@ const ActivityBookingPage = () => {
         router.push('/activities');
       }
     }
-  }, [params.id, router]);
+  }, [params.id, router, searchParams]);
 
   // Add a subtle loading animation while waiting for data
   if (!activity) {

@@ -494,7 +494,7 @@ const TravelDiscover = () => {
                     <h3 className="text-xl font-bold text-gray-800 flex-1 pr-2 transition-all duration-300 group-hover:text-blue-700 transform group-hover:translate-x-1">{destination.name}</h3>
                     
                     <Link 
-                      href={`/activities/${destination.id}`}
+                      href={`/activities?id=${destination.id}`}
                       className="px-5 py-2.5 border border-blue-100 rounded-lg text-sm font-medium flex items-center gap-2 shadow-sm z-10 bg-blue-50 text-blue-600 transition-all duration-300 hover:bg-blue-600 hover:text-white hover:border-blue-600 transform translate-y-0 group-hover:-translate-y-1"
                     >
                       <span>Details</span>
@@ -517,7 +517,7 @@ const TravelDiscover = () => {
                   </div>
                   
                   <Link 
-                    href={`/activities/${destination.id}/booking?from=discover`}
+                    href={`/activities/${destination.id}/booking?id=${destination.id}&from=discover`}
                     className="px-4 py-2 rounded-md text-white shadow-sm focus:ring-2 focus:ring-amber-300 focus:outline-none text-sm font-medium z-10 bg-amber-600 transition-all duration-300 hover:bg-amber-700 hover:shadow-md relative overflow-hidden group-hover:scale-105"
                   >
                     <span className="relative z-10">Book Now</span>

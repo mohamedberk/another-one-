@@ -1,49 +1,43 @@
+"use client";
+
 import React from 'react';
 import Link from 'next/link';
 
 const TravelNavbar = () => {
   return (
-    <div className="relative z-10">
-      <nav className="max-w-7xl mx-auto px-6 lg:px-12 py-6 flex justify-between items-center">
-        <div className="flex items-center gap-3">
-          <div className="h-10 w-10 bg-gradient-to-tr from-blue-600 to-blue-400 rounded-full flex items-center justify-center shadow-lg">
-            <div className="h-8 w-8 bg-white rounded-full flex items-center justify-center">
-              <span className="text-blue-600 text-sm font-bold">UX</span>
+    <div className="fixed top-0 left-0 right-0 z-50 flex justify-center px-6 py-4">
+      <nav className="bg-white/90 backdrop-blur-sm w-full max-w-5xl px-6 py-3 rounded-xl shadow-md border border-gray-100 flex justify-between items-center transition-all duration-300">
+        <div className="flex items-center gap-2">
+          <div className="h-8 w-8 bg-gradient-to-tr from-amber-500 to-orange-400 rounded-full flex items-center justify-center shadow-sm">
+            <div className="h-6 w-6 bg-white rounded-full flex items-center justify-center">
+              <span className="text-amber-600 text-xs font-bold">UX</span>
             </div>
           </div>
-          <span className="text-2xl font-bold tracking-tight">UIXSHUVO</span>
+          <span className="text-lg font-bold tracking-tight">UIXSHUVO</span>
         </div>
         
-        <div className="hidden md:flex items-center gap-10">
-          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 relative group">
+        <div className="hidden md:flex items-center gap-6">
+          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors duration-300">
             Discover
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
           </Link>
-          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 relative group">
+          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors duration-300">
             Features
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
           </Link>
-          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 relative group">
-            About Us
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
+          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors duration-300">
+            About
           </Link>
-          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 relative group">
+          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors duration-300">
             Pricing
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
-          </Link>
-          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-blue-600 transition-colors duration-300 relative group">
-            Blog
-            <span className="absolute bottom-0 left-0 w-0 h-0.5 bg-blue-600 group-hover:w-full transition-all duration-300"></span>
           </Link>
         </div>
         
-        <div className="flex items-center gap-5">
-          <button className="p-2 text-gray-600 hover:text-blue-600 transition-colors duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div className="flex items-center gap-3">
+          <button className="p-2 text-gray-600 hover:text-amber-600 transition-colors duration-300">
+            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
           </button>
-          <Link href="/activities" className="bg-blue-600 text-white px-6 py-2.5 rounded-lg text-sm hover:bg-blue-700 transition-all duration-300 shadow-md hover:shadow-lg">
+          <Link href="/activities" className="bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg text-xs hover:from-amber-600 hover:to-orange-600 transition-all duration-300 shadow-sm hover:shadow-md font-medium">
             Book Now
           </Link>
         </div>

@@ -3704,3 +3704,100 @@ body.modal-open {
 .luxury-blob-4 {
   @apply left-12 bottom-6 w-12 h-12 bg-white/5;
 }
+
+/* Add Moroccan travel theme styles */
+@layer utilities {
+  .font-clash {
+    font-family: var(--font-clash), system-ui, sans-serif;
+    letter-spacing: -0.025em;
+  }
+
+  .font-cabinet {
+    font-family: var(--font-cabinet), system-ui, sans-serif;
+    letter-spacing: -0.015em;
+  }
+
+  /* Moroccan theme gradient text */
+  .text-gradient-morocco {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-700 to-orange-500;
+  }
+  
+  /* Enhanced animation for Morocco travel theme */
+  @keyframes desert-float {
+    0% {
+      transform: translateY(0) rotate(0);
+    }
+    50% {
+      transform: translateY(-10px) rotate(1deg);
+    }
+    100% {
+      transform: translateY(0) rotate(0);
+    }
+  }
+
+  .animate-desert-float {
+    animation: desert-float 6s ease-in-out infinite;
+  }
+
+  /* Hot shimmering effect for desert imagery */
+  @keyframes desert-shimmer {
+    0% {
+      opacity: 0.7;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.7;
+    }
+  }
+
+  .animate-desert-shimmer {
+    animation: desert-shimmer 3s ease-in-out infinite;
+  }
+
+  /* Sandstorm particle effect for loading states */
+  @keyframes sandstorm {
+    0% {
+      transform: translateX(-100%) skewX(-15deg);
+    }
+    100% {
+      transform: translateX(100%) skewX(-15deg);
+    }
+  }
+
+  .sandstorm-effect {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sandstorm-effect::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      rgba(245, 158, 11, 0) 0%,
+      rgba(245, 158, 11, 0.1) 50%,
+      rgba(245, 158, 11, 0) 100%
+    );
+    transform: translateX(-100%) skewX(-15deg);
+    animation: sandstorm 8s infinite;
+  }
+
+  /* Morocco theme box shadow */
+  .shadow-morocco {
+    box-shadow: 0 10px 25px -5px rgba(245, 158, 11, 0.1), 0 8px 10px -6px rgba(245, 158, 11, 0.05);
+  }
+
+  /* Morocco theme glass effect */
+  .glass-morocco {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    box-shadow: 0 8px 32px rgba(245, 158, 11, 0.1);
+  }
+}

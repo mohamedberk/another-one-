@@ -1,9 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import {
   ChevronLeftIcon,
   ClockIcon,
@@ -14,13 +14,11 @@ import {
   CurrencyDollarIcon,
   TagIcon,
   ArrowRightIcon,
-  HeartIcon,
   StarIcon as StarIconOutline,
   CheckCircleIcon,
 } from "@heroicons/react/24/outline";
 import {
   StarIcon,
-  HeartIcon as HeartIconSolid,
 } from "@heroicons/react/24/solid";
 import { getActivityByIdAdapter } from "@/utils/activities6Adapter";
 import { notFound } from "next/navigation";
@@ -29,8 +27,8 @@ import { getActivityImage, ACTIVITY_IMAGES } from "@/utils/activityImages";
 
 // Main component for the activity detail page
 export default function ActivityDetailPage() {
-  const params = useParams();
-  const id = params.id as string;
+  const searchParams = useSearchParams();
+  const id = searchParams.get('id') as string;
   const activity = getActivityByIdAdapter(id);
   
   // Handle 404 if activity not found
@@ -61,13 +59,21 @@ export default function ActivityDetailPage() {
   const [activityImages] = useState(getActivityImages());
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   
+  // Auto-rotate images
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prevIndex) => 
+        prevIndex === activityImages.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 5000);
+    
+    return () => clearInterval(interval);
+  }, [activityImages.length]);
+  
   // Format price with Euro symbol
   const formatPrice = (price: number) => {
     return `€${price.toLocaleString()}`;
   };
-
-  // State for like button
-  const [isLiked, setIsLiked] = useState(false);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -83,19 +89,7 @@ export default function ActivityDetailPage() {
               <span className="font-medium">Back</span>
             </Link>
             
-            <div>
-              <button 
-                className={`p-2 rounded-full ${isLiked ? "text-pink-500" : "text-gray-400"} hover:bg-gray-100 transition-all`}
-                onClick={() => setIsLiked(!isLiked)}
-                aria-label="Like this activity"
-              >
-                {isLiked ? (
-                  <HeartIconSolid className="h-6 w-6" />
-                ) : (
-                  <HeartIcon className="h-6 w-6" />
-                )}
-              </button>
-            </div>
+            {/* Removed like button */}
           </div>
         </div>
       </div>
@@ -128,23 +122,38 @@ export default function ActivityDetailPage() {
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-6 mb-0">
           {/* Left column with Image and Activity Details */}
           <div className="lg:col-span-3 space-y-6">
-            {/* Main Image */}
+            {/* Main Image - updated with auto-rotating carousel */}
             <div className="relative h-[400px] md:h-[500px] rounded-xl overflow-hidden shadow-lg group transition-all duration-500">
-              <Image
-                src={activityImages[currentImageIndex]}
-                alt={activity.title}
-                fill
-                priority
-                className="object-cover transition-transform duration-700 group-hover:scale-105"
-                sizes="(max-width: 1024px) 100vw, 60vw"
-                quality={90}
-              />
+              {activityImages.map((image, index) => (
+                <div 
+                  key={index}
+                  className="absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out"
+                  style={{ 
+                    opacity: currentImageIndex === index ? 1 : 0,
+                    zIndex: currentImageIndex === index ? 1 : 0 
+                  }}
+                >
+                  <Image 
+                    src={image}
+                    alt={`${activity.title} - Image ${index + 1}`}
+                    fill
+                    priority={index === 0}
+                    className="object-cover transition-transform duration-10000 ease-out"
+                    sizes="(max-width: 1024px) 100vw, 60vw"
+                    quality={90}
+                    style={{
+                      transform: currentImageIndex === index ? 'scale(1.05)' : 'scale(1)',
+                      transition: 'transform 5s ease-out'
+                    }}
+                  />
+                </div>
+              ))}
               
               {/* Semi-transparent overlay - darker to ensure visibility on hover */}
-              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent group-hover:from-black/30 group-hover:via-black/10 transition-all duration-500"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/20 to-transparent group-hover:from-black/30 group-hover:via-black/10 transition-all duration-500 z-[2]"></div>
               
-              {/* Image navigation controls */}
-              <div className="absolute bottom-4 right-4 flex space-x-2">
+              {/* Image indicators */}
+              <div className="absolute bottom-4 right-4 flex space-x-2 z-[3]">
                 {activityImages.map((_, index) => (
                   <button
                     key={index}
@@ -277,7 +286,7 @@ export default function ActivityDetailPage() {
                 <div className="mt-auto">
                   {/* CTA Button */}
                   <Link 
-                    href={`/activities/${params.id}/booking?from=details`}
+                    href={`/activities/${id}/booking?from=details`}
                     className="block w-full bg-cyan-600 hover:bg-cyan-700 text-white font-bold py-3.5 px-4 rounded-lg text-center transition-colors duration-300 text-base shadow-md"
                   >
                     Book Now
