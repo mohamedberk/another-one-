@@ -3,6 +3,7 @@ import TravelNavbar from './components/TravelNavbar';
 import TravelHero from './components/TravelHero';
 import TravelDiscover from './components/TravelDiscover';
 import TravelFeatures from './components/TravelFeatures';
+import TravelReviews from './components/TravelReviews';
 
 export const metadata = {
   title: 'Explore World | Luxury Travel Experience',
@@ -26,6 +27,9 @@ export default function AnotherOne() {
       
       {/* Discover Section */}
       <TravelDiscover />
+      
+      {/* Reviews Section */}
+      <TravelReviews />
       
       {/* Best Features Section */}
       <TravelFeatures />
