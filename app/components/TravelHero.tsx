@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { heroBalloonImage, camelImages, balloonImages, quadImages, buggyImages } from '@/utils/activityImages';
+import { cabinetGrotesk, clashDisplay, dmSans } from '../fonts';
 
 const TravelHero = () => {
   // Images for the carousel
@@ -71,34 +72,34 @@ const TravelHero = () => {
       </div>
       
       {/* Price badge with premium design - Modified for responsive size */}
-      <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl shadow-xl z-10 transform rotate-2 border border-amber-100 scale-90 md:scale-100">
-        <div className="text-xs font-bold uppercase tracking-wider text-amber-500">From</div>
-        <div className="text-lg md:text-2xl font-bold text-amber-800">150 MAD</div>
+      <div className="absolute bottom-6 right-6 bg-gray-900/90 backdrop-blur-sm px-4 py-3 md:px-6 md:py-4 rounded-lg md:rounded-xl shadow-xl z-10 transform rotate-2 border border-gray-800 scale-90 md:scale-100">
+        <div className={`text-xs font-bold uppercase tracking-wider text-amber-400 ${clashDisplay.className}`}>From</div>
+        <div className={`text-lg md:text-2xl font-bold text-white ${cabinetGrotesk.className}`}>150 MAD</div>
       </div>
       
       {/* Location badge with premium styling - Also make smaller on mobile */}
-      <div className="absolute top-6 left-6 bg-white/80 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl shadow-md z-10 flex items-center scale-90 md:scale-100">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 md:h-4 md:w-4 text-amber-500 mr-1 md:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <div className="absolute top-6 left-6 bg-gray-900/80 backdrop-blur-sm px-3 py-1.5 md:px-4 md:py-2 rounded-lg md:rounded-xl shadow-md z-10 flex items-center scale-90 md:scale-100 border border-gray-800">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3 md:h-4 md:w-4 text-amber-400 mr-1 md:mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
         </svg>
-        <span className="text-xs md:text-sm font-medium text-amber-800">Atlas Mountains</span>
+        <span className={`text-xs md:text-sm font-medium text-white ${clashDisplay.className}`}>Atlas Mountains</span>
       </div>
     </div>
   );
 
   return (
-    <section className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pt-24 pb-12">
+    <section id="hero" className={`relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pt-24 pb-12 ${cabinetGrotesk.variable} ${clashDisplay.variable} ${dmSans.variable}`}>
       <div className="flex flex-col md:flex-row items-start">
         {/* Content Column - Always render the title first */}
         <div className="w-full md:w-1/2 md:pr-12">
           <div className="inline-flex items-center bg-amber-50 border border-amber-100 px-4 py-2 rounded-lg mb-6 animate-fadeIn shadow-sm">
             <div className="w-2 h-2 rounded-full bg-amber-400 mr-2 animate-pulse"></div>
-            <span className="text-sm font-medium text-amber-900">Marrakech Adventure Experts</span>
+            <span className={`text-sm font-medium text-amber-900 ${clashDisplay.className}`}>Marrakech Adventure Experts</span>
           </div>
           
-          <h1 className="text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight leading-none">
-            <span className="block animate-fadeUp bg-gradient-to-r from-amber-800 to-amber-600 bg-clip-text text-transparent pb-2" style={{ animationDelay: '0.1s' }}>DISCOVER</span>
+          <h1 className={`text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-none ${cabinetGrotesk.className}`}>
+            <span className="block animate-fadeUp bg-gradient-to-r from-gray-800 to-gray-900 bg-clip-text text-transparent pb-2" style={{ animationDelay: '0.1s' }}>DISCOVER</span>
             <span className="relative bg-gradient-to-r from-amber-500 to-orange-400 bg-clip-text text-transparent">
               MOROCCO
               <span className="absolute -top-6 -right-6 text-4xl animate-float">✨</span>
@@ -110,30 +111,30 @@ const TravelHero = () => {
             {renderCarousel()}
           </div>
           
-          <p className="text-base text-gray-700 mt-6 max-w-lg animate-fadeUp opacity-0 leading-relaxed" style={{ animationDelay: '0.3s' }}>
+          <p className={`text-base text-gray-700 mt-6 max-w-lg animate-fadeUp leading-relaxed ${dmSans.className}`} style={{ animationDelay: '0.3s' }}>
             Experience the magic of Marrakech and beyond with our premium excursions. From thrilling quad adventures in the Agafay Desert to serene camel rides through the Palmeraie, unforgettable experiences await you.
           </p>
           
           <div className="mt-8">
             <a 
               href="#discover" 
-              className="bg-gradient-to-r from-amber-500 to-orange-500 rounded-lg text-white px-8 py-4 shadow-md hover:shadow-lg hover:from-amber-600 hover:to-orange-600 transition duration-300 flex items-center gap-2 animate-fadeUp opacity-0 font-medium inline-flex" 
+              className={`bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 rounded-lg text-white px-8 py-4 shadow-md hover:shadow-lg transition duration-300 flex items-center gap-2 animate-fadeUp font-black inline-flex ${cabinetGrotesk.className}`}
               style={{ animationDelay: '0.4s' }}
             >
-              Explore Excursions
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <span className="text-white">Explore Excursions</span>
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 5l7 7m0 0l-7 7m7-7H3" />
               </svg>
             </a>
           </div>
           
           {/* Featured activities badges */}
-          <div className="mt-6 flex flex-wrap gap-2 animate-fadeUp opacity-0" style={{ animationDelay: '0.5s' }}>
-            <span className="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium">Quad Biking</span>
-            <span className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium">Camel Rides</span>
-            <span className="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium">Buggy Adventures</span>
-            <span className="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium">Hot Air Balloons</span>
-            <span className="px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium">Desert Tours</span>
+          <div className="mt-6 flex flex-wrap gap-2 animate-fadeUp" style={{ animationDelay: '0.5s' }}>
+            <span className={`px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Quad Biking</span>
+            <span className={`px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Camel Rides</span>
+            <span className={`px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Buggy Adventures</span>
+            <span className={`px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Hot Air Balloons</span>
+            <span className={`px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Desert Tours</span>
           </div>
         </div>
         

@@ -6,7 +6,7 @@ import { Button } from './Button';
 import Image from 'next/image';
 import { EnhancedBookingModal } from './EnhancedBookingModal';
 import { BookingConfirmationModal } from './BookingConfirmationModal';
-import { Activity } from '../utils/activities';
+import { Activity } from '../utils/activities86';
 
 interface ActivityModalProps {
   isOpen: boolean;

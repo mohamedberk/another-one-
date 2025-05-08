@@ -4,7 +4,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Button } from './Button';
 import { EnhancedBookingModal } from './EnhancedBookingModal';
 import Image from 'next/image';
-import { Activity } from '../utils/activities';
+import { Activity } from '../utils/activities86';
 
 // VideoRef component for playing hero video
 const VideoPlayer = React.forwardRef<HTMLVideoElement, {src: string; className: string}>(

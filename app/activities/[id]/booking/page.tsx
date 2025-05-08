@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { getActivityByIdAdapter, calculateTourPrice } from '@/utils/activities6Adapter';
-import { Activity } from '@/utils/activities';
+import { Activity } from '@/utils/activities86';
 import { 
   CalendarDaysIcon, UserIcon, CheckIcon, ClockIcon, MapPinIcon, 
   ChevronLeftIcon, StarIcon, ShieldCheckIcon, CreditCardIcon, UserGroupIcon,
@@ -15,6 +15,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils/cn';
 import { getActivityImage } from '@/utils/activityImages';
+import { clashDisplay, cabinetGrotesk } from '../../../fonts';
 
 // Define custom animations
 const fadeInKeyframes = `
@@ -251,8 +252,8 @@ const ActivityBookingPage = () => {
               : isSelected
                 ? 'bg-amber-500 text-white shadow-md' 
                 : isTodayDate
-                  ? 'bg-amber-100 text-amber-700 font-medium hover:bg-amber-200'
-                  : 'hover:bg-amber-50 text-gray-700'
+                  ? 'bg-amber-100 text-amber-700 font-medium'
+                  : 'text-gray-700'
           }`}
         >
           {day}
@@ -271,7 +272,7 @@ const ActivityBookingPage = () => {
               className={`p-1.5 rounded-full ${
                 month === today.getMonth() && year === today.getFullYear()
                   ? 'text-gray-300 cursor-not-allowed'
-                  : 'text-gray-500 hover:bg-gray-100'
+                  : 'text-gray-500 hover:bg-amber-50/90 transition-all duration-300'
               }`}
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -284,7 +285,7 @@ const ActivityBookingPage = () => {
             <button
               type="button"
               onClick={goToNextMonth}
-              className="p-1.5 rounded-full text-gray-500 hover:bg-gray-100"
+              className="p-1.5 rounded-full text-gray-500 hover:bg-amber-50/90 transition-all duration-300"
             >
               <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
@@ -308,7 +309,7 @@ const ActivityBookingPage = () => {
         <div className="flex justify-between items-center border-t border-gray-100 pt-4">
           <button
             type="button"
-            className="text-sm text-gray-500 hover:text-gray-700"
+            className="text-sm text-gray-500"
             onClick={() => setShowCalendar(false)}
           >
             Cancel
@@ -325,31 +326,9 @@ const ActivityBookingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa]">
+    <div className={`min-h-screen bg-[#f8f9fa] ${cabinetGrotesk.variable} ${clashDisplay.variable}`}>
       {/* Add custom animations */}
       <style jsx global>{fadeInKeyframes}</style>
-      
-      {/* Top navigation bar - fixed position */}
-      <div className="bg-white shadow-sm sticky top-0 z-30 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link 
-              href={fromDetails ? `/activities/${activity.id}` : "/"}
-              className="flex items-center gap-2 text-gray-800 hover:text-amber-600 transition-colors"
-            >
-              <ChevronLeftIcon className="h-5 w-5" />
-              <span className="font-medium">{fromDetails ? 'Back to Details' : 'Back'}</span>
-            </Link>
-            
-            <div className="flex items-center gap-3">
-              <span className="inline-flex items-center text-xs text-gray-500">
-                <ShieldCheckIcon className="h-3.5 w-3.5 mr-1 text-amber-600" />
-                Secure booking
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
       
       {/* Main content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
@@ -358,12 +337,12 @@ const ActivityBookingPage = () => {
           <div className="flex items-center justify-center">
             <div className="flex items-center">
               <div className="rounded-full h-7 w-7 flex items-center justify-center bg-amber-600 text-white text-xs font-medium">1</div>
-              <div className="ml-2 text-sm font-medium text-gray-900">Details</div>
+              <div className={`ml-2 text-sm font-medium text-gray-900 ${clashDisplay.className}`}>Details</div>
             </div>
             <div className="mx-2 h-[2px] w-16 bg-amber-200"></div>
             <div className="flex items-center">
               <div className="rounded-full h-7 w-7 flex items-center justify-center bg-gray-200 text-gray-600 text-xs font-medium">2</div>
-              <div className="ml-2 text-sm font-medium text-gray-500">Confirmation</div>
+              <div className={`ml-2 text-sm font-medium text-gray-500 ${clashDisplay.className}`}>Confirmation</div>
             </div>
           </div>
         </div>
@@ -373,43 +352,52 @@ const ActivityBookingPage = () => {
           <div className="lg:col-span-7 h-full flex flex-col">
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-grow">
               <div className="p-6 md:p-8 h-full flex flex-col">
-                <h1 className="text-2xl md:text-2xl font-bold text-gray-900 mb-5">
+                {/* Back button */}
+                <Link 
+                  href={fromDetails ? `/activities?id=${activity.id}` : "/"}
+                  className={`flex items-center gap-2 text-gray-600 transition-colors mb-5 w-fit ${clashDisplay.className}`}
+                >
+                  <ChevronLeftIcon className="h-5 w-5" />
+                  <span className="font-medium">{fromDetails ? 'Back to Details' : 'Back'}</span>
+                </Link>
+
+                <h1 className={`text-2xl md:text-2xl font-bold text-gray-900 mb-5 ${cabinetGrotesk.className}`}>
                   Complete Your Reservation
                 </h1>
                 
                 <form onSubmit={handleSubmit} className="space-y-5 flex-grow">
                   <div className="space-y-6">
                     <div>
-                      <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                      <label htmlFor="name" className={`block text-sm font-medium text-gray-700 mb-1 ${clashDisplay.className}`}>Full Name</label>
                       <input
                         id="name"
                         type="text"
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 bg-white"
+                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 bg-white ${clashDisplay.className}`}
                         placeholder="Enter your full name"
                       />
                     </div>
                     
                     <div>
-                      <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                      <label htmlFor="email" className={`block text-sm font-medium text-gray-700 mb-1 ${clashDisplay.className}`}>Email Address</label>
                       <input
                         id="email"
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 bg-white"
+                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 bg-white ${clashDisplay.className}`}
                         placeholder="you@example.com"
                       />
                     </div>
                     
                     <div>
-                      <label htmlFor="date" className="block text-sm font-medium text-gray-700 mb-1">Travel Date</label>
+                      <label htmlFor="date" className={`block text-sm font-medium text-gray-700 mb-1 ${clashDisplay.className}`}>Travel Date</label>
                       <div className="relative">
                         <div 
-                          className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 transition-colors bg-white flex justify-between items-center cursor-pointer ${showCalendar ? 'border-amber-500 ring-2 ring-amber-500' : ''}`}
+                          className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 transition-colors bg-white flex justify-between items-center cursor-pointer ${showCalendar ? 'border-amber-500 ring-2 ring-amber-500' : ''} ${clashDisplay.className}`}
                           onClick={() => setShowCalendar(!showCalendar)}
                         >
                           <span className={date ? "text-gray-900" : "text-gray-400"}>
@@ -436,7 +424,7 @@ const ActivityBookingPage = () => {
                     
                     <div className="grid grid-cols-3 gap-4">
                       <div className="col-span-2">
-                        <label htmlFor="adults" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="adults" className={`block text-sm font-medium text-gray-700 mb-1 ${clashDisplay.className}`}>
                           Adults
                         </label>
                         <input
@@ -465,12 +453,12 @@ const ActivityBookingPage = () => {
                               setAdults(validVal);
                             }
                           }}
-                          className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 bg-white"
+                          className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 bg-white ${clashDisplay.className}`}
                         />
                       </div>
                       
                       <div>
-                        <label htmlFor="children" className="block text-sm font-medium text-gray-700 mb-1">
+                        <label htmlFor="children" className={`block text-sm font-medium text-gray-700 mb-1 ${clashDisplay.className}`}>
                           Children
                           <span className="text-xs text-gray-500 ml-1">(under 16)</span>
                         </label>
@@ -500,7 +488,7 @@ const ActivityBookingPage = () => {
                               setChildren(validVal);
                             }
                           }}
-                          className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 bg-white"
+                          className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 bg-white ${clashDisplay.className}`}
                         />
                       </div>
                     </div>
@@ -508,22 +496,22 @@ const ActivityBookingPage = () => {
                     <div>
                       <div className="flex items-center space-x-4">
                         <div 
-                          className="flex-1 p-4 rounded-lg border-2 border-amber-500 bg-amber-50/50 cursor-pointer transition-colors"
+                          className={`flex-1 p-4 rounded-lg border-2 border-amber-500 bg-amber-50/50 cursor-pointer transition-colors ${clashDisplay.className}`}
                         >
                           <div className="flex items-start">
                             <div className="h-5 w-5 rounded-full border-2 flex-shrink-0 mt-0.5 border-amber-500 bg-amber-500">
                               <CheckIcon className="h-3 w-3 text-white m-0.5" />
                             </div>
                             <div className="ml-3">
-                              <h4 className="text-sm font-medium text-gray-900">Standard Pricing</h4>
-                              <p className="text-xs text-gray-700 mt-1">One hour activity in Palmeraie, Marrakech</p>
-                              <p className="text-sm font-semibold text-gray-900 mt-2">{`${activity.groupPrice} MAD`} per person</p>
+                              <h4 className={`text-sm font-medium text-gray-900 ${cabinetGrotesk.className}`}>Standard Pricing</h4>
+                              <p className={`text-xs text-gray-700 mt-1 ${clashDisplay.className}`}>One hour activity in Palmeraie, Marrakech</p>
+                              <p className={`text-sm font-semibold text-gray-900 mt-2 ${cabinetGrotesk.className}`}>{`${activity.groupPrice} MAD`}</p>
                             </div>
                           </div>
                         </div>
                       </div>
                       
-                      <div className="mt-4 p-3 bg-amber-50/50 rounded-lg border border-amber-200">
+                      <div className={`mt-4 p-3 bg-amber-50/50 rounded-lg border border-amber-200 ${clashDisplay.className}`}>
                         <div className="flex items-center">
                           <div className="flex-shrink-0">
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
@@ -545,7 +533,8 @@ const ActivityBookingPage = () => {
                       type="submit"
                       disabled={isSubmitting}
                       className={cn(
-                        "w-full bg-gradient-to-r from-amber-600 to-amber-500 text-white font-medium py-4 px-6 rounded-lg shadow-sm hover:shadow-md transition-all duration-300 flex items-center justify-center",
+                        `w-full px-4 py-2 rounded-xl text-white shadow-md shadow-amber-300/20 hover:shadow-lg hover:shadow-amber-300/30 transition-all duration-300 transform hover:-translate-y-0.5 bg-gradient-to-r from-amber-500 to-orange-500 ${cabinetGrotesk.className}`,
+                        "w-full px-4 py-2 rounded-xl text-white shadow-md shadow-amber-300/20 hover:shadow-lg hover:shadow-amber-300/30 transition-all duration-300 transform hover:-translate-y-0.5 bg-gradient-to-r from-amber-500 to-orange-500",
                         isSubmitting && "opacity-70 cursor-not-allowed"
                       )}
                     >
@@ -589,6 +578,13 @@ const ActivityBookingPage = () => {
                   />
                   {/* Enhanced overlay with better visibility on hover */}
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/5 group-hover:from-black/50 group-hover:via-black/20 transition-all duration-500"></div>
+                  {/* Price card overlay */}
+                  <div className="absolute bottom-4 right-4 z-10">
+                    <div className="bg-white/95 rounded-xl shadow-lg px-4 py-2 flex flex-col items-end min-w-[90px] max-w-[140px]">
+                      <span className="text-xs text-gray-500 font-medium">from</span>
+                      <span className="text-lg font-bold text-amber-600 leading-tight">{`${activity.groupPrice} MAD`}</span>
+                    </div>
+                  </div>
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="flex items-center space-x-1 mb-1">
                       <StarIconSolid className="h-4 w-4 text-amber-400" />

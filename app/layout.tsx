@@ -35,6 +35,35 @@ const cabinetGrotesk = localFont({
   preload: true,
 })
 
+// Load Clash Display locally for better performance
+const clashDisplay = localFont({
+  src: [
+    {
+      path: './fonts/ClashDisplay-Regular.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/ClashDisplay-Medium.otf',
+      weight: '500',
+      style: 'normal',
+    },
+    {
+      path: './fonts/ClashDisplay-Semibold.otf',
+      weight: '600',
+      style: 'normal',
+    },
+    {
+      path: './fonts/ClashDisplay-Bold.otf',
+      weight: '700',
+      style: 'normal',
+    },
+  ],
+  variable: '--font-clash',
+  display: 'swap',
+  preload: true,
+})
+
 export const metadata: Metadata = {
   title: 'BADDOU TRAVEL - AGENCY IN MARRAKECH',
   description: 'BADDOU TRAVEL is a travel agency in Marrakech, Morocco. We offer a wide range of travel services, including transfers, excursions, and hotel bookings.',
@@ -85,7 +114,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" suppressHydrationWarning className={`scroll-smooth ${cabinetGrotesk.variable} ${poppins.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`scroll-smooth ${cabinetGrotesk.variable} ${clashDisplay.variable} ${poppins.variable}`}>
       <head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta name="theme-color" content="#FFFFFF" />
@@ -93,6 +122,7 @@ export default function RootLayout({
         
         {/* Preload key resources */}
         <link rel="preload" href="/fonts/CabinetGrotesk-1.otf" as="font" type="font/otf" crossOrigin="anonymous" />
+        <link rel="preload" href="/fonts/ClashDisplay-Regular.otf" as="font" type="font/otf" crossOrigin="anonymous" />
         
         {/* Resource hints for performance */}
         <link rel="preconnect" href="https://res.cloudinary.com" crossOrigin="anonymous" />

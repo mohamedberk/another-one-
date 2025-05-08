@@ -4,7 +4,7 @@ import { handleBookingSubmission } from '../firebase/services/bookingService';
 import { Toast } from './Toast';
 import Link from 'next/link';
 import { Transition, Dialog } from '@headlessui/react';
-import { Activity, calculateTourPrice } from '../utils/activities';
+import { Activity, calculateTourPrice } from '../utils/activities86';
 
 // Date format utility
 const formatDate = (date: Date): string => {

@@ -1,5 +1,5 @@
-import { Activity6, activities6, getActivity6ById, extractPriceNumber, getBuggyPriceOptions } from './activities6';
-import { Activity } from './activities';
+import { Activity6, activities6, getActivity6ById, extractPriceNumber, getBuggyPriceOptions } from './activities';
+import { Activity } from './activities86';
 
 // Convert Activity6 format to Activity format for compatibility
 export const convertActivity6ToActivity = (activity6: Activity6): Activity => {

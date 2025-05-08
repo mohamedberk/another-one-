@@ -13,21 +13,21 @@ const TravelNavbar = () => {
               <span className="text-amber-600 text-xs font-bold">UX</span>
             </div>
           </div>
-          <span className="text-lg font-bold tracking-tight">UIXSHUVO</span>
+          <span className="text-lg font-bold tracking-tight text-gray-900">UIXSHUVO</span>
         </div>
         
         <div className="hidden md:flex items-center gap-6">
-          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors duration-300">
+          <Link href="#hero" className="text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors duration-300">
+            Home
+          </Link>
+          <Link href="#discover" className="text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors duration-300">
             Discover
           </Link>
-          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors duration-300">
+          <Link href="#reviews" className="text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors duration-300">
+            Reviews
+          </Link>
+          <Link href="#features" className="text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors duration-300">
             Features
-          </Link>
-          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors duration-300">
-            About
-          </Link>
-          <Link href="/" className="text-sm font-medium text-gray-700 hover:text-amber-600 transition-colors duration-300">
-            Pricing
           </Link>
         </div>
         

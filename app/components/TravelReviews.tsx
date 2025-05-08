@@ -97,7 +97,7 @@ export default function TravelReviews() {
   };
 
   return (
-    <section className="py-10 bg-[#FFFBF5] relative">
+    <section id="reviews" className="py-10 bg-[#FFFBF5] relative">
       <div className="container mx-auto px-4">
         <div className="text-center mb-6">
           <h2 className="text-2xl md:text-3xl font-bold mb-2 text-amber-900">

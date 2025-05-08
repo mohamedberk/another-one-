@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Image from 'next/image';
-import { Activity } from '../utils/activities';
+import { Activity } from '../utils/activities86';
 import { ImprovedActivityModal } from './ImprovedActivityModal';
 import { EnhancedBookingModal } from './EnhancedBookingModal';
 import { StarIcon, ClockIcon, CalendarDaysIcon, ChevronRightIcon, ShieldCheckIcon } from '@heroicons/react/24/outline';

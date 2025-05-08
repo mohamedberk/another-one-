@@ -1,6 +1,34 @@
 import localFont from 'next/font/local'
 
-// Load ClashDisplay font for headings
+// Load CabinetGrotesk font for headings
+export const cabinetGrotesk = localFont({
+  src: [
+    {
+      path: './fonts/CabinetGrotesk-Black.otf',
+      weight: '900',
+      style: 'normal',
+    },
+    {
+      path: './fonts/CabinetGrotesk-Bold.otf',
+      weight: '700',
+      style: 'normal',
+    },
+    {
+      path: './fonts/CabinetGrotesk-Regular.otf',
+      weight: '400',
+      style: 'normal',
+    },
+    {
+      path: './fonts/CabinetGrotesk-Medium.otf',
+      weight: '500',
+      style: 'normal',
+    }
+  ],
+  variable: '--font-cabinet',
+  display: 'swap',
+})
+
+// Load ClashDisplay font for body text
 export const clashDisplay = localFont({
   src: [
     {
@@ -12,46 +40,28 @@ export const clashDisplay = localFont({
       path: './fonts/ClashDisplay-Medium.otf',
       weight: '500',
       style: 'normal',
-    },
-    {
-      path: './fonts/ClashDisplay-Semibold.otf',
-      weight: '600',
-      style: 'normal',
-    },
-    {
-      path: './fonts/ClashDisplay-Bold.otf',
-      weight: '700',
-      style: 'normal',
     }
   ],
-  variable: '--font-clash',
-  display: 'swap',
+  variable: '--font-clash-display',
 })
 
-// Load CabinetGrotesk font for display elements
-export const cabinetGrotesk = localFont({
+export const dmSans = localFont({
   src: [
     {
-      path: './fonts/CabinetGrotesk-Regular.otf',
+      path: './fonts/DMSans-Regular.woff2',
       weight: '400',
       style: 'normal',
     },
     {
-      path: './fonts/CabinetGrotesk-Medium.otf',
+      path: './fonts/DMSans-Medium.woff2',
       weight: '500',
       style: 'normal',
     },
     {
-      path: './fonts/CabinetGrotesk-Bold.otf',
+      path: './fonts/DMSans-Bold.woff2',
       weight: '700',
       style: 'normal',
     },
-    {
-      path: './fonts/CabinetGrotesk-Black.otf',
-      weight: '900',
-      style: 'normal',
-    }
   ],
-  variable: '--font-cabinet',
-  display: 'swap',
+  variable: '--font-dm-sans',
 }) 

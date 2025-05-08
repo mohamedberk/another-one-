@@ -1,13 +1,14 @@
 import React from 'react';
 import { TourItem } from '../../components/TourItem';
 import Image from 'next/image';
+import { cabinetGrotesk, clashDisplay } from '../fonts';
 
 export default function ToursPage() {
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <div className={`max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 ${cabinetGrotesk.variable} ${clashDisplay.variable}`}>
       <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-neutral-900 mb-4">Atlas Mountains & Desert Experiences</h1>
-        <p className="text-xl text-neutral-600 max-w-3xl mx-auto">
+        <h1 className={`text-4xl font-black text-neutral-900 mb-4 ${cabinetGrotesk.className}`}>Atlas Mountains & Desert Experiences</h1>
+        <p className={`text-xl text-neutral-600 max-w-3xl mx-auto ${clashDisplay.className}`}>
           Discover the natural wonders and authentic culture of Morocco with our exclusive day tours from Marrakech
         </p>
       </div>
@@ -31,16 +32,16 @@ export default function ToursPage() {
           </div>
           
           <div className="p-6">
-            <h3 className="text-xl font-semibold mb-2">Ourika Valley & Setti Fatma Waterfalls</h3>
+            <h3 className={`text-xl font-black mb-2 ${cabinetGrotesk.className}`}>Ourika Valley & Setti Fatma Waterfalls</h3>
             
-            <p className="text-neutral-600 mb-4 line-clamp-3">
+            <p className={`text-neutral-600 mb-4 line-clamp-3 ${clashDisplay.className}`}>
               Escape to the lush Ourika Valley and visit traditional Berber villages nestled in the Atlas foothills. Hike to the spectacular seven waterfalls of Setti Fatma and enjoy a traditional lunch with panoramic mountain views.
             </p>
             
             <div className="flex justify-between items-center">
               <div>
-                <span className="text-xl font-bold text-orange-600">€75</span>
-                <span className="text-neutral-500 ml-1">per person</span>
+                <span className={`text-xl font-bold text-orange-600 ${cabinetGrotesk.className}`}>€75</span>
+                <span className={`text-neutral-500 ml-1 ${clashDisplay.className}`}>per person</span>
               </div>
               
               <button className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-medium rounded-xl shadow transition-all hover:-translate-y-0.5 hover:shadow-lg">
@@ -65,16 +66,16 @@ export default function ToursPage() {
           </div>
           
           <div className="p-6">
-            <h3 className="text-xl font-semibold mb-2">Ouzoud Waterfalls Day Trip</h3>
+            <h3 className={`text-xl font-black mb-2 ${cabinetGrotesk.className}`}>Ouzoud Waterfalls Day Trip</h3>
             
-            <p className="text-neutral-600 mb-4 line-clamp-3">
+            <p className={`text-neutral-600 mb-4 line-clamp-3 ${clashDisplay.className}`}>
               Experience the majestic Ouzoud Waterfalls, one of Morocco's natural wonders. Take in the spectacular 110-meter cascades, spot wild Barbary monkeys, and relax with lunch at a riverside restaurant.
             </p>
             
             <div className="flex justify-between items-center">
               <div>
-                <span className="text-xl font-bold text-orange-600">€85</span>
-                <span className="text-neutral-500 ml-1">per person</span>
+                <span className={`text-xl font-bold text-orange-600 ${cabinetGrotesk.className}`}>€85</span>
+                <span className={`text-neutral-500 ml-1 ${clashDisplay.className}`}>per person</span>
               </div>
               
               <button className="px-4 py-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white font-medium rounded-xl shadow transition-all hover:-translate-y-0.5 hover:shadow-lg">

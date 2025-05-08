@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { motion, AnimatePresence } from 'framer-motion';
 import { EnhancedBookingModal } from './EnhancedBookingModal';
-import { Activity } from '../utils/activities';
+import { Activity } from '../utils/activities86';
 
 // Globe icon for the logo - white on black
 const GlobeIcon = () => (

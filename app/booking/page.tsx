@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { getActivityByIdAdapter, calculateTourPrice } from '@/utils/activities6Adapter';
-import { Activity } from '@/utils/activities';
+import { Activity } from '@/utils/activities86';
 import { 
   CalendarDaysIcon, UserIcon, CheckIcon, ClockIcon, MapPinIcon, 
   ChevronLeftIcon, StarIcon, ShieldCheckIcon, CreditCardIcon, UserGroupIcon,
@@ -15,6 +15,7 @@ import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils/cn';
 import { getActivityImage } from '@/utils/activityImages';
+import { cabinetGrotesk, clashDisplay } from '../fonts';
 
 // Define custom animations
 const fadeInKeyframes = `
@@ -82,7 +83,7 @@ const ActivityBookingPage = () => {
   // Add a subtle loading animation while waiting for data
   if (!activity) {
     return (
-      <div className="flex justify-center items-center min-h-screen bg-gray-50">
+      <div className={`flex justify-center items-center min-h-screen bg-gray-50 ${cabinetGrotesk.variable} ${clashDisplay.variable}`}>
         <div className="space-y-8 w-full max-w-sm px-4">
           <div className="h-12 bg-gray-200 rounded-lg animate-pulse"></div>
           <div className="space-y-3">
@@ -324,55 +325,29 @@ const ActivityBookingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f8f9fa]">
+    <div className={`min-h-screen bg-gray-50 ${cabinetGrotesk.variable} ${clashDisplay.variable}`}>
       {/* Add custom animations */}
       <style jsx global>{fadeInKeyframes}</style>
       
-      {/* Top navigation bar - fixed position */}
-      <div className="bg-white shadow-sm sticky top-0 z-30 border-b border-gray-100">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <Link 
-              href={fromDetails ? `/activities/${activity.id}` : "/"}
-              className="flex items-center gap-2 text-gray-800 hover:text-cyan-600 transition-colors"
-            >
-              <ChevronLeftIcon className="h-5 w-5" />
-              <span className="font-medium">{fromDetails ? 'Back to Details' : 'Back'}</span>
-            </Link>
-            
-            <div className="flex items-center gap-3">
-              <span className="inline-flex items-center text-xs text-gray-500">
-                <ShieldCheckIcon className="h-3.5 w-3.5 mr-1 text-green-600" />
-                Secure booking
-              </span>
-            </div>
-          </div>
-        </div>
-      </div>
-      
-      {/* Main content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-16">
-        {/* Booking progress indication */}
-        <div className="mb-10 max-w-2xl mx-auto">
-          <div className="flex items-center justify-center">
-            <div className="flex items-center">
-              <div className="rounded-full h-7 w-7 flex items-center justify-center bg-cyan-600 text-white text-xs font-medium">1</div>
-              <div className="ml-2 text-sm font-medium text-gray-900">Details</div>
-            </div>
-            <div className="mx-2 h-[2px] w-16 bg-cyan-200"></div>
-            <div className="flex items-center">
-              <div className="rounded-full h-7 w-7 flex items-center justify-center bg-gray-200 text-gray-600 text-xs font-medium">2</div>
-              <div className="ml-2 text-sm font-medium text-gray-500">Confirmation</div>
-            </div>
-          </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="flex items-center gap-4 mb-8">
+          <Link 
+            href={`/activities?id=${activity.id}`}
+            className="glassmorphism-icon p-2 rounded-full text-gray-800 transition-colors"
+          >
+            <ChevronLeftIcon className="h-5 w-5" />
+          </Link>
+          <h1 className={`text-2xl md:text-3xl font-black text-gray-900 ${cabinetGrotesk.className}`}>
+            Book {activity.title}
+          </h1>
         </div>
         
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
-          {/* Left column - booking form */}
-          <div className="lg:col-span-7 space-y-8">
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+          {/* Left column - Booking form */}
+          <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
               <div className="p-6 md:p-8">
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6">
+                <h1 className={`text-2xl md:text-3xl font-black text-gray-900 mb-6 ${cabinetGrotesk.className}`}>
                   Complete Your Reservation
                 </h1>
                 
@@ -554,194 +529,63 @@ const ActivityBookingPage = () => {
             </div>
           </div>
           
-          {/* Right column - booking summary */}
-          <div className="lg:col-span-5">
-            <div className="sticky top-24">
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
-                <div className="relative h-56 w-full group">
-                  <Image
-                    src={activityImage}
-                    alt={activity.title}
-                    fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    priority
-                  />
-                  {/* Enhanced overlay with better visibility on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/5 group-hover:from-black/50 group-hover:via-black/20 transition-all duration-500"></div>
-                  <div className="absolute bottom-4 left-4 right-4">
-                    <div className="flex items-center space-x-1 mb-1">
-                      <StarIconSolid className="h-4 w-4 text-yellow-400" />
-                      <span className="text-sm font-medium text-white">{activity.rating}</span>
-                      <span className="text-sm text-white/80">({activity.reviewCount} reviews)</span>
-                    </div>
-                    <h2 className="text-xl font-bold text-white">{activity.title}</h2>
-                  </div>
-                </div>
-                
-                <div className="p-5 border-b border-gray-100">
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="flex items-start">
-                      <ClockIcon className="h-5 w-5 text-cyan-600 mt-0.5" />
-                      <div className="ml-3">
-                        <p className="text-xs text-gray-500">Duration</p>
-                        <p className="text-sm font-medium">{activity.duration}</p>
-                      </div>
-                    </div>
-                    <div className="flex items-start">
-                      <MapPinIcon className="h-5 w-5 text-cyan-600 mt-0.5" />
-                      <div className="ml-3">
-                        <p className="text-xs text-gray-500">Location</p>
-                        <p className="text-sm font-medium">{activity.location}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                
-                <div className="p-5">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Price Details</h3>
-                  <div className="space-y-3 mb-4">
-                    <div className="flex justify-between">
-                      <span className="text-gray-600">Adults ({adults})</span>
-                      <span className="font-medium">{`${activity.groupPrice * adults} MAD`}</span>
-                    </div>
-                    
-                    {children > 0 && (
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Children ({children}) <span className="text-green-600 text-xs font-medium">-40%</span></span>
-                        <span className="font-medium">{`${Math.round(activity.groupPrice * 0.6 * children)} MAD`}</span>
-                      </div>
-                    )}
-                    
-                    {youngChildren > 0 && (
-                      <div className="flex justify-between">
-                        <span className="text-gray-600">Under 6 ({youngChildren})</span>
-                        <span className="font-medium">Free</span>
-                      </div>
-                    )}
-                  </div>
-                  
-                  <div className="border-t border-gray-200 pt-3 mt-3">
-                    <div className="flex justify-between font-bold text-gray-900">
-                      <span>Total</span>
-                      <span>{`${Math.round(totalPrice)} MAD`}</span>
-                    </div>
-                    {children > 0 && (
-                      <div className="text-right text-xs text-green-600 mt-1">
-                        Including 40% discount for children under 16
-                      </div>
-                    )}
-                  </div>
-                </div>
+          {/* Right column - Activity summary */}
+          <div className="lg:col-span-1">
+            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden sticky top-8">
+              <div className="relative h-48">
+                <Image
+                  src={activityImage}
+                  alt={activity.title}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 33vw"
+                />
               </div>
               
-              <div className="mt-6 space-y-4">
-                <div className="flex items-start bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                  <div className="flex-shrink-0">
-                    <CheckCircleIcon className="h-5 w-5 text-green-500" />
+              <div className="p-6">
+                <h2 className={`text-xl font-black text-gray-900 mb-2 ${cabinetGrotesk.className}`}>
+                  {activity.title}
+                </h2>
+                
+                <div className="flex items-center gap-2 mb-4">
+                  <div className="flex items-center">
+                    <StarIconSolid className="w-4 h-4 text-amber-500" />
+                    <span className={`ml-1 text-sm font-medium ${clashDisplay.className}`}>
+                      {activity.rating}
+                    </span>
                   </div>
-                  <div className="ml-3">
-                    <h4 className="text-sm font-medium text-gray-900">Free Cancellation</h4>
-                    <p className="text-xs text-gray-500">Cancel up to 24 hours before your tour for a full refund</p>
-                  </div>
+                  <span className={`text-sm text-gray-500 ${clashDisplay.className}`}>
+                    ({activity.reviewCount} rating)
+                  </span>
                 </div>
-                <div className="flex items-start bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                  <div className="flex-shrink-0">
-                    <ShieldCheckIcon className="h-5 w-5 text-green-500" />
+                
+                <div className="space-y-4">
+                  <div className="flex items-center gap-2">
+                    <ClockIcon className="w-5 h-5 text-gray-400" />
+                    <span className={`text-sm text-gray-600 ${clashDisplay.className}`}>
+                      Duration: {activity.duration}
+                    </span>
                   </div>
-                  <div className="ml-3">
-                    <h4 className="text-sm font-medium text-gray-900">Secure Booking</h4>
-                    <p className="text-xs text-gray-500">We use industry-standard encryption to protect your personal information</p>
+                  
+                  <div className="flex items-center gap-2">
+                    <MapPinIcon className="w-5 h-5 text-gray-400" />
+                    <span className={`text-sm text-gray-600 ${clashDisplay.className}`}>
+                      Location: {activity.location}
+                    </span>
                   </div>
                 </div>
                 
-                {/* Activity specific information */}
-                <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-100">
-                  <h4 className="text-sm font-medium text-gray-900 mb-2">Activity Details</h4>
+                <div className="mt-6 pt-6 border-t border-gray-100">
+                  <div className="flex justify-between items-center mb-2">
+                    <span className={`text-sm text-gray-600 ${clashDisplay.className}`}>Total Price</span>
+                    <span className={`text-xl font-black text-gray-900 ${cabinetGrotesk.className}`}>
+                      {formatPrice(totalPrice)}
+                    </span>
+                  </div>
                   
-                  {activity.id.includes("quad") && (
-                    <div className="text-xs text-gray-700 space-y-2">
-                      <p>Experience an exhilarating quad biking adventure through the stunning Palmeraie of Marrakech, an oasis with over 150,000 palm trees.</p>
-                      <p>Your 1-hour adventure includes:</p>
-                      <ul className="list-disc pl-4 space-y-1">
-                        <li>Professional safety briefing and equipment</li>
-                        <li>Guided tour through palm groves and traditional Berber villages</li>
-                        <li>Photo opportunities at scenic viewpoints</li>
-                        <li>Refreshing mint tea break</li>
-                      </ul>
-                      <p className="text-xs text-amber-600 font-medium mt-2">No previous experience needed. Suitable for all skill levels!</p>
-                    </div>
-                  )}
-                  
-                  {activity.id.includes("camel") && (
-                    <div className="text-xs text-gray-700 space-y-2">
-                      <p>Embark on a traditional camel ride through the serene Palmeraie of Marrakech, connecting with centuries of Moroccan desert traditions.</p>
-                      <p>Your 1-hour experience includes:</p>
-                      <ul className="list-disc pl-4 space-y-1">
-                        <li>Traditional Moroccan attire for photo opportunities</li>
-                        <li>Guided trek through lush palm groves</li>
-                        <li>Visit to authentic Berber villages</li>
-                        <li>Complimentary mint tea in a traditional setting</li>
-                      </ul>
-                      <p className="text-xs text-amber-600 font-medium mt-2">A gentle, family-friendly activity suitable for all ages!</p>
-                    </div>
-                  )}
-                  
-                  {activity.id.includes("buggy") && (
-                    <div className="text-xs text-gray-700 space-y-2">
-                      <p>Take control of a powerful buggy as you navigate the diverse landscapes of Palmeraie, Marrakech on this thrilling adventure.</p>
-                      <p>Your 1-hour experience includes:</p>
-                      <ul className="list-disc pl-4 space-y-1">
-                        <li>Safety briefing and vehicle orientation</li>
-                        <li>Off-road driving through palm groves and rocky trails</li>
-                        <li>Stops at scenic viewpoints for photo opportunities</li>
-                        <li>Traditional Moroccan tea break</li>
-                      </ul>
-                      <p className="text-xs text-amber-600 font-medium mt-2">Three power options available at different price points!</p>
-                    </div>
-                  )}
-                  
-                  {activity.id.includes("balloon") && (
-                    <div className="text-xs text-gray-700 space-y-2">
-                      <p>Float peacefully above the magnificent landscapes of Marrakech in a hot air balloon, offering unparalleled panoramic views.</p>
-                      <p>Your 1-hour experience includes:</p>
-                      <ul className="list-disc pl-4 space-y-1">
-                        <li>Early morning hotel pickup</li>
-                        <li>Light refreshments before flight</li>
-                        <li>40-60 minute balloon flight at sunrise</li>
-                        <li>Traditional Berber breakfast after landing</li>
-                        <li>Flight certificate</li>
-                      </ul>
-                      <p className="text-xs text-amber-600 font-medium mt-2">A once-in-a-lifetime experience with breathtaking views!</p>
-                    </div>
-                  )}
-                  
-                  {activity.id.includes("quad-camel") && (
-                    <div className="text-xs text-gray-700 space-y-2">
-                      <p>Combine the excitement of quad biking with the traditional experience of camel riding in the beautiful Palmeraie of Marrakech.</p>
-                      <p>Your combo experience includes:</p>
-                      <ul className="list-disc pl-4 space-y-1">
-                        <li>1-hour quad biking adventure with safety equipment</li>
-                        <li>30-minute camel ride through palm groves</li>
-                        <li>Traditional Moroccan dress for photos</li>
-                        <li>Refreshing mint tea break</li>
-                      </ul>
-                      <p className="text-xs text-amber-600 font-medium mt-2">Perfect combination of adventure and tradition!</p>
-                    </div>
-                  )}
-                  
-                  {activity.id.includes("buggy-camel") && (
-                    <div className="text-xs text-gray-700 space-y-2">
-                      <p>Experience the best of both worlds with an exhilarating buggy ride followed by a peaceful camel trek through Palmeraie, Marrakech.</p>
-                      <p>Your combo experience includes:</p>
-                      <ul className="list-disc pl-4 space-y-1">
-                        <li>1-hour buggy adventure with safety equipment</li>
-                        <li>30-minute camel ride through palm groves</li>
-                        <li>Photo opportunities in traditional Moroccan attire</li>
-                        <li>Refreshing mint tea in an authentic setting</li>
-                      </ul>
-                      <p className="text-xs text-amber-600 font-medium mt-2">Available with three different buggy power options!</p>
-                    </div>
-                  )}
+                  <p className={`text-xs text-gray-500 ${clashDisplay.className}`}>
+                    Includes all taxes and fees
+                  </p>
                 </div>
               </div>
             </div>

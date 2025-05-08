@@ -21,7 +21,7 @@ import {
 } from '@heroicons/react/24/outline';
 import { StarIcon } from '@heroicons/react/24/solid';
 import { handleBookingSubmission } from '../firebase/services/bookingService';
-import { Activity, calculateTourPrice } from '../utils/activities';
+import { Activity, calculateTourPrice } from '../utils/activities86';
 import Image from 'next/image';
 
 // Date format utility

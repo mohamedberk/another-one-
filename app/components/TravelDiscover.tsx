@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Clock, MapPin, Star } from "lucide-react";
-import { activities6, Activity6 } from "@/utils/activities6";
+import { activities6, Activity6 } from "@/utils/activities";
 import { getActivityImage } from "@/utils/activityImages";
 
 // Enhanced Booking Modal Component
@@ -303,6 +303,11 @@ const EnhancedBookingModal = ({ isOpen, onClose, destination }: { isOpen: boolea
                         <span className="text-amber-700">1 Person × {destination.price}</span>
                         <span className="font-medium text-amber-900">{destination.price}</span>
                       </div>
+                      {destination.id && (destination.id.includes("buggy") || destination.id.includes("buggy-camel")) && (
+                        <div className="text-xs text-amber-600">
+                          {destination.id === "buggy" ? "3 power options available (850/1000/1400 MAD)" : "3 power options available (950/1100/1500 MAD)"}
+                        </div>
+                      )}
                     </div>
                     
                     <div className="flex justify-between pt-3 border-t border-amber-200">
@@ -328,26 +333,19 @@ const EnhancedBookingModal = ({ isOpen, onClose, destination }: { isOpen: boolea
                     <button
                       type="button"
                       onClick={onClose}
-                      className="px-4 py-1.5 rounded-md border border-amber-300 text-sm text-amber-700 hover:bg-amber-50 transition-colors duration-300"
+                      className="px-4 py-2 rounded-xl border border-amber-300 text-sm text-amber-700 hover:bg-amber-50 transition-all duration-300 transform hover:-translate-y-0.5 shadow-md shadow-amber-100/20 hover:shadow-lg hover:shadow-amber-100/30"
                     >
                       Cancel
                     </button>
                     <button
                       type="submit"
-                      className="flex-1 px-5 py-4 rounded-xl font-semibold shadow-lg hover:shadow-xl transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-amber-300 focus:ring-offset-2 relative overflow-hidden group text-base"
-                      style={{
-                        background: 'linear-gradient(135deg, #f59e0b, #ea580c)',
-                      }}
+                      className="flex-1 px-5 py-3 rounded-xl font-medium shadow-md shadow-amber-300/20 hover:shadow-lg hover:shadow-amber-300/30 transition-all duration-300 transform hover:-translate-y-0.5 bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-white"
                     >
-                      <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-amber-500 to-orange-500 opacity-100 group-hover:opacity-90 transition-opacity"></span>
-                      <span className="absolute -inset-px bg-gradient-to-r from-white/20 to-transparent opacity-50 rounded-xl"></span>
-                      <span className="absolute inset-0 flex items-center justify-center text-white font-medium z-10">
-                        <span className="flex items-center">
-                          Confirm Booking
-                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                          </svg>
-                        </span>
+                      <span className="flex items-center justify-center">
+                        Confirm Booking
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 ml-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
                       </span>
                     </button>
                   </div>
@@ -456,10 +454,10 @@ const TravelDiscover = () => {
               <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-amber-500/50 to-orange-500/50 rounded-full"></span>
             </span>
           </h2>
-          <p className="text-gray-600 max-w-xl text-sm leading-relaxed animate-fadeUp opacity-0" style={{ animationDelay: '0.3s' }}>
+          <p className="text-gray-600 max-w-xl text-sm leading-relaxed animate-fadeUp" style={{ animationDelay: '0.3s' }}>
             Discover handpicked experiences crafted by local experts to showcase the true essence of Marrakech's culture, adventure, and landscapes.
           </p>
-          <div className="flex items-center gap-2 animate-fadeUp opacity-0" style={{ animationDelay: '0.4s' }}>
+          <div className="flex items-center gap-2 animate-fadeUp" style={{ animationDelay: '0.4s' }}>
             <div className="p-1 rounded-full bg-amber-100">
               <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
@@ -544,10 +542,9 @@ const TravelDiscover = () => {
                     
                     <Link 
                       href={`/activities?id=${destination.id}`}
-                      className="px-4 py-2 border border-amber-100 rounded-lg text-sm font-medium flex items-center gap-2 shadow-sm z-10 bg-amber-50 text-amber-700 transition-all duration-300 hover:bg-amber-600 hover:text-white hover:border-amber-600 transform translate-y-0 group-hover:-translate-y-1 hover:shadow-md hover:shadow-amber-100/50"
-                      style={{ animation: 'sandWave 6s ease-in-out infinite' }}
+                      className="px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 shadow-md shadow-amber-300/20 hover:shadow-lg hover:shadow-amber-300/30 transition-all duration-300 transform hover:-translate-y-0.5 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white border border-gray-700/50"
                     >
-                      <span>Details</span>
+                      <span className="text-white">Details</span>
                       <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
@@ -559,26 +556,18 @@ const TravelDiscover = () => {
                 
                 <div className="flex justify-between items-center pt-4 border-t border-amber-100/50 mt-auto group-hover:border-amber-200/50 transition-all duration-300 relative z-20">
                   <div className="flex flex-col">
-                    <span className="text-xl font-bold text-amber-700 transition-all duration-300 group-hover:scale-110 group-hover:translate-x-1 origin-left">{destination.price}</span>
-                    <span className="text-xs text-amber-600/70 transition-colors duration-300 group-hover:text-amber-700">per person</span>
+                    <span className="text-xl font-bold text-gray-800 transition-all duration-300 group-hover:scale-110 group-hover:translate-x-1 origin-left">{destination.price}</span>
+                    <span className="text-xs text-gray-800/80 transition-colors duration-300 group-hover:text-gray-800">per person</span>
                     {destination.id && destination.id.includes("buggy") && (
-                      <span className="text-xs text-amber-600 font-medium transition-all duration-300 group-hover:text-amber-700">3 power options available</span>
+                      <span className="text-xs text-gray-800 font-medium transition-all duration-300 group-hover:text-gray-800">3 power options available</span>
                     )}
                   </div>
                   
                   <Link 
                     href={`/activities/${destination.id}/booking?id=${destination.id}&from=discover`}
-                    className="px-4 py-2 rounded-md text-white shadow-sm focus:ring-2 focus:ring-amber-300 focus:outline-none text-sm font-medium z-10 bg-gradient-to-r from-amber-500 to-orange-500 transition-all duration-300 hover:from-amber-600 hover:to-orange-600 hover:shadow-md relative overflow-hidden group-hover:scale-105"
-                    style={{ animation: 'glowPulse 2s infinite' }}
+                    className="px-4 py-2 rounded-xl text-white shadow-md shadow-amber-300/20 hover:shadow-lg hover:shadow-amber-300/30 transition-all duration-300 transform hover:-translate-y-0.5 text-sm font-medium bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400"
                   >
-                    <span className="relative z-10">Book Now</span>
-                    <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-                      style={{
-                        background: 'linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0) 100%)',
-                        backgroundSize: '200% 100%',
-                        animation: 'shine 1.5s infinite linear'
-                      }}
-                    ></div>
+                    <span className="text-white">Book Now</span>
                   </Link>
                 </div>
               </div>

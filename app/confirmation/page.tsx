@@ -6,7 +6,7 @@ import { CheckCircleIcon, CalendarDaysIcon, UserGroupIcon, MapPinIcon, ClockIcon
   ChevronLeftIcon, ShieldCheckIcon, InformationCircleIcon, UserIcon, EnvelopeIcon } from '@heroicons/react/24/outline';
 import { HeartIcon } from '@heroicons/react/24/solid';
 import Link from 'next/link';
-import { getActivityById, Activity } from '@/utils/activities';
+import { getActivityById, Activity } from '@/utils/activities86';
 import Image from 'next/image';
 import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils/cn';
