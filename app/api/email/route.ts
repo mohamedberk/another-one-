@@ -5,10 +5,17 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(request: NextRequest) {
   try {
+    if (!process.env.RESEND_API_KEY) {
+      throw new Error('RESEND_API_KEY is not configured');
+    }
+
     const booking = await request.json();
     
     if (!booking.email || !booking.bookingReference) {
-      throw new Error('Missing required booking information');
+      return NextResponse.json(
+        { error: 'Missing required booking information' },
+        { status: 400 }
+      );
     }
 
     // Format date properly
@@ -153,4 +160,16 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+}
+
+// Add OPTIONS handler for CORS
+export async function OPTIONS() {
+  return new NextResponse(null, {
+    status: 204,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+      'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    },
+  });
 }

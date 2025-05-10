@@ -86,7 +86,7 @@ export default function TravelReviews() {
       .map((_, index) => (
         <svg
           key={index}
-          className={`w-3 h-3 ${index < rating ? 'text-amber-500' : 'text-gray-300'}`}
+          className={`w-3 h-3 ${index < rating ? 'text-orange-700' : 'text-gray-300'}`}
           fill="currentColor"
           viewBox="0 0 20 20"
           xmlns="http://www.w3.org/2000/svg"
@@ -100,10 +100,10 @@ export default function TravelReviews() {
     <section id="reviews" className="py-10 bg-[#FFFBF5] relative">
       <div className="container mx-auto px-4">
         <div className="text-center mb-6">
-          <h2 className="text-2xl md:text-3xl font-bold mb-2 text-amber-900">
+          <h2 className="text-2xl md:text-3xl font-bold mb-2 text-orange-900">
             Traveler Experiences
           </h2>
-          <p className="text-sm text-amber-800 max-w-xl mx-auto">
+          <p className="text-sm text-orange-800 max-w-xl mx-auto">
             Real adventures from Morocco explorers
           </p>
         </div>
@@ -127,17 +127,17 @@ export default function TravelReviews() {
             {allReviews.map((review, index) => (
               <div
                 key={`${review.id}-${index}`}
-                className="flex-shrink-0 w-64 bg-white rounded-lg shadow-sm p-4 border border-amber-100 hover:shadow-md transition duration-300"
+                className="flex-shrink-0 w-64 bg-white rounded-lg shadow-sm p-4 border border-orange-100 hover:shadow-md transition duration-300"
               >
                 <div className="flex items-center mb-2">
                   <div className="flex-shrink-0">
-                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-amber-500 to-orange-400 flex items-center justify-center text-white font-bold text-sm">
+                    <div className="w-8 h-8 rounded-full bg-gradient-to-br from-orange-700 to-orange-600 flex items-center justify-center text-white font-bold text-sm">
                       {review.name.charAt(0)}
                     </div>
                   </div>
                   <div className="ml-2">
-                    <p className="text-sm font-medium text-amber-900">{review.name}</p>
-                    <p className="text-xs text-amber-700">{review.location}</p>
+                    <p className="text-sm font-medium text-orange-900">{review.name}</p>
+                    <p className="text-xs text-orange-700">{review.location}</p>
                   </div>
                 </div>
                 
@@ -146,7 +146,7 @@ export default function TravelReviews() {
                 </div>
                 
                 <div className="mb-2">
-                  <span className="inline-block px-2 py-0.5 bg-amber-100 text-amber-800 rounded-full text-xs">
+                  <span className="inline-block px-2 py-0.5 bg-orange-100 text-orange-800 rounded-full text-xs">
                     {review.activity}
                   </span>
                 </div>

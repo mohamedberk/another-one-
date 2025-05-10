@@ -16,6 +16,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { cn } from '@/utils/cn';
 import { getActivityImage } from '@/utils/activityImages';
 import { clashDisplay, cabinetGrotesk } from '../../../fonts';
+import { handleBookingSubmission } from '@/firebase/services/bookingService';
 
 // Define custom animations
 const fadeInKeyframes = `
@@ -99,10 +100,9 @@ const ActivityBookingPage = () => {
     );
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    // Add explicit validation for date
     if (!date) {
       alert("Please select a travel date");
       return;
@@ -110,35 +110,37 @@ const ActivityBookingPage = () => {
     
     setIsSubmitting(true);
     
-    // Store form data in localStorage for retrieval in confirmation page
-    localStorage.setItem('bookingInfo', JSON.stringify({
-      name,
-      email,
-      date,
-      adults,
-      children,
-      isPrivate,
-      activityId: activity?.id,
-      activityTitle: activity?.title,
-      totalPrice: totalPrice
-    }));
-    
-    // Generate a random reference number
-    const referenceNumber = Math.random().toString(36).substring(2, 8).toUpperCase();
-    
-    // Fix: Use setTimeout to ensure localStorage is set before navigation
-    setTimeout(() => {
-      try {
-        // Fix: Use the correct URL format with router.push
-        const confirmationUrl = `/activities/${activity!.id}/booking/confirmation?ref=${referenceNumber}`;
-        console.log("Navigating to:", confirmationUrl);
-        router.push(confirmationUrl);
-      } catch (error) {
-        console.error("Navigation error:", error);
-        // Fallback: try direct navigation as a last resort
-        window.location.href = `/activities/${activity!.id}/booking/confirmation?ref=${referenceNumber}`;
-      }
-    }, 1000);
+    try {
+      const referenceNumber = Math.random().toString(36).substring(2, 8).toUpperCase();
+      
+      const bookingData = {
+        name,
+        email,
+        phone: '',
+        adults,
+        children,
+        youngChildren: 0,
+        pickupLocation: '',
+        date: new Date(date),
+        totalPrice,
+        excursionTitle: activity.title,
+        excursionType: activity.type || 'EXCURSION',
+        isPrivate,
+        bookingReference: referenceNumber,
+        adultPrice: activity.groupPrice,
+        childPrice: activity.groupPrice * 0.6,
+        youngChildPrice: 0
+      };
+
+      const booking = await handleBookingSubmission(bookingData);
+      router.push(`/confirmation?ref=${booking.id}`);
+      
+    } catch (error) {
+      console.error('Error submitting booking:', error);
+      alert('Failed to submit booking. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const totalPrice = activity ? calculateTourPrice(activity, isPrivate, adults, children, 0) : 0;
@@ -326,7 +328,7 @@ const ActivityBookingPage = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-[#f8f9fa] ${cabinetGrotesk.variable} ${clashDisplay.variable}`}>
+    <div className={`min-h-screen bg-gradient-to-br from-amber-50/80 via-white to-amber-50/60 ${cabinetGrotesk.variable} ${clashDisplay.variable}`}>
       {/* Add custom animations */}
       <style jsx global>{fadeInKeyframes}</style>
       
@@ -336,13 +338,13 @@ const ActivityBookingPage = () => {
         <div className="mb-10 max-w-2xl mx-auto">
           <div className="flex items-center justify-center">
             <div className="flex items-center">
-              <div className="rounded-full h-7 w-7 flex items-center justify-center bg-amber-600 text-white text-xs font-medium">1</div>
-              <div className={`ml-2 text-sm font-medium text-gray-900 ${clashDisplay.className}`}>Details</div>
+              <div className="rounded-full h-8 w-8 flex items-center justify-center bg-gradient-to-r from-amber-500 to-amber-600 text-white text-sm font-medium shadow-lg shadow-amber-500/20">1</div>
+              <div className={`ml-3 text-sm font-medium text-gray-900 ${clashDisplay.className}`}>Details</div>
             </div>
-            <div className="mx-2 h-[2px] w-16 bg-amber-200"></div>
+            <div className="mx-3 h-[2px] w-20 bg-gradient-to-r from-amber-500/50 to-amber-600/50"></div>
             <div className="flex items-center">
-              <div className="rounded-full h-7 w-7 flex items-center justify-center bg-gray-200 text-gray-600 text-xs font-medium">2</div>
-              <div className={`ml-2 text-sm font-medium text-gray-500 ${clashDisplay.className}`}>Confirmation</div>
+              <div className="rounded-full h-8 w-8 flex items-center justify-center bg-gray-200 text-gray-600 text-sm font-medium">2</div>
+              <div className={`ml-3 text-sm font-medium text-gray-500 ${clashDisplay.className}`}>Confirmation</div>
             </div>
           </div>
         </div>
@@ -350,18 +352,18 @@ const ActivityBookingPage = () => {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
           {/* Left column - booking form */}
           <div className="lg:col-span-7 h-full flex flex-col">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden flex-grow">
+            <div className="bg-white rounded-xl shadow-2xl border border-gray-100 overflow-hidden flex-grow">
               <div className="p-6 md:p-8 h-full flex flex-col">
                 {/* Back button */}
                 <Link 
                   href={fromDetails ? `/activities?id=${activity.id}` : "/"}
-                  className={`flex items-center gap-2 text-gray-600 transition-colors mb-5 w-fit ${clashDisplay.className}`}
+                  className={`flex items-center gap-2 text-gray-600 hover:text-amber-600 transition-colors mb-5 w-fit ${clashDisplay.className}`}
                 >
                   <ChevronLeftIcon className="h-5 w-5" />
                   <span className="font-medium">{fromDetails ? 'Back to Details' : 'Back'}</span>
                 </Link>
 
-                <h1 className={`text-2xl md:text-2xl font-bold text-gray-900 mb-5 ${cabinetGrotesk.className}`}>
+                <h1 className={`text-2xl md:text-3xl font-bold text-gray-900 mb-6 ${cabinetGrotesk.className}`}>
                   Complete Your Reservation
                 </h1>
                 
@@ -375,7 +377,7 @@ const ActivityBookingPage = () => {
                         value={name}
                         onChange={(e) => setName(e.target.value)}
                         required
-                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 bg-white ${clashDisplay.className}`}
+                        className={`w-full px-4 py-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 placeholder-gray-400 ${clashDisplay.className}`}
                         placeholder="Enter your full name"
                       />
                     </div>
@@ -388,7 +390,7 @@ const ActivityBookingPage = () => {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
-                        className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 bg-white ${clashDisplay.className}`}
+                        className={`w-full px-4 py-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 placeholder-gray-400 ${clashDisplay.className}`}
                         placeholder="you@example.com"
                       />
                     </div>
@@ -397,7 +399,7 @@ const ActivityBookingPage = () => {
                       <label htmlFor="date" className={`block text-sm font-medium text-gray-700 mb-1 ${clashDisplay.className}`}>Travel Date</label>
                       <div className="relative">
                         <div 
-                          className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 transition-colors bg-white flex justify-between items-center cursor-pointer ${showCalendar ? 'border-amber-500 ring-2 ring-amber-500' : ''} ${clashDisplay.className}`}
+                          className={`w-full px-4 py-3 rounded-lg border border-gray-200 bg-white focus-within:ring-2 focus-within:ring-amber-500 focus-within:border-amber-500 transition-colors flex justify-between items-center cursor-pointer ${showCalendar ? 'border-amber-500 ring-2 ring-amber-500' : ''} ${clashDisplay.className}`}
                           onClick={() => setShowCalendar(!showCalendar)}
                         >
                           <span className={date ? "text-gray-900" : "text-gray-400"}>
@@ -439,7 +441,7 @@ const ActivityBookingPage = () => {
                             if (!isNaN(val)) {
                               setAdults(val);
                             } else if (e.target.value === '') {
-                              setAdults(1); // Default for calculation
+                              setAdults(1);
                             }
                           }}
                           onBlur={() => {
@@ -453,7 +455,7 @@ const ActivityBookingPage = () => {
                               setAdults(validVal);
                             }
                           }}
-                          className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 bg-white ${clashDisplay.className}`}
+                          className={`w-full px-4 py-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 ${clashDisplay.className}`}
                         />
                       </div>
                       
@@ -474,7 +476,7 @@ const ActivityBookingPage = () => {
                             if (!isNaN(val)) {
                               setChildren(val);
                             } else if (e.target.value === '') {
-                              setChildren(0); // Default for calculation
+                              setChildren(0);
                             }
                           }}
                           onBlur={() => {
@@ -488,7 +490,7 @@ const ActivityBookingPage = () => {
                               setChildren(validVal);
                             }
                           }}
-                          className={`w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 bg-white ${clashDisplay.className}`}
+                          className={`w-full px-4 py-3 rounded-lg border border-gray-200 bg-white focus:ring-2 focus:ring-amber-500 focus:border-amber-500 transition-colors text-gray-900 ${clashDisplay.className}`}
                         />
                       </div>
                     </div>
@@ -504,8 +506,8 @@ const ActivityBookingPage = () => {
                             </div>
                             <div className="ml-3">
                               <h4 className={`text-sm font-medium text-gray-900 ${cabinetGrotesk.className}`}>Standard Pricing</h4>
-                              <p className={`text-xs text-gray-700 mt-1 ${clashDisplay.className}`}>One hour activity in Palmeraie, Marrakech</p>
-                              <p className={`text-sm font-semibold text-gray-900 mt-2 ${cabinetGrotesk.className}`}>{`${activity.groupPrice} MAD`}</p>
+                              <p className={`text-xs text-gray-600 mt-1 ${clashDisplay.className}`}>One hour activity in Palmeraie, Marrakech</p>
+                              <p className={`text-sm font-semibold text-amber-600 mt-2 ${cabinetGrotesk.className}`}>{`${activity.groupPrice} MAD`}</p>
                             </div>
                           </div>
                         </div>
@@ -533,29 +535,34 @@ const ActivityBookingPage = () => {
                       type="submit"
                       disabled={isSubmitting}
                       className={cn(
-                        `w-full px-4 py-2 rounded-xl text-white shadow-md shadow-amber-300/20 hover:shadow-lg hover:shadow-amber-300/30 transition-all duration-300 transform hover:-translate-y-0.5 bg-gradient-to-r from-amber-500 to-orange-500 ${cabinetGrotesk.className}`,
-                        "w-full px-4 py-2 rounded-xl text-white shadow-md shadow-amber-300/20 hover:shadow-lg hover:shadow-amber-300/30 transition-all duration-300 transform hover:-translate-y-0.5 bg-gradient-to-r from-amber-500 to-orange-500",
+                        `w-full px-6 py-3 rounded-2xl text-white font-bold shadow-xl transition-all duration-300 bg-orange-500 border border-amber-200/60 flex items-center justify-center gap-2 relative overflow-hidden`,
                         isSubmitting && "opacity-70 cursor-not-allowed"
                       )}
+                      style={{
+                        boxShadow: '0 8px 32px 0 rgba(251,191,36,0.15), 0 1.5px 4px 0 rgba(0,0,0,0.04)',
+                        letterSpacing: '0.02em',
+                      }}
                     >
-                      {isSubmitting ? (
-                        <>
-                          <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                            <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                          </svg>
-                          Processing...
-                        </>
-                      ) : (
-                        <>
-                          Complete Booking
-                          <ArrowRightIcon className="ml-2 h-5 w-5" />
-                        </>
-                      )}
+                      <span className="z-10 flex items-center">
+                        {isSubmitting ? (
+                          <>
+                            <svg className="animate-spin -ml-1 mr-2 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                              <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                              <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            Processing...
+                          </>
+                        ) : (
+                          <>
+                            <span className="tracking-wide">Complete Booking</span>
+                            <ArrowRightIcon className="ml-2 h-5 w-5" />
+                          </>
+                        )}
+                      </span>
                     </button>
                     
                     <div className="flex items-center justify-center mt-4 text-xs text-gray-500">
-                      <ShieldCheckIcon className="h-3.5 w-3.5 mr-1.5 text-amber-400" />
+                      <ShieldCheckIcon className="h-3.5 w-3.5 mr-1.5 text-amber-500" />
                       <span>Secure booking • No booking fees • Free cancellation up to 24h before</span>
                     </div>
                   </div>
@@ -567,22 +574,21 @@ const ActivityBookingPage = () => {
           {/* Right column - booking summary */}
           <div className="lg:col-span-5 h-full">
             <div className="sticky top-24">
-              <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
+              <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl shadow-2xl border border-gray-700/50 overflow-hidden">
                 <div className="relative h-48 w-full group">
                   <Image
                     src={activityImage}
                     alt={activity.title}
                     fill
-                    className="object-cover transition-transform duration-700 group-hover:scale-105"
+                    className="object-cover transition-transform duration-700"
                     priority
+                    style={{ pointerEvents: 'none' }}
                   />
-                  {/* Enhanced overlay with better visibility on hover */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/5 group-hover:from-black/50 group-hover:via-black/20 transition-all duration-500"></div>
-                  {/* Price card overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-black/5 transition-all duration-500"></div>
                   <div className="absolute bottom-4 right-4 z-10">
-                    <div className="bg-white/95 rounded-xl shadow-lg px-4 py-2 flex flex-col items-end min-w-[90px] max-w-[140px]">
-                      <span className="text-xs text-gray-500 font-medium">from</span>
-                      <span className="text-lg font-bold text-amber-600 leading-tight">{`${activity.groupPrice} MAD`}</span>
+                    <div className="bg-gray-900/95 backdrop-blur-sm rounded-xl shadow-lg px-4 py-2 flex flex-col items-end min-w-[90px] max-w-[140px]">
+                      <span className="text-xs text-gray-400 font-medium">from</span>
+                      <span className="text-lg font-bold text-amber-400 leading-tight">{`${activity.groupPrice} MAD`}</span>
                     </div>
                   </div>
                   <div className="absolute bottom-4 left-4 right-4">
@@ -595,48 +601,45 @@ const ActivityBookingPage = () => {
                   </div>
                 </div>
                 
-                <div className="p-4 border-b border-gray-100">
+                <div className="p-4 border-b border-gray-700/50">
                   <div className="grid grid-cols-2 gap-4">
                     <div className="flex items-start">
-                      <ClockIcon className="h-5 w-5 text-amber-600 mt-0.5" />
+                      <ClockIcon className="h-5 w-5 text-amber-400 mt-0.5" />
                       <div className="ml-3">
-                        <p className="text-xs text-gray-700">Duration</p>
-                        <p className="text-sm font-medium text-gray-900">{activity.duration}</p>
+                        <p className="text-xs text-gray-400">Duration</p>
+                        <p className="text-sm font-medium text-white">{activity.duration}</p>
                       </div>
                     </div>
                     <div className="flex items-start">
-                      <MapPinIcon className="h-5 w-5 text-amber-600 mt-0.5" />
+                      <MapPinIcon className="h-5 w-5 text-amber-400 mt-0.5" />
                       <div className="ml-3">
-                        <p className="text-xs text-gray-700">Location</p>
-                        <p className="text-sm font-medium text-gray-900">{activity.location}</p>
+                        <p className="text-xs text-gray-400">Location</p>
+                        <p className="text-sm font-medium text-white">{activity.location}</p>
                       </div>
                     </div>
                   </div>
                 </div>
                 
                 <div className="p-4">
-                  <h3 className="text-base font-semibold text-gray-900 mb-3">Price Details</h3>
+                  <h3 className="text-base font-semibold text-white mb-3">Price Details</h3>
                   <div className="space-y-3 mb-4">
                     <div className="flex justify-between">
-                      <span className="text-gray-700">Adults ({adults})</span>
-                      <span className="font-medium text-gray-900">{`${activity.groupPrice * adults} MAD`}</span>
+                      <span className="text-gray-300">Adults ({adults})</span>
+                      <span className="font-medium text-white">{`${activity.groupPrice * adults} MAD`}</span>
                     </div>
-                    
-                    {children > 0 && (
-                      <div className="flex justify-between">
-                        <span className="text-gray-700">Children ({children}) <span className="text-amber-600 text-xs font-medium">-40%</span></span>
-                        <span className="font-medium text-gray-900">{`${Math.round(activity.groupPrice * 0.6 * children)} MAD`}</span>
-                      </div>
-                    )}
+                    <div className="flex justify-between">
+                      <span className="text-gray-300">Children ({children}) <span className="text-amber-400 text-xs font-medium">-40%</span></span>
+                      <span className="font-medium text-white">{children > 0 ? `${Math.round(activity.groupPrice * 0.6 * children)} MAD` : `0 MAD`}</span>
+                    </div>
                   </div>
                   
-                  <div className="border-t border-gray-200 pt-3 mt-3">
-                    <div className="flex justify-between font-bold text-gray-900">
+                  <div className="border-t border-gray-700/50 pt-3 mt-3">
+                    <div className="flex justify-between font-bold text-white">
                       <span>Total</span>
                       <span>{`${Math.round(totalPrice)} MAD`}</span>
                     </div>
                     {children > 0 && (
-                      <div className="text-right text-xs text-amber-600 mt-1">
+                      <div className="text-right text-xs text-amber-400 mt-1">
                         Including 40% discount for children
                       </div>
                     )}
@@ -645,31 +648,31 @@ const ActivityBookingPage = () => {
               </div>
               
               <div className="mt-4 space-y-3">
-                <div className="flex items-start bg-white p-3 rounded-lg shadow-sm border border-gray-100">
+                <div className="flex items-start bg-gradient-to-br from-gray-900 to-gray-800 p-3 rounded-lg shadow-xl border border-gray-700/50">
                   <div className="flex-shrink-0">
-                    <CheckCircleIcon className="h-5 w-5 text-amber-500" />
+                    <CheckCircleIcon className="h-5 w-5 text-amber-400" />
                   </div>
                   <div className="ml-3">
-                    <h4 className="text-sm font-medium text-gray-900">Free Cancellation</h4>
-                    <p className="text-xs text-gray-500">Cancel up to 24 hours before your tour for a full refund</p>
+                    <h4 className="text-sm font-medium text-white">Free Cancellation</h4>
+                    <p className="text-xs text-gray-400">Cancel up to 24 hours before your tour for a full refund</p>
                   </div>
                 </div>
-                <div className="flex items-start bg-white p-3 rounded-lg shadow-sm border border-gray-100">
+                <div className="flex items-start bg-gradient-to-br from-gray-900 to-gray-800 p-3 rounded-lg shadow-xl border border-gray-700/50">
                   <div className="flex-shrink-0">
-                    <ShieldCheckIcon className="h-5 w-5 text-amber-500" />
+                    <ShieldCheckIcon className="h-5 w-5 text-amber-400" />
                   </div>
                   <div className="ml-3">
-                    <h4 className="text-sm font-medium text-gray-900">Secure Booking</h4>
-                    <p className="text-xs text-gray-500">We use industry-standard encryption to protect your personal information</p>
+                    <h4 className="text-sm font-medium text-white">Secure Booking</h4>
+                    <p className="text-xs text-gray-400">We use industry-standard encryption to protect your personal information</p>
                   </div>
                 </div>
                 
                 {/* Activity specific information */}
-                <div className="bg-white p-3 pb-5 rounded-lg shadow-sm border border-gray-100 min-h-[220px]">
-                  <h4 className="text-sm font-medium text-gray-900 mb-2">Activity Details</h4>
+                <div className="bg-gradient-to-br from-gray-900 to-gray-800 p-3 pb-5 rounded-lg shadow-xl border border-gray-700/50 min-h-[220px]">
+                  <h4 className="text-sm font-medium text-white mb-2">Activity Details</h4>
                   
                   {activity.id.includes("quad") && (
-                    <div className="text-xs text-gray-700 space-y-1.5">
+                    <div className="text-xs text-gray-300 space-y-1.5">
                       <p>Experience an exhilarating quad biking adventure through the stunning Palmeraie of Marrakech.</p>
                       <p>Your 1-hour adventure includes:</p>
                       <ul className="list-disc pl-4 space-y-0.5 mb-3">
@@ -678,12 +681,12 @@ const ActivityBookingPage = () => {
                         <li>Photo opportunities at scenic viewpoints</li>
                         <li>Refreshing mint tea break</li>
                       </ul>
-                      <p className="text-xs text-amber-600 font-medium mt-1.5 mb-2">Suitable for all skill levels!</p>
+                      <p className="text-xs text-amber-400 font-medium mt-1.5 mb-2">Suitable for all skill levels!</p>
                     </div>
                   )}
                   
                   {activity.id.includes("camel") && !activity.id.includes("quad") && !activity.id.includes("buggy") && (
-                    <div className="text-xs text-gray-700 space-y-1.5">
+                    <div className="text-xs text-gray-300 space-y-1.5">
                       <p>Embark on a traditional camel ride through the serene Palmeraie of Marrakech.</p>
                       <p>Your 1-hour experience includes:</p>
                       <ul className="list-disc pl-4 space-y-0.5 mb-3">
@@ -692,12 +695,12 @@ const ActivityBookingPage = () => {
                         <li>Visit to authentic Berber villages</li>
                         <li>Complimentary mint tea in a traditional setting</li>
                       </ul>
-                      <p className="text-xs text-amber-600 font-medium mt-1.5 mb-2">Family-friendly activity for all ages!</p>
+                      <p className="text-xs text-amber-400 font-medium mt-1.5 mb-2">Family-friendly activity for all ages!</p>
                     </div>
                   )}
                   
                   {activity.id.includes("buggy") && !activity.id.includes("camel") && (
-                    <div className="text-xs text-gray-700 space-y-1.5">
+                    <div className="text-xs text-gray-300 space-y-1.5">
                       <p>Take control of a powerful buggy through the diverse landscapes of Palmeraie, Marrakech.</p>
                       <p>Your 1-hour experience includes:</p>
                       <ul className="list-disc pl-4 space-y-0.5 mb-3">
@@ -706,12 +709,12 @@ const ActivityBookingPage = () => {
                         <li>Stops at scenic viewpoints for photo opportunities</li>
                         <li>Traditional Moroccan tea break</li>
                       </ul>
-                      <p className="text-xs text-amber-600 font-medium mt-1.5 mb-2">Three power options available!</p>
+                      <p className="text-xs text-amber-400 font-medium mt-1.5 mb-2">Three power options available!</p>
                     </div>
                   )}
                   
                   {activity.id.includes("balloon") && (
-                    <div className="text-xs text-gray-700 space-y-1.5">
+                    <div className="text-xs text-gray-300 space-y-1.5">
                       <p>Float peacefully above the magnificent landscapes of Marrakech in a hot air balloon.</p>
                       <p>Your experience includes:</p>
                       <ul className="list-disc pl-4 space-y-0.5 mb-3">
@@ -721,12 +724,12 @@ const ActivityBookingPage = () => {
                         <li>Traditional Berber breakfast after landing</li>
                         <li>Flight certificate</li>
                       </ul>
-                      <p className="text-xs text-amber-600 font-medium mt-1.5 mb-2">Breathtaking views guaranteed!</p>
+                      <p className="text-xs text-amber-400 font-medium mt-1.5 mb-2">Breathtaking views guaranteed!</p>
                     </div>
                   )}
                   
                   {activity.id.includes("quad-camel") && (
-                    <div className="text-xs text-gray-700 space-y-1.5">
+                    <div className="text-xs text-gray-300 space-y-1.5">
                       <p>Combination of quad biking and camel riding in the beautiful Palmeraie of Marrakech.</p>
                       <p>Your combo experience includes:</p>
                       <ul className="list-disc pl-4 space-y-0.5 mb-3">
@@ -735,12 +738,12 @@ const ActivityBookingPage = () => {
                         <li>Traditional Moroccan dress for photos</li>
                         <li>Refreshing mint tea break</li>
                       </ul>
-                      <p className="text-xs text-amber-600 font-medium mt-1.5 mb-2">Perfect adventure and tradition mix!</p>
+                      <p className="text-xs text-amber-400 font-medium mt-1.5 mb-2">Perfect adventure and tradition mix!</p>
                     </div>
                   )}
                   
                   {activity.id.includes("buggy-camel") && (
-                    <div className="text-xs text-gray-700 space-y-1.5">
+                    <div className="text-xs text-gray-300 space-y-1.5">
                       <p>Experience buggy riding and camel trekking through Palmeraie, Marrakech.</p>
                       <p>Your combo experience includes:</p>
                       <ul className="list-disc pl-4 space-y-0.5 mb-3">
@@ -749,22 +752,19 @@ const ActivityBookingPage = () => {
                         <li>Photo opportunities in traditional Moroccan attire</li>
                         <li>Refreshing mint tea in an authentic setting</li>
                       </ul>
-                      <p className="text-xs text-amber-600 font-medium mt-1.5 mb-2">Three buggy power options available!</p>
+                      <p className="text-xs text-amber-400 font-medium mt-1.5 mb-2">Three buggy power options available!</p>
                     </div>
                   )}
                   
-                  <div className="mt-4 border-t border-gray-100 pt-4">
-                    <div className="flex items-center justify-center">
-                      <span className="text-xs text-gray-500 flex items-center">
-                        <ShieldCheckIcon className="h-3.5 w-3.5 mr-1 text-amber-500" />
+                  <div className="mt-4 border-t border-gray-700/50 pt-4">
+                    <div className="flex items-center justify-center mb-3">
+                      <span className="text-xs text-gray-400 flex items-center">
+                        <ShieldCheckIcon className="h-3.5 w-3.5 mr-1 text-amber-400" />
                         24/7 customer support available
                       </span>
                     </div>
+                    <p className="text-xs text-gray-400 text-center">By completing this booking, you agree to our <span className="text-amber-400 hover:underline cursor-pointer">Terms & Conditions</span></p>
                   </div>
-                </div>
-                
-                <div className="mt-4 text-center">
-                  <p className="text-xs text-gray-500">By completing this booking, you agree to our <span className="text-amber-600 hover:underline cursor-pointer">Terms & Conditions</span></p>
                 </div>
               </div>
             </div>

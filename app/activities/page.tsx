@@ -180,7 +180,7 @@ export default function ActivityDetailPage() {
             <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl shadow-2xl overflow-hidden border border-gray-700/50 transform hover:shadow-xl transition-all duration-300 mt-3">
               <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-y sm:divide-y-0 divide-gray-700/50">
                 <div className="p-2.5 sm:p-3 hover:bg-gray-800/50 transition-colors duration-300">
-                  <div className="flex items-center gap-1 text-emerald-400 mb-1">
+                  <div className="flex items-center gap-1 text-orange-400 mb-1">
                     <ClockIcon className="h-3.5 w-3.5" />
                     <span className="text-xs font-semibold uppercase tracking-wide">Duration</span>
                   </div>
@@ -188,7 +188,7 @@ export default function ActivityDetailPage() {
                 </div>
                 
                 <div className="p-2.5 sm:p-3 hover:bg-gray-800/50 transition-colors duration-300">
-                  <div className="flex items-center gap-1 text-emerald-400 mb-1">
+                  <div className="flex items-center gap-1 text-orange-400 mb-1">
                     <MapPinIcon className="h-3.5 w-3.5" />
                     <span className="text-xs font-semibold uppercase tracking-wide">Location</span>
                   </div>
@@ -196,7 +196,7 @@ export default function ActivityDetailPage() {
                 </div>
                 
                 <div className="p-2.5 sm:p-3 hover:bg-gray-800/50 transition-colors duration-300">
-                  <div className="flex items-center gap-1 text-emerald-400 mb-1">
+                  <div className="flex items-center gap-1 text-orange-400 mb-1">
                     <UserGroupIcon className="h-3.5 w-3.5" />
                     <span className="text-xs font-semibold uppercase tracking-wide">Group Size</span>
                   </div>
@@ -204,7 +204,7 @@ export default function ActivityDetailPage() {
                 </div>
                 
                 <div className="p-2.5 sm:p-3 hover:bg-gray-800/50 transition-colors duration-300">
-                  <div className="flex items-center gap-1 text-emerald-400 mb-1">
+                  <div className="flex items-center gap-1 text-orange-400 mb-1">
                     <CalendarDaysIcon className="h-3.5 w-3.5" />
                     <span className="text-xs font-semibold uppercase tracking-wide">Availability</span>
                   </div>
@@ -224,7 +224,7 @@ export default function ActivityDetailPage() {
                     <h3 className={`text-xl font-black text-white ${cabinetGrotesk.className}`}>
                       Book This Experience
                     </h3>
-                    <div className="bg-gray-800/80 backdrop-blur-sm flex items-center gap-1.5 px-2.5 py-1 rounded-full text-emerald-400 border border-emerald-500/20">
+                    <div className="bg-gray-800/80 backdrop-blur-sm flex items-center gap-1.5 px-2.5 py-1 rounded-full text-orange-400 border border-orange-500/20">
                       <ClockIcon className="h-4 w-4" />
                       <span className={`text-sm font-medium ${clashDisplay.className}`}>Duration: {activity.duration}</span>
                     </div>
@@ -239,8 +239,8 @@ export default function ActivityDetailPage() {
                   {/* Standard Experience */}
                   <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 flex justify-between items-center mb-2 shadow-lg hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center">
-                      <div className="bg-emerald-500/10 p-2 mr-2 rounded-lg border border-emerald-500/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+                      <div className="bg-orange-500/10 p-2 mr-2 rounded-lg border border-orange-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-orange-400" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clipRule="evenodd" />
                         </svg>
                       </div>
@@ -250,7 +250,7 @@ export default function ActivityDetailPage() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className={`text-2xl font-black text-emerald-400 ${cabinetGrotesk.className}`}>{`${activity.groupPrice} MAD`}</p>
+                      <p className={`text-2xl font-black text-orange-400 ${cabinetGrotesk.className}`}>{`${activity.groupPrice} MAD`}</p>
                       <p className={`text-xs text-gray-400 ${clashDisplay.className}`}>per person</p>
                     </div>
                   </div>
@@ -258,8 +258,8 @@ export default function ActivityDetailPage() {
                   {/* Children Discount */}
                   <div className="bg-gray-800/50 border border-gray-700/50 rounded-xl p-4 flex justify-between items-center shadow-lg hover:shadow-xl transition-all duration-300">
                     <div className="flex items-center">
-                      <div className="bg-emerald-500/10 p-2 mr-2 rounded-lg border border-emerald-500/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+                      <div className="bg-orange-500/10 p-2 mr-2 rounded-lg border border-orange-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-orange-400" viewBox="0 0 20 20" fill="currentColor">
                           <path d="M13 6a3 3 0 11-6 0 3 3 0 016 0zM18 8a2 2 0 11-4 0 2 2 0 014 0zM14 15a4 4 0 00-8 0v3h8v-3zM6 8a2 2 0 11-4 0 2 2 0 014 0zM16 18v-3a5.972 5.972 0 00-.75-2.906A3.005 3.005 0 0119 15v3h-3zM4.75 12.094A5.973 5.973 0 004 15v3H1v-3a3 3 0 013.75-2.906z" />
                         </svg>
                       </div>
@@ -269,7 +269,7 @@ export default function ActivityDetailPage() {
                       </div>
                     </div>
                     <div className="text-right">
-                      <p className={`text-xl font-black text-emerald-400 ${cabinetGrotesk.className}`}>40% Off</p>
+                      <p className={`text-xl font-black text-orange-400 ${cabinetGrotesk.className}`}>40% Off</p>
                       <p className={`text-xs text-gray-400 ${clashDisplay.className}`}>of adult price</p>
                     </div>
                   </div>
@@ -279,7 +279,7 @@ export default function ActivityDetailPage() {
                   {/* CTA Button with premium glass effect */}
                   <Link 
                     href={`/activities/${id}/booking?from=details`}
-                    className="w-full px-4 py-3 rounded-xl text-white shadow-lg shadow-emerald-500/20 hover:shadow-xl hover:shadow-emerald-500/30 hover:text-white transition-all duration-300 transform hover:-translate-y-0.5 bg-gradient-to-r from-emerald-500 to-emerald-600 inline-flex items-center justify-center gap-2 font-semibold"
+                    className="w-full px-4 py-3 rounded-xl text-white shadow-lg shadow-orange-500/20 hover:shadow-xl hover:shadow-orange-500/30 hover:text-white transition-all duration-300 transform hover:-translate-y-0.5 bg-gradient-to-r from-orange-500 to-orange-600 inline-flex items-center justify-center gap-2 font-semibold"
                   >
                     <span>Book This Experience</span>
                     <ArrowRightIcon className="h-5 w-5" />
@@ -288,22 +288,22 @@ export default function ActivityDetailPage() {
                   {/* Trust badges with glass effect */}
                   <div className="pt-4 mt-4 space-y-3">
                     <div className="flex items-center gap-2">
-                      <div className="bg-emerald-500/10 p-1.5 rounded-lg border border-emerald-500/20">
-                        <ShieldCheckIcon className="h-4 w-4 text-emerald-400" />
+                      <div className="bg-orange-500/10 p-1.5 rounded-lg border border-orange-500/20">
+                        <ShieldCheckIcon className="h-4 w-4 text-orange-400" />
                       </div>
                       <p className={`text-xs text-gray-300 ${clashDisplay.className}`}>Free cancellation up to 24 hours before</p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="bg-emerald-500/10 p-1.5 rounded-lg border border-emerald-500/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+                      <div className="bg-orange-500/10 p-1.5 rounded-lg border border-orange-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-orange-400" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z" clipRule="evenodd" />
                         </svg>
                       </div>
                       <p className={`text-xs text-gray-300 ${clashDisplay.className}`}>Secure payments through our platform</p>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="bg-emerald-500/10 p-1.5 rounded-lg border border-emerald-500/20">
-                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+                      <div className="bg-orange-500/10 p-1.5 rounded-lg border border-orange-500/20">
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-orange-400" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                         </svg>
                       </div>
@@ -416,11 +416,11 @@ export default function ActivityDetailPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6 w-full">
               <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl shadow-2xl p-6 overflow-hidden relative border border-gray-700/50 transform hover:shadow-xl transition-all duration-300">
                 {/* Decorative accent */}
-                <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-t-xl"></div>
+                <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-500 to-orange-600 rounded-t-xl"></div>
                 
                 <h3 className={`text-xl font-black text-white mb-4 flex items-center gap-2 ${cabinetGrotesk.className}`}>
-                  <div className="p-1.5 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
-                    <CheckCircleIcon className="h-5 w-5 text-emerald-400" />
+                  <div className="p-1.5 bg-orange-500/10 rounded-lg border border-orange-500/20">
+                    <CheckCircleIcon className="h-5 w-5 text-orange-400" />
                   </div>
                   <span>What's Included</span>
                 </h3>
@@ -428,7 +428,7 @@ export default function ActivityDetailPage() {
                 <ul className={`space-y-3 ${clashDisplay.className}`}>
                   {activity.included.map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
-                      <div className="p-1 rounded-full bg-emerald-500/10 text-emerald-400 flex-shrink-0 mt-1 border border-emerald-500/20">
+                      <div className="p-1 rounded-full bg-orange-500/10 text-orange-400 flex-shrink-0 mt-1 border border-orange-500/20">
                         <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
@@ -442,11 +442,11 @@ export default function ActivityDetailPage() {
               {activity.excludes && (
                 <div className="bg-gradient-to-br from-gray-900 to-gray-800 rounded-xl shadow-2xl p-6 overflow-hidden relative border border-gray-700/50 transform hover:shadow-xl transition-all duration-300">
                   {/* Decorative accent */}
-                  <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-t-xl"></div>
+                  <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-orange-500 to-orange-600 rounded-t-xl"></div>
                   
                   <h3 className={`text-xl font-black text-white mb-4 flex items-center gap-2 ${cabinetGrotesk.className}`}>
-                    <div className="p-1.5 bg-emerald-500/10 rounded-lg border border-emerald-500/20">
-                      <svg className="h-5 w-5 text-emerald-400" viewBox="0 0 20 20" fill="currentColor">
+                    <div className="p-1.5 bg-orange-500/10 rounded-lg border border-orange-500/20">
+                      <svg className="h-5 w-5 text-orange-400" viewBox="0 0 20 20" fill="currentColor">
                         <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                       </svg>
                     </div>
@@ -456,7 +456,7 @@ export default function ActivityDetailPage() {
                   <ul className={`space-y-3 ${clashDisplay.className}`}>
                     {activity.excludes.map((item, index) => (
                       <li key={index} className="flex items-start gap-3">
-                        <div className="p-1 rounded-full bg-emerald-500/10 text-emerald-400 flex-shrink-0 mt-1 border border-emerald-500/20">
+                        <div className="p-1 rounded-full bg-orange-500/10 text-orange-400 flex-shrink-0 mt-1 border border-orange-500/20">
                           <svg className="h-3.5 w-3.5" viewBox="0 0 20 20" fill="currentColor">
                             <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
                           </svg>
@@ -573,9 +573,7 @@ export default function ActivityDetailPage() {
                         </div>
                         
                         <div className="p-5 flex-1 flex flex-col">
-                          <h3 className={`text-lg font-black text-gray-800 mb-2 group-hover:text-amber-700 transition-colors ${cabinetGrotesk.className}`}>
-                            {otherActivity.name}
-                          </h3>
+                          <h3 className={`text-lg font-black text-gray-800 mb-2 ${cabinetGrotesk.className}`}>{otherActivity.name}</h3>
                           
                           <p className={`text-gray-600 text-sm mb-4 line-clamp-2 ${clashDisplay.className}`}>
                             {otherActivity.description}
@@ -589,9 +587,12 @@ export default function ActivityDetailPage() {
                             
                             <Link 
                               href={`/activities?id=${otherActivity.id}`}
-                              className="px-4 py-2 rounded-lg text-sm font-medium bg-amber-50 text-amber-700 border border-amber-200 transition-all duration-300"
+                              className="px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 bg-gray-900"
                             >
-                              View Details
+                              <span className="text-white">Details</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                              </svg>
                             </Link>
                           </div>
                         </div>
@@ -613,7 +614,7 @@ export default function ActivityDetailPage() {
             <p className={`text-amber-700 max-w-2xl mx-auto mb-6 ${clashDisplay.className}`}>Experience the magic of Morocco with our premium tours. Book today and create memories that will last a lifetime!</p>
             <Link 
               href={`/activities/${id}/booking?from=details`}
-              className="px-4 py-2 rounded-xl text-white shadow-md shadow-amber-300/20 hover:shadow-lg hover:shadow-amber-300/30 hover:text-white transition-all duration-300 transform hover:-translate-y-0.5 bg-gradient-to-r from-amber-500 to-orange-500 inline-flex items-center justify-center"
+              className="px-4 py-2 rounded-xl text-white shadow-md shadow-amber-300/20 hover:shadow-lg hover:shadow-amber-300/30 hover:text-white transition-all duration-300 transform hover:-translate-y-0.5 bg-gradient-to-r from-orange-500 to-orange-600 inline-flex items-center justify-center"
             >
               <span className="relative z-10">Book Now</span>
               <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"

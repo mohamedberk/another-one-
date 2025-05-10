@@ -442,28 +442,25 @@ const TravelDiscover = () => {
       <div className="relative">
         {/* Section header with Morocco theme and amber color scheme */}
         <div className="flex flex-col mb-8 gap-4">
-          <div className="flex items-center gap-2">
-            <div className="h-8 w-1 bg-amber-600 rounded-full shadow-sm"></div>
-            <span className="text-amber-700 uppercase tracking-widest text-xs font-semibold letter-spacing-wide animate-fadeIn">Authentic Experiences</span>
-          </div>
+         
           <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
             <span className="block text-gray-900 animate-fadeUp" style={{ animationDelay: '0.1s' }}>Explore </span>
-            <span className="relative bg-gradient-to-r from-amber-700 to-orange-500 bg-clip-text text-transparent animate-fadeUp" style={{ animationDelay: '0.2s' }}>
+            <span className="relative bg-gradient-to-r from-orange-700 to-orange-600 bg-clip-text text-transparent animate-fadeUp" style={{ animationDelay: '0.2s' }}>
               Marrakech
               <span className="absolute -top-6 -right-6 text-4xl animate-float">✨</span>
-              <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-amber-500/50 to-orange-500/50 rounded-full"></span>
+              <span className="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-24 h-1 bg-gradient-to-r from-orange-700/50 to-orange-600/50 rounded-full"></span>
             </span>
           </h2>
           <p className="text-gray-600 max-w-xl text-sm leading-relaxed animate-fadeUp" style={{ animationDelay: '0.3s' }}>
             Discover handpicked experiences crafted by local experts to showcase the true essence of Marrakech's culture, adventure, and landscapes.
           </p>
           <div className="flex items-center gap-2 animate-fadeUp" style={{ animationDelay: '0.4s' }}>
-            <div className="p-1 rounded-full bg-amber-100">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <div className="p-1 rounded-full bg-orange-100">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-orange-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
               </svg>
             </div>
-            <p className="text-amber-600 font-semibold text-sm">Children under 16 years get 40% discount on all activities</p>
+            <p className="text-orange-700 font-semibold text-sm">Children under 16 years get 40% discount on all activities</p>
           </div>
         </div>
         
@@ -487,7 +484,7 @@ const TravelDiscover = () => {
             return (
             <div 
               key={destination.id} 
-              className="bg-white rounded-2xl overflow-hidden shadow-lg transition-all duration-500 relative flex flex-col border border-amber-100/50 hover:shadow-2xl group hover:-translate-y-2 w-full max-w-sm mx-auto"
+              className="bg-white/80 backdrop-blur-xl rounded-2xl overflow-hidden shadow-lg transition-all duration-500 relative flex flex-col border border-white/20 hover:shadow-2xl group hover:-translate-y-1 w-full max-w-sm mx-auto"
               style={{
                 transformStyle: 'preserve-3d',
                 perspective: '1000px',
@@ -500,72 +497,61 @@ const TravelDiscover = () => {
                   alt={destination.name}
                   fill
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-all duration-700 group-hover:scale-110"
+                  className="object-cover transition-all duration-700 group-hover:scale-105"
                 />
-                {/* Overlay with gradient for text readability */}
                 <div 
-                  className="absolute inset-0 transition-all duration-300 group-hover:bg-black/30"
+                  className="absolute inset-0 transition-all duration-300"
                   style={{ 
-                    background: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.5) 40%, rgba(0,0,0,0.3) 70%, rgba(0,0,0,0.2) 100%)'
+                    background: 'linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.4) 40%, rgba(0,0,0,0.2) 70%, rgba(0,0,0,0.1) 100%)'
                   }}
                 ></div>
                 
-                {/* Remove the desert dust particles effect */}
-                
-                {/* Rating with styling */}
-                <div className="absolute top-5 right-5 bg-white/90 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-semibold flex items-center gap-1.5 shadow-md z-10 transition-all duration-300 group-hover:bg-amber-50 group-hover:shadow-amber-100/50" style={{ animation: 'desertSway 5s ease-in-out infinite' }}>
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-amber-500" viewBox="0 0 20 20" fill="currentColor">
+                <div className="absolute top-5 right-5 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 shadow-md z-10 transition-all duration-300 group-hover:bg-white/95">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-orange-700" viewBox="0 0 20 20" fill="currentColor">
                     <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                   </svg>
-                  <span className="text-gray-800 font-medium">{destination.rating}</span>
+                  <span className="text-gray-800">{destination.rating}</span>
                 </div>
                 
-                {/* Duration badge */}
-                <div className="absolute bottom-5 left-5 bg-white/80 backdrop-blur-sm px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 shadow-md z-10 transition-all duration-300 group-hover:bg-amber-50 group-hover:translate-y-1 group-hover:shadow-amber-100/50">
-                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-amber-600" viewBox="0 0 20 20" fill="currentColor">
+                <div className="absolute bottom-5 left-5 bg-white/90 backdrop-blur-md px-3 py-1.5 rounded-full text-xs font-medium flex items-center gap-1.5 shadow-md z-10 transition-all duration-300 group-hover:bg-white/95">
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-3.5 w-3.5 text-orange-700" viewBox="0 0 20 20" fill="currentColor">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clipRule="evenodd" />
                   </svg>
                   <span className="text-gray-800">{destination.duration}</span>
                 </div>
               </div>
               
-              <div className="p-6 flex-1 flex flex-col relative z-10 transition-all duration-300 group-hover:bg-gradient-to-b group-hover:from-white group-hover:to-amber-50/30">
-                {/* Subtle highlight line appearing on hover */}
-                <div className="absolute left-0 top-0 w-0 h-full bg-amber-500/10 transition-all duration-500 group-hover:w-1"></div>
-                
-                {/* Accent for hover state - appearing line */}
-                <div className="absolute bottom-0 left-0 right-0 h-0 bg-gradient-to-r from-amber-400/20 to-orange-400/20 transition-all duration-500 group-hover:h-full opacity-0 group-hover:opacity-100"></div>
-                
+              <div className="p-6 flex-1 flex flex-col relative z-10 transition-all duration-300 bg-white/80 backdrop-blur-md">
                 <div className="flex-1">
                   <div className="flex justify-between items-start mb-3">
-                    <h3 className="text-xl font-bold text-gray-800 flex-1 pr-2 transition-all duration-300 group-hover:text-amber-800 transform group-hover:translate-x-1">{destination.name}</h3>
+                    <h3 className="text-xl font-semibold text-gray-800 flex-1 pr-2 transition-all duration-300">{destination.name}</h3>
                     
                     <Link 
                       href={`/activities?id=${destination.id}`}
-                      className="px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 shadow-md shadow-amber-300/20 hover:shadow-lg hover:shadow-amber-300/30 transition-all duration-300 transform hover:-translate-y-0.5 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white border border-gray-700/50"
+                      className="px-4 py-2 rounded-xl text-sm font-medium flex items-center gap-2 shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 bg-gray-900"
                     >
                       <span className="text-white">Details</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-white transition-transform duration-300 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </Link>
                   </div>
                   
-                  <p className="text-gray-600 text-sm mb-4 line-clamp-2 transition-all duration-300 group-hover:text-gray-700 z-20 relative">{destination.description}</p>
+                  <p className="text-gray-600 text-sm mb-4 line-clamp-2">{destination.description}</p>
                 </div>
                 
-                <div className="flex justify-between items-center pt-4 border-t border-amber-100/50 mt-auto group-hover:border-amber-200/50 transition-all duration-300 relative z-20">
+                <div className="flex justify-between items-center pt-4 border-t border-gray-100 mt-auto">
                   <div className="flex flex-col">
-                    <span className="text-xl font-bold text-gray-800 transition-all duration-300 group-hover:scale-110 group-hover:translate-x-1 origin-left">{destination.price}</span>
-                    <span className="text-xs text-gray-800/80 transition-colors duration-300 group-hover:text-gray-800">per person</span>
+                    <span className="text-xl font-semibold text-gray-800">{destination.price}</span>
+                    <span className="text-xs text-gray-500">per person</span>
                     {destination.id && destination.id.includes("buggy") && (
-                      <span className="text-xs text-gray-800 font-medium transition-all duration-300 group-hover:text-gray-800">3 power options available</span>
+                      <span className="text-xs text-gray-600 font-medium">3 power options available</span>
                     )}
                   </div>
                   
                   <Link 
-                    href={`/activities/${destination.id}/booking?id=${destination.id}&from=discover`}
-                    className="px-4 py-2 rounded-xl text-white shadow-md shadow-amber-300/20 hover:shadow-lg hover:shadow-amber-300/30 transition-all duration-300 transform hover:-translate-y-0.5 text-sm font-medium bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400"
+                    href={`/activities/${destination.id}/booking`}
+                    className="px-4 py-2 rounded-xl shadow-md hover:shadow-lg transition-all duration-300 transform hover:-translate-y-0.5 text-sm font-medium bg-orange-700 hover:bg-orange-800"
                   >
                     <span className="text-white">Book Now</span>
                   </Link>
@@ -576,8 +562,8 @@ const TravelDiscover = () => {
           })}
         </div>
         
-        {/* Decorative element at bottom - make it smaller */}
-        <div className="w-16 h-0.5 bg-amber-600/30 rounded-full mx-auto mt-16 mb-4"></div>
+        {/* Decorative element at bottom */}
+        <div className="w-16 h-0.5 bg-orange-700/30 rounded-full mx-auto mt-16 mb-4"></div>
       </div>
       
       {/* Booking Modal - Update colors to match amber theme */}

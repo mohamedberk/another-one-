@@ -1,5 +1,28 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // Enable CORS for all routes
+  async headers() {
+    return [
+      {
+        source: '/:path*',
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*',
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, POST, PUT, DELETE, OPTIONS',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'Content-Type, Authorization',
+          },
+        ],
+      },
+    ];
+  },
+
   // Disable browser caching in development
   ...(process.env.NODE_ENV === 'development' && {
     headers: async () => [
@@ -9,14 +32,6 @@ const nextConfig = {
           {
             key: 'Cache-Control',
             value: 'no-store, must-revalidate',
-          },
-          {
-            key: 'Pragma',
-            value: 'no-cache',
-          },
-          {
-            key: 'Expires',
-            value: '0',
           },
         ],
       },

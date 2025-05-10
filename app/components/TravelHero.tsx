@@ -89,18 +89,18 @@ const TravelHero = () => {
   );
 
   return (
-    <section id="hero" className={`relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pt-24 pb-12 ${cabinetGrotesk.variable} ${clashDisplay.variable} ${dmSans.variable}`}>
+   <section id="hero" className={`relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pt-24 pb-12 ${cabinetGrotesk.variable} ${clashDisplay.variable} ${dmSans.variable}`}>
       <div className="flex flex-col md:flex-row items-start">
         {/* Content Column - Always render the title first */}
         <div className="w-full md:w-1/2 md:pr-12">
-          <div className="inline-flex items-center bg-amber-50 border border-amber-100 px-4 py-2 rounded-lg mb-6 animate-fadeIn shadow-sm">
-            <div className="w-2 h-2 rounded-full bg-amber-400 mr-2 animate-pulse"></div>
-            <span className={`text-sm font-medium text-amber-900 ${clashDisplay.className}`}>Marrakech Adventure Experts</span>
+          <div className="inline-flex items-center bg-orange-50 border border-orange-100 px-4 py-2 rounded-lg mb-6 animate-fadeIn shadow-sm">
+            <div className="w-2 h-2 rounded-full bg-orange-700 mr-2 animate-pulse"></div>
+            <span className={`text-sm font-medium text-orange-900 ${clashDisplay.className}`}>Marrakech Adventure Experts</span>
           </div>
           
           <h1 className={`text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-none ${cabinetGrotesk.className}`}>
             <span className="block animate-fadeUp bg-gradient-to-r from-gray-800 to-gray-900 bg-clip-text text-transparent pb-2" style={{ animationDelay: '0.1s' }}>DISCOVER</span>
-            <span className="relative bg-gradient-to-r from-amber-500 to-orange-400 bg-clip-text text-transparent">
+            <span className="relative bg-gradient-to-r from-orange-700 to-orange-600 bg-clip-text text-transparent">
               MOROCCO
               <span className="absolute -top-6 -right-6 text-4xl animate-float">✨</span>
             </span>
@@ -111,7 +111,7 @@ const TravelHero = () => {
             {renderCarousel()}
           </div>
           
-          <p className={`text-base text-gray-700 mt-6 max-w-lg animate-fadeUp leading-relaxed ${dmSans.className}`} style={{ animationDelay: '0.3s' }}>
+          <p className={`text-base text-gray-700 mt-6 max-w-lg animate-fadeUp leading-relaxed font-inter`} style={{ animationDelay: '0.3s' }}>
             Experience the magic of Marrakech and beyond with our premium excursions. From thrilling quad adventures in the Agafay Desert to serene camel rides through the Palmeraie, unforgettable experiences await you.
           </p>
           
@@ -130,11 +130,11 @@ const TravelHero = () => {
           
           {/* Featured activities badges */}
           <div className="mt-6 flex flex-wrap gap-2 animate-fadeUp" style={{ animationDelay: '0.5s' }}>
-            <span className={`px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Quad Biking</span>
+            <span className={`px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Quad Biking</span>
             <span className={`px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Camel Rides</span>
-            <span className={`px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Buggy Adventures</span>
+            <span className={`px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Buggy Adventures</span>
             <span className={`px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Hot Air Balloons</span>
-            <span className={`px-3 py-1 bg-amber-100 text-amber-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Desert Tours</span>
+            <span className={`px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-xs font-medium ${clashDisplay.className}`}>Desert Tours</span>
           </div>
         </div>
         

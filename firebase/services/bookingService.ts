@@ -8,11 +8,17 @@ export interface Booking {
   phone: string;
   adults: number;
   children: number;
+  youngChildren: number;
   pickupLocation: string;
   date: Date | null;
   totalPrice: number;
-  excursionTitle?: string;
-  excursionType?: string;
+  excursionTitle: string;
+  excursionType: string;
+  isPrivate: boolean;
+  bookingReference: string;
+  adultPrice: number;
+  childPrice: number;
+  youngChildPrice: number;
   status?: 'pending' | 'confirmed' | 'canceled' | 'completed';
 }
 
